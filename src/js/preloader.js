@@ -17,6 +17,21 @@
       this.load.image('headerText', 'assets/header_text.png')
       this.load.image('littleBird', 'assets/little_bird.png')
 
+      this.load.image('text1', 'assets/text1.png')
+      this.load.spritesheet('text1_1', 'assets/text1_1.png', 450, 152)
+      this.load.spritesheet('text1_2', 'assets/text1_2.png', 700, 152)
+      this.load.spritesheet('text1_3', 'assets/text1_3.png', 700, 145)
+
+      this.load.image('text2', 'assets/text2.png')
+      this.load.spritesheet('text2_1', 'assets/text2_1.png', 800, 145)
+
+      this.load.image('text3', 'assets/text3.png')
+      this.load.image('text4', 'assets/text4.png')
+      this.load.image('text5', 'assets/text5.png')
+      this.load.image('text6', 'assets/text6.png')
+      this.load.image('text7', 'assets/text7.png')
+      this.load.image('text8', 'assets/text8.png')
+
       this.load.onLoadComplete.addOnce(function(){ this.ready = true }, this)
       this.load.setPreloadSprite(this.asset)
     },

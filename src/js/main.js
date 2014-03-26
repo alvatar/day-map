@@ -10,7 +10,7 @@ window.onload = function () {
   var appW, appH
 
   app.Globals.size.width = appW = 1920
-  app.Globals.size.height = appH = h * (1920 / w)
+  app.Globals.size.height = appH = Math.floor( h * (1920 / w) )
   console.log('Game canvas size is: ' + appW + ' x ' + appH)
     
   var game = new Phaser.Game(appW, appH, Phaser.AUTO, 'daymap-game')

@@ -10,6 +10,7 @@
       this.game.world.setBounds(0, 0, 1920, 5760)
       this.game.add.sprite(0, 0, 'background')
 
+      // Header title
       var headerCloudsSprite = this.game.add.sprite(this.game.world.centerX, 500, 'headerClouds')
       headerCloudsSprite.anchor.set(0.5, 0.5)
 
@@ -30,45 +31,27 @@
       var littleBirdSprite3 = this.game.add.sprite( this.game.world.width + 440, 500, 'littleBird' )
       littleBirdSprite3.scale.set(0.25, 0.25)
       this.game.add.tween(littleBirdSprite3)
-          .to( { y: 670 }, 800, Phaser.Easing.Quadratic.InOut, true, 0, Number.MAX_VALUE, true)
+          .to( { y: 640 }, 800, Phaser.Easing.Quadratic.InOut, true, 0, Number.MAX_VALUE, true)
       this.game.add.tween(littleBirdSprite3)
           .to( { x: -100 }, 20000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
       
       var headerTextSprite = this.game.add.sprite(this.game.world.centerX, 500, 'headerText')
       headerTextSprite.anchor.set(0.5, 0.5)
 
+      // Questions
+      var text1Sprite = this.game.add.sprite(this.game.world.centerX, 1200, 'text1')
+      text1Sprite.anchor.set(0.5, 0.5)
+      this.game.add.button(60, 1350, 'text1_1', null, null, 2, 1, 0)
+      this.game.add.button(500, 1350, 'text1_2', null, null, 2, 1, 0)
+      this.game.add.button(1200, 1350, 'text1_3', null, null, 2, 1, 0)
 
-      /*
-      var styleTitle = { font: '65px Arial', fill: '#ff0044', align: 'center' }
-      var styleQuestions = { font: '38px Arial', fill: '#ff0044', align: 'center' }
+      var text2Sprite = this.game.add.sprite(this.game.world.centerX, 1700, 'text2')
+      text2Sprite.anchor.set(0.5, 0.5)
+      var text2$1Sprite = this.game.add.button(this.game.world.centerX, 1920, 'text2_1', null, null, 2, 1, 0)
+      text2$1Sprite.anchor.set(0.5, 0.5)
 
-      var title = this.game.add.text(this.game.world.centerX, 80, 'Day Map', styleTitle)
-      title.anchor.set(0.5)
-
-      var textQ1 = this.game.add.text(this.game.world.centerX, 250, 'What date is it today?', styleQuestions)
-      textQ1.anchor.set(0.5)
-
-      var textQ2 = this.game.add.text(this.game.world.centerX, 450, 'What day is it today?', styleQuestions)
-      textQ2.anchor.set(0.5)
-
-      var textQ3 = this.game.add.text(this.game.world.centerX, 650, 'What day was it yesterday?', styleQuestions)
-      textQ3.anchor.set(0.5)
-
-      var textQ4 = this.game.add.text(this.game.world.centerX, 850, 'What day is it tomorrow?', styleQuestions)
-      textQ4.anchor.set(0.5)
-
-      var textQ5 = this.game.add.text(this.game.world.centerX, 1050, 'What is the wheather like today?', styleQuestions)
-      textQ5.anchor.set(0.5)
-
-      var textQ6 = this.game.add.text(this.game.world.centerX, 1250, 'What season are we in?', styleQuestions)
-      textQ6.anchor.set(0.5)
-
-      var textQ7 = this.game.add.text(this.game.world.centerX, 1450, 'What should we wear today?', styleQuestions)
-      textQ7.anchor.set(0.5)
-
-      var textQ8 = this.game.add.text(this.game.world.centerX, 1650, 'What are we going to do today?', styleQuestions)
-      textQ8.anchor.set(0.5)
-      */
+      var text3Sprite = this.game.add.sprite(this.game.world.centerX, 2190, 'text3')
+      text3Sprite.anchor.set(0.5, 0.5)
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
