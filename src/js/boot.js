@@ -4,7 +4,6 @@
   function Boot() {}
 
   Boot.prototype = {
-    
     preload: function () {
       this.load.image('preloader', 'assets/preloader.gif');
     },
@@ -15,8 +14,17 @@
       // this.game.stage.disableVisibilityChange = true;
 
       if (this.game.device.desktop) {
-        //this.game.scale.fullscreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.game.scale.fullscreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+        // Limit size?
+        this.game.scale.maxWidth = 1920;
+        this.game.scale.maxHeight = window.innerHeight * window.devicePixelRatio *
+                                  ( 1920 / (window.innerWidth * window.devicePixelRatio) )
+          //
+
+        this.game.scale.forceLandscape = true;
         this.game.scale.pageAlignHorizontally = true;
+        this.game.scale.pageAlignVertically = true;
         this.game.scale.setShowAll();
         this.game.scale.setScreenSize(true);
       } else {
