@@ -45,13 +45,28 @@
       this.game.add.button(500, 1350, 'text1_2', null, null, 2, 1, 0)
       this.game.add.button(1200, 1350, 'text1_3', null, null, 2, 1, 0)
 
-      var text2Sprite = this.game.add.sprite(this.game.world.centerX, 1700, 'text2')
+      var text2Sprite = this.game.add.sprite(this.game.world.centerX, 1750, 'text2')
       text2Sprite.anchor.set(0.5, 0.5)
       var text2$1Sprite = this.game.add.button(this.game.world.centerX, 1920, 'text2_1', null, null, 2, 1, 0)
       text2$1Sprite.anchor.set(0.5, 0.5)
 
-      var text3Sprite = this.game.add.sprite(this.game.world.centerX, 2190, 'text3')
+      var text3Sprite = this.game.add.sprite(this.game.world.centerX, 2300, 'text3')
       text3Sprite.anchor.set(0.5, 0.5)
+
+      var text4Sprite = this.game.add.sprite(this.game.world.centerX, 2850, 'text4')
+      text4Sprite.anchor.set(0.5, 0.5)
+
+      var text5Sprite = this.game.add.sprite(this.game.world.centerX, 3400, 'text5')
+      text5Sprite.anchor.set(0.5, 0.5)
+
+      var text6Sprite = this.game.add.sprite(this.game.world.centerX, 3950, 'text6')
+      text6Sprite.anchor.set(0.5, 0.5)
+
+      var text7Sprite = this.game.add.sprite(this.game.world.centerX, 4500, 'text7')
+      text7Sprite.anchor.set(0.5, 0.5)
+
+      var text8Sprite = this.game.add.sprite(this.game.world.centerX, 5050, 'text8')
+      text8Sprite.anchor.set(0.5, 0.5)
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
@@ -68,9 +83,6 @@
       } else if (this.cursors.right.isDown) {
         this.game.camera.x += 40;
       }
-    },
-
-    onInputDown: function () {
     }
 
   };
