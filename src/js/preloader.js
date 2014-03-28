@@ -32,9 +32,17 @@
       this.load.spritesheet('text4_1', 'assets/text4_1.png', 900, 145)
 
       this.load.image('text5', 'assets/text5.png')
+      this.load.spritesheet('text5_1', 'assets/text5_1.png', 1200, 385)
+
       this.load.image('text6', 'assets/text6.png')
+      this.load.spritesheet('boyAnswer', 'assets/boy_answer.png', 200, 415)
+      this.load.spritesheet('girlAnswer', 'assets/girl_answer.png', 200, 407)
+
       this.load.image('text7', 'assets/text7.png')
+      this.load.spritesheet('text7_1', 'assets/text7_1.png', 700, 541)
+
       this.load.image('text8', 'assets/text8.png')
+      this.load.spritesheet('text8_1', 'assets/text8_1.png', 500, 570)
 
       this.load.onLoadComplete.addOnce(function(){ this.ready = true }, this)
       this.load.setPreloadSprite(this.asset)

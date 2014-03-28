@@ -185,46 +185,165 @@
               , 1000, Phaser.Easing.Quadratic.Out, true, 0
             )
           // Fade ins
-          /*
-          this.game.add.tween(this.question4Sprite).to(
+          this.game.add.tween(this.question5Sprite).to(
               { alpha: 1 }
               , 1000, Phaser.Easing.Quadratic.Out, true
             )
-          this.game.add.tween(this.answer4$1Button).to(
+          this.game.add.tween(this.answer5$1Button).to(
               { alpha: 1 }
               , 1000, Phaser.Easing.Quadratic.Out, true, 1000
             )
-            */
           // Camera
           this.game.add.tween(this.game.camera).to(
-              { y: 3050 }
+              { y: 3100 }
               , 1000, Phaser.Easing.Quadratic.Out, true
             )
         },
         this, 2, 1, 0)
       this.answer4$1Button.anchor.set(0.5, 0.5)
       this.answer4$1Button.alpha = 0
-      
-
-
-
 
       // Questions: GROUP 5
-      var text5Sprite = this.game.add.sprite(this.game.world.centerX, 3400, 'text5')
-      text5Sprite.anchor.set(0.5, 0.5)
-      text5Sprite.alpha = 0
+      this.question5Sprite = this.game.add.sprite(this.game.world.centerX, 3400, 'text5')
+      this.question5Sprite.anchor.set(0.5, 0.5)
+      this.question5Sprite.alpha = 0
+      this.answer5$1Button = this.game.add.button(
+        this.game.world.centerX, 3750, 'text5_1',
+        function() {
+          // Fade outs
+          this.game.add.tween(this.question5Sprite).to(
+              { alpha: 0 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+          this.game.add.tween(this.answer5$1Button).to(
+              { alpha: 0 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 0
+            )
+          // Fade ins
+          this.game.add.tween(this.question6Sprite).to(
+              { alpha: 1 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+          this.game.add.tween(this.answer6$1Button).to(
+              { alpha: 1 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
+            )
+          this.game.add.tween(this.answer6$2Button).to(
+              { alpha: 1 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
+            )
+          // Camera
+          this.game.add.tween(this.game.camera).to(
+              { y: 3600 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+        },
+        this, 2, 1, 0)
+      this.answer5$1Button.anchor.set(0.5, 0.5)
+      this.answer5$1Button.alpha = 0
 
-      var text6Sprite = this.game.add.sprite(this.game.world.centerX, 3950, 'text6')
-      text6Sprite.anchor.set(0.5, 0.5)
-      text6Sprite.alpha = 0
+      // Questions: GROUP 6
+      this.question6Sprite = this.game.add.sprite(this.game.world.centerX, 3900, 'text6')
+      this.question6Sprite.anchor.set(0.5, 0.5)
+      this.question6Sprite.alpha = 0
+      this.answer6$1Button = this.game.add.button(
+        this.game.world.centerX - 150, 4200, 'boyAnswer',
+        function() {
+          // Fade outs
+          this.game.add.tween(this.question6Sprite).to(
+              { alpha: 0 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+          this.game.add.tween(this.answer6$1Button).to(
+              { alpha: 0 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 0
+            )
+          this.game.add.tween(this.answer6$2Button).to(
+              { alpha: 0 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 0
+            )
+          // Fade ins
+          this.game.add.tween(this.question7Sprite).to(
+              { alpha: 1 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+          this.game.add.tween(this.answer7$1Button).to(
+              { alpha: 1 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
+            )
+          // Camera
+          this.game.add.tween(this.game.camera).to(
+              { y: 4150 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+        },
+        this, 2, 1, 0)
+      this.answer6$1Button.anchor.set(0.5, 0.5)
+      this.answer6$1Button.alpha = 0
+      this.answer6$2Button = this.game.add.button(
+        this.game.world.centerX + 150, 4200, 'girlAnswer',
+        function() {
+          // Fade outs
+          this.game.add.tween(this.question6Sprite).to(
+              { alpha: 0 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+          this.game.add.tween(this.answer6$1Button).to(
+              { alpha: 0 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 0
+            )
+          this.game.add.tween(this.answer6$2Button).to(
+              { alpha: 0 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 0
+            )
+          // Fade ins
+          this.game.add.tween(this.question7Sprite).to(
+              { alpha: 1 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+          this.game.add.tween(this.answer7$1Button).to(
+              { alpha: 1 }
+              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
+            )
+          // Camera
+          this.game.add.tween(this.game.camera).to(
+              { y: 4150 }
+              , 1000, Phaser.Easing.Quadratic.Out, true
+            )
+        },
+        this, 2, 1, 0)
+      this.answer6$2Button.anchor.set(0.5, 0.5)
+      this.answer6$2Button.alpha = 0
 
-      var text7Sprite = this.game.add.sprite(this.game.world.centerX, 4500, 'text7')
-      text7Sprite.anchor.set(0.5, 0.5)
-      text7Sprite.alpha = 0
 
-      var text8Sprite = this.game.add.sprite(this.game.world.centerX, 5050, 'text8')
-      text8Sprite.anchor.set(0.5, 0.5)
-      text8Sprite.alpha = 0
+
+
+
+
+
+      // Questions: GROUP 7
+      this.question7Sprite = this.game.add.sprite(this.game.world.centerX, 4450, 'text7')
+      this.question7Sprite.anchor.set(0.5, 0.5)
+      this.question7Sprite.alpha = 0
+      this.answer7$1Button = this.game.add.button(
+        this.game.world.centerX, 4850, 'text7_1',
+        function() {
+        },
+        this, 2, 1, 0)
+      this.answer7$1Button.anchor.set(0.5, 0.5)
+      this.answer7$1Button.alpha = 0
+
+      // Questions: GROUP 8
+      this.text8Sprite = this.game.add.sprite(this.game.world.centerX, 5000, 'text8')
+      this.text8Sprite.anchor.set(0.5, 0.5)
+      this.text8Sprite.alpha = 0
+      this.answer8$1Button = this.game.add.button(
+        this.game.world.centerX, 5200, 'text8_1',
+        function() {
+        },
+        this, 2, 1, 0)
+      this.answer8$1Button.anchor.set(0.5, 0.5)
+      this.answer8$1Button.alpha = 0
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
