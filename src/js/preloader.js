@@ -26,7 +26,11 @@
       this.load.spritesheet('text2_1', 'assets/text2_1.png', 800, 145)
 
       this.load.image('text3', 'assets/text3.png')
+      this.load.spritesheet('text3_1', 'assets/text3_1.png', 1000, 145)
+
       this.load.image('text4', 'assets/text4.png')
+      this.load.spritesheet('text4_1', 'assets/text4_1.png', 900, 145)
+
       this.load.image('text5', 'assets/text5.png')
       this.load.image('text6', 'assets/text6.png')
       this.load.image('text7', 'assets/text7.png')
