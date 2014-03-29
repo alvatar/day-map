@@ -351,11 +351,10 @@
             )
             */
           this.dayAudio.play()
-          this.answerBox1$1Group.exists = true
-          this.answerBox1$2Group.alpha = 0
-          this.answerBox1$2Group.exists = false
-          this.answerBox1$3Group.alpha = 0
-          this.answerBox1$3Group.exists = false
+          this.answerBox1$1Group.visible = true
+          this.answerBox1$1Group.alpha = 0
+          this.answerBox1$2Group.visible = false
+          this.answerBox1$3Group.visible = false
           this.game.add.tween(this.answerBox1$1Group).to(
               { alpha: 1 }
               , 1000, Phaser.Easing.Quadratic.Out, true
@@ -371,11 +370,10 @@
       this.answer1$2Button = this.game.add.button(500, 1350, 'monthSpritesheet',
         function() {
           this.monthAudio.play()
-          this.answerBox1$1Group.alpha = 0
-          this.answerBox1$1Group.exists = false
-          this.answerBox1$2Group.exists = true
-          this.answerBox1$3Group.alpha = 0
-          this.answerBox1$3Group.exists = false
+          this.answerBox1$1Group.visible = false
+          this.answerBox1$2Group.visible = true
+          this.answerBox1$2Group.alpha = 0
+          this.answerBox1$3Group.visible = false
           this.game.add.tween(this.answerBox1$2Group).to(
               { alpha: 1 }
               , 1000, Phaser.Easing.Quadratic.Out, true
@@ -391,11 +389,10 @@
       this.answer1$3Button = this.game.add.button(1200, 1350, 'yearSpritesheet',
         function() {
           this.yearAudio.play()
-          this.answerBox1$1Group.alpha = 0
-          this.answerBox1$1Group.exists = false
-          this.answerBox1$2Group.alpha = 0
-          this.answerBox1$2Group.exists = false
-          this.answerBox1$3Group.exists = true
+          this.answerBox1$1Group.visible = false
+          this.answerBox1$2Group.visible = false
+          this.answerBox1$3Group.visible = true
+          this.answerBox1$3Group.alpha = 0
           this.game.add.tween(this.answerBox1$3Group).to(
               { alpha: 1 }
               , 1000, Phaser.Easing.Quadratic.Out, true
@@ -469,21 +466,66 @@
       this.answerBox1$1Group.alpha = 0
       this.answerBox1$1Group.exists = false
 
-      // Answer box 2
+      // Answer box 2: MONTHS
       this.answerBox1$2Group = this.game.add.group()
       this.answerBox1$2Background = this.game.add.sprite(this.game.world.centerX, 1800, 'answer_box1_2')
       this.answerBox1$2Background.anchor.set(0.5, 0.5)
-
       this.answerBox1$2Group.add(this.answerBox1$2Background)
+
+      var monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+      /*
+      this.monthSounds = []
+      for(i = 0; i < monthNames.length; i++) {
+        this.monthSounds[i] = this.game.add.audio(monthNames[i] + 'Audio');
+      }
+      */
+      this.monthSprites = []
+      for(i = 0; i < 12; i++) {
+        this.monthSprites[i] = this.game.add.sprite(380 + (i % 4) * 380, 1670 + 140 * Math.floor(i/4), monthNames[i])
+        this.monthSprites[i].anchor.set(0.5, 0.5)
+        this.monthSprites[i].inputEnabled = true;
+        this.monthSprites[i].input.useHandCursor = true
+        /*
+        ;(function(i, currentSprite, currentSound) {
+          currentSprite.events.onInputDown.add(
+            function() {
+              currentSound.play()
+            }
+          , this)
+        })(i, this.numberSprites[i], this.numberSounds[i])
+        */
+        this.answerBox1$2Group.add(this.monthSprites[i])
+      }
+
       this.answerBox1$2Group.alpha = 0
       this.answerBox1$2Group.exists = false
 
-      // Answer box 3
+      // Answer box 3: YEARS
       this.answerBox1$3Group = this.game.add.group()
       this.answerBox1$3Background = this.game.add.sprite(this.game.world.centerX, 1800, 'answer_box1_3')
       this.answerBox1$3Background.anchor.set(0.5, 0.5)
-
       this.answerBox1$3Group.add(this.answerBox1$3Background)
+
+      this.yearSounds = []
+      for(i = 0; i < 10; i++) {
+        this.yearSounds[i] = this.game.add.audio('year' + (2014+i) + 'Audio');
+      }
+      this.yearSprites = []
+      for(i = 0; i < 10; i++) {
+        this.yearSprites[i] = this.game.add.sprite(370 + (i % 5) * 300, 1710 + 160 * Math.floor(i/5), 'year' + (2014+i))
+        this.yearSprites[i].anchor.set(0.5, 0.5)
+        this.yearSprites[i].inputEnabled = true;
+        this.yearSprites[i].input.useHandCursor = true
+        ;(function(i, currentSprite, currentSound) {
+          currentSprite.events.onInputDown.add(
+            function() {
+              currentSound.play()
+            }
+          , this)
+        })(i, this.yearSprites[i], this.yearSounds[i])
+        this.answerBox1$3Group.add(this.yearSprites[i])
+      }
+
       this.answerBox1$3Group.alpha = 0
       this.answerBox1$3Group.exists = false
     },

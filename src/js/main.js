@@ -3,14 +3,16 @@ window.onload = function () {
 
   var app = window['daymap']
 
-  var w = window.innerWidth * window.devicePixelRatio
-    , h = window.innerHeight * window.devicePixelRatio
+  //var winH = window.innerHeight * window.devicePixelRatio
+    //, winW = window.innerWidth * window.devicePixelRatio 
 
-  // Never wider than 1920px
   var appW, appH
-
   app.Globals.size.width = appW = 1920
-  app.Globals.size.height = appH = Math.floor( h * (1920 / w) )
+  app.Globals.size.height = appH = 1920 / 1.5
+
+  //app.Globals.size.width = appW = 1920
+  //app.Globals.size.height = appH = Math.floor( winH * (1920 / winW) )
+  //app.Globals.size.height = appH = Math.floor( winH * (1920 / winW) )
   console.log('Game canvas size is: ' + appW + ' x ' + appH)
     
   var game = new Phaser.Game(appW, appH, Phaser.AUTO, 'daymap-game')

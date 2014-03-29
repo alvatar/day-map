@@ -16,11 +16,20 @@
       if (this.game.device.desktop) {
         this.game.scale.fullscreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
 
-        // Limit size?
+        /*
         this.game.scale.maxWidth = 1920;
         this.game.scale.maxHeight = window.innerHeight * window.devicePixelRatio *
                                   ( 1920 / (window.innerWidth * window.devicePixelRatio) )
-          //
+                                  */
+        /*
+        var winH = window.innerHeight * window.devicePixelRatio
+          , winW = window.innerWidth * window.devicePixelRatio 
+        if( (winW / winH) > 1.5 ) {
+          this.game.scale.maxHeight = winH
+          this.game.scale.maxWidth = winH * 1.5
+        }
+
+        */
 
         this.game.scale.forceLandscape = true;
         this.game.scale.pageAlignHorizontally = true;

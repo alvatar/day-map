@@ -29,22 +29,6 @@
       this.load.audio('yearAudio', ['assets/audio/other/year.mp3', 'assets/audio/other/year.ogg']);
 
       this.load.image('answer_box1_1', 'assets/answer_box1_1.png')
-      this.load.image('monday', 'assets/monday.png')
-      this.load.audio('mondayAudio', ['assets/audio/daysoftheweek/monday.mp3', 'assets/audio/daysoftheweek/monday.ogg']);
-      this.load.image('tuesday', 'assets/tuesday.png')
-      this.load.audio('tuesdayAudio', ['assets/audio/daysoftheweek/tuesday.mp3', 'assets/audio/daysoftheweek/tuesday.ogg']);
-      this.load.image('wednesday', 'assets/wednesday.png')
-      this.load.audio('wednesdayAudio', ['assets/audio/daysoftheweek/wednesday.mp3', 'assets/audio/daysoftheweek/wednesday.ogg']);
-      this.load.image('thursday', 'assets/thursday.png')
-      this.load.audio('thursdayAudio', ['assets/audio/daysoftheweek/thursday.mp3', 'assets/audio/daysoftheweek/thursday.ogg']);
-      this.load.image('friday', 'assets/friday.png')
-      this.load.audio('fridayAudio', ['assets/audio/daysoftheweek/friday.mp3', 'assets/audio/daysoftheweek/friday.ogg']);
-      this.load.image('saturday', 'assets/saturday.png')
-      this.load.audio('saturdayAudio', ['assets/audio/daysoftheweek/saturday.mp3', 'assets/audio/daysoftheweek/saturday.ogg']);
-      this.load.image('sunday', 'assets/sunday.png')
-      this.load.audio('sundayAudio', ['assets/audio/daysoftheweek/sunday.mp3', 'assets/audio/daysoftheweek/sunday.ogg']);
-
-      this.load.image('answer_box1_2', 'assets/answer_box1_2.png')
       this.load.image('number1', 'assets/1.png')
       this.load.image('number2', 'assets/2.png')
       this.load.image('number3', 'assets/3.png')
@@ -108,12 +92,74 @@
       this.load.audio('number30Audio', ['assets/audio/numbers/30.mp3', 'assets/audio/numbers/30.ogg']);
       this.load.audio('number31Audio', ['assets/audio/numbers/31.mp3', 'assets/audio/numbers/31.ogg']);
 
+      this.load.image('answer_box1_2', 'assets/answer_box1_2.png')
+      this.load.image('january', 'assets/january.png')
+      this.load.image('february', 'assets/february.png')
+      this.load.image('march', 'assets/march.png')
+      this.load.image('april', 'assets/april.png')
+      this.load.image('may', 'assets/may.png')
+      this.load.image('june', 'assets/june.png')
+      this.load.image('july', 'assets/july.png')
+      this.load.image('august', 'assets/august.png')
+      this.load.image('september', 'assets/september.png')
+      this.load.image('october', 'assets/october.png')
+      this.load.image('november', 'assets/november.png')
+      this.load.image('december', 'assets/december.png')
+      /*
+      this.load.audio('januaryAudio', ['assets/audio/months/january.mp3', 'assets/audio/months/january.ogg']);
+      this.load.audio('februaryAudio', ['assets/audio/months/february.mp3', 'assets/audio/months/february.ogg']);
+      this.load.audio('marchAudio', ['assets/audio/months/march.mp3', 'assets/audio/months/march.ogg']);
+      this.load.audio('aprilAudio', ['assets/audio/months/april.mp3', 'assets/audio/months/april.ogg']);
+      this.load.audio('mayAudio', ['assets/audio/months/may.mp3', 'assets/audio/months/may.ogg']);
+      this.load.audio('juneAudio', ['assets/audio/months/june.mp3', 'assets/audio/months/june.ogg']);
+      this.load.audio('julyAudio', ['assets/audio/months/july.mp3', 'assets/audio/months/july.ogg']);
+      this.load.audio('augustAudio', ['assets/audio/months/august.mp3', 'assets/audio/months/august.ogg']);
+      this.load.audio('septemberAudio', ['assets/audio/months/september.mp3', 'assets/audio/months/september.ogg']);
+      this.load.audio('octoberAudio', ['assets/audio/months/october.mp3', 'assets/audio/months/october.ogg']);
+      this.load.audio('novemberAudio', ['assets/audio/months/november.mp3', 'assets/audio/months/november.ogg']);
+      this.load.audio('decemberAudio', ['assets/audio/months/december.mp3', 'assets/audio/months/december.ogg']);
+      */
+
       this.load.image('answer_box1_3', 'assets/answer_box1_3.png')
+      this.load.image('year2014', 'assets/2014.png')
+      this.load.image('year2015', 'assets/2015.png')
+      this.load.image('year2016', 'assets/2016.png')
+      this.load.image('year2017', 'assets/2017.png')
+      this.load.image('year2018', 'assets/2018.png')
+      this.load.image('year2019', 'assets/2019.png')
+      this.load.image('year2020', 'assets/2020.png')
+      this.load.image('year2021', 'assets/2021.png')
+      this.load.image('year2022', 'assets/2022.png')
+      this.load.image('year2023', 'assets/2023.png')
+      this.load.audio('year2014Audio', ['assets/audio/years/2014.mp3', 'assets/audio/years/2014.ogg']);
+      this.load.audio('year2015Audio', ['assets/audio/years/2015.mp3', 'assets/audio/years/2015.ogg']);
+      this.load.audio('year2016Audio', ['assets/audio/years/2016.mp3', 'assets/audio/years/2016.ogg']);
+      this.load.audio('year2017Audio', ['assets/audio/years/2017.mp3', 'assets/audio/years/2017.ogg']);
+      this.load.audio('year2018Audio', ['assets/audio/years/2018.mp3', 'assets/audio/years/2018.ogg']);
+      this.load.audio('year2019Audio', ['assets/audio/years/2019.mp3', 'assets/audio/years/2019.ogg']);
+      this.load.audio('year2020Audio', ['assets/audio/years/2020.mp3', 'assets/audio/years/2020.ogg']);
+      this.load.audio('year2021Audio', ['assets/audio/years/2021.mp3', 'assets/audio/years/2021.ogg']);
+      this.load.audio('year2022Audio', ['assets/audio/years/2022.mp3', 'assets/audio/years/2022.ogg']);
+      this.load.audio('year2023Audio', ['assets/audio/years/2023.mp3', 'assets/audio/years/2023.ogg']);
 
       // Question 2
       this.load.image('text2', 'assets/text2.png')
       this.load.spritesheet('text2_1', 'assets/text2_1.png', 800, 145)
       this.load.image('answer_box2', 'assets/answer_box2.png')
+      this.load.image('monday', 'assets/monday.png')
+      this.load.audio('mondayAudio', ['assets/audio/daysoftheweek/monday.mp3', 'assets/audio/daysoftheweek/monday.ogg']);
+      this.load.image('tuesday', 'assets/tuesday.png')
+      this.load.audio('tuesdayAudio', ['assets/audio/daysoftheweek/tuesday.mp3', 'assets/audio/daysoftheweek/tuesday.ogg']);
+      this.load.image('wednesday', 'assets/wednesday.png')
+      this.load.audio('wednesdayAudio', ['assets/audio/daysoftheweek/wednesday.mp3', 'assets/audio/daysoftheweek/wednesday.ogg']);
+      this.load.image('thursday', 'assets/thursday.png')
+      this.load.audio('thursdayAudio', ['assets/audio/daysoftheweek/thursday.mp3', 'assets/audio/daysoftheweek/thursday.ogg']);
+      this.load.image('friday', 'assets/friday.png')
+      this.load.audio('fridayAudio', ['assets/audio/daysoftheweek/friday.mp3', 'assets/audio/daysoftheweek/friday.ogg']);
+      this.load.image('saturday', 'assets/saturday.png')
+      this.load.audio('saturdayAudio', ['assets/audio/daysoftheweek/saturday.mp3', 'assets/audio/daysoftheweek/saturday.ogg']);
+      this.load.image('sunday', 'assets/sunday.png')
+      this.load.audio('sundayAudio', ['assets/audio/daysoftheweek/sunday.mp3', 'assets/audio/daysoftheweek/sunday.ogg']);
 
       this.load.image('text3', 'assets/text3.png')
       this.load.spritesheet('text3_1', 'assets/text3_1.png', 1000, 145)
