@@ -143,7 +143,7 @@
       this.load.audio('year2023Audio', ['assets/audio/years/2023.mp3', 'assets/audio/years/2023.ogg']);
 
       // Question 2
-      this.load.image('text2', 'assets/text2.png')
+      this.load.image('question2', 'assets/text2.png')
       this.load.spritesheet('text2_1', 'assets/text2_1.png', 800, 145)
       this.load.image('answer_box2', 'assets/answer_box2.png')
       this.load.image('monday', 'assets/monday.png')
@@ -182,6 +182,10 @@
 
       this.load.onLoadComplete.addOnce(function(){ this.ready = true }, this)
       this.load.setPreloadSprite(this.asset)
+
+      // More Audio
+      this.load.audio('great', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
+      this.load.audio('goodJob', ['assets/audio/responses/goodjob.mp3', 'assets/audio/responses/goodjob.ogg']);
     },
 
     create: function () {
