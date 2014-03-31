@@ -402,12 +402,18 @@
                   }
                   currentSprite.x = targetForDragging.x + 200
                   currentSprite.y = targetForDragging.y + 10
-              // XXX
-              currentSprite.parent = null
-                  this.userAnswerDay = i;
+                  this.userAnswerDay = i
+                  if ( this.userAnswerDaySprite ) {
+                    this.userAnswerDaySprite.destroy()
+                  }
+                  this.userAnswerDaySprite = this.game.add.sprite(targetForDragging.x + 200, targetForDragging.y + 10, 'number'+i)
                 } else {
                   currentSprite.x = currentSprite.originalX
                   currentSprite.y = currentSprite.originalY
+                  this.userAnswerDay = null
+                  if ( this.userAnswerDaySprite ) {
+                    this.userAnswerDaySprite.destroy()
+                  }
                 }
               }, this)
         }).call(this, i, this.numberSprites[i], this.answer1$1Button)
