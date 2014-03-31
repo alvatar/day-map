@@ -11,6 +11,8 @@
   function Game() {
     this.userAnswerDay = null
     this.userAnswerDaySprite = null
+    this.userAnswerMonth = null
+    this.userAnswerMonthSprite = null
   }
 
   Game.prototype = {
@@ -371,7 +373,9 @@
       this.answers1Group.add(this.answer1$3Button)
       this.answers1Group.alpha = 0
 
+      //
       // Answer box 1: NUMBERS
+      //
       this.answerBox1$1Group = this.game.add.group()
       this.answerBox1$1Background = this.game.add.sprite(this.game.world.centerX, 1800, 'answer_box1_1')
       this.answerBox1$1Background.anchor.set(0.5, 0.5)
@@ -384,36 +388,38 @@
       }
 
       var setUpNumbersDragging = function(i, currentSprite, targetForDragging) {
-          currentSprite.originalX = currentSprite.x
-          currentSprite.originalY = currentSprite.y
-          currentSprite.input.enableDrag()
-          currentSprite.events.onDragStop.add(
-            function() {
-              if (elementContainsPoint( targetForDragging
-                                      , this.game.input.worldX
-                                      , this.game.input.worldY )) {
-                if ( this.userAnswerDay ) {
-                  this.numberSprites[this.userAnswerDay].x = this.numberSprites[this.userAnswerDay].originalX
-                  this.numberSprites[this.userAnswerDay].y = this.numberSprites[this.userAnswerDay].originalY
-                }
-                currentSprite.x = targetForDragging.x + 200
-                currentSprite.y = targetForDragging.y + 10
-                this.userAnswerDay = i
+        currentSprite.originalX = currentSprite.x
+        currentSprite.originalY = currentSprite.y
+        currentSprite.input.enableDrag()
+        currentSprite.events.onDragStop.add(
+          function() {
+            if (elementContainsPoint( targetForDragging
+                                    , this.game.input.worldX
+                                    , this.game.input.worldY )) {
+              if ( this.userAnswerDay ) {
+                this.numberSprites[this.userAnswerDay].x = this.numberSprites[this.userAnswerDay].originalX
+                this.numberSprites[this.userAnswerDay].y = this.numberSprites[this.userAnswerDay].originalY
+              }
+              currentSprite.x = targetForDragging.x + 200
+              currentSprite.y = targetForDragging.y + 10
+              this.userAnswerDay = i
+              if ( this.userAnswerDaySprite ) {
+                this.userAnswerDaySprite.destroy()
+              }
+              this.userAnswerDaySprite = this.game.add.sprite(targetForDragging.x + 200, targetForDragging.y + 10, 'number'+i)
+              this.answer1$1Button.setFrames(0,0,0)
+            } else {
+              currentSprite.x = currentSprite.originalX
+              currentSprite.y = currentSprite.originalY
+              if ( i === this.userAnswerDay ) {
+                this.userAnswerDay = null
+                this.answer1$1Button.setFrames(2,1,0)
                 if ( this.userAnswerDaySprite ) {
                   this.userAnswerDaySprite.destroy()
                 }
-                this.userAnswerDaySprite = this.game.add.sprite(targetForDragging.x + 200, targetForDragging.y + 10, 'number'+i)
-              } else {
-                currentSprite.x = currentSprite.originalX
-                currentSprite.y = currentSprite.originalY
-                if ( i === this.userAnswerDay ) {
-                  this.userAnswerDay = null
-                  if ( this.userAnswerDaySprite ) {
-                    this.userAnswerDaySprite.destroy()
-                  }
-                }
               }
-            }, this)
+            }
+          }, this)
       }
 
       var setUpNumbersClicks = function(i, currentSprite, currentSound) {
@@ -450,7 +456,9 @@
       this.answerBox1$1Group.alpha = 0
       this.answerBox1$1Group.visible = false
 
+      //
       // Answer box 2: MONTHS
+      //
       this.answerBox1$2Group = this.game.add.group()
       this.answerBox1$2Background = this.game.add.sprite(this.game.world.centerX, 1800, 'answer_box1_2')
       this.answerBox1$2Background.anchor.set(0.5, 0.5)
@@ -463,28 +471,61 @@
         this.monthSounds[i] = this.game.add.audio(monthNames[i] + 'Audio');
       }
       */
+
+      var setUpMonthsDragging = function(i, currentSprite, targetForDragging) {
+        currentSprite.originalX = currentSprite.x
+        currentSprite.originalY = currentSprite.y
+        currentSprite.input.enableDrag()
+        currentSprite.events.onDragStop.add(
+          function() {
+            if (elementContainsPoint( targetForDragging
+                                    , this.game.input.worldX
+                                    , this.game.input.worldY )) {
+              if ( this.userAnswerMonth ) {
+                this.monthSprites[this.userAnswerMonth].x = this.monthSprites[this.userAnswerMonth].originalX
+                this.monthSprites[this.userAnswerMonth].y = this.monthSprites[this.userAnswerMonth].originalY
+              }
+              currentSprite.x = targetForDragging.x + 430
+              currentSprite.y = targetForDragging.y + 78
+              this.userAnswerMonth = i
+              if ( this.userAnswerMonthSprite ) {
+                this.userAnswerMonthSprite.destroy()
+              }
+              this.userAnswerMonthSprite = this.game.add.sprite(targetForDragging.x + 430, targetForDragging.y + 78, monthNames[i])
+              this.userAnswerMonthSprite.anchor.set(0.5, 0.5)
+              this.answer1$2Button.setFrames(0,0,0)
+            } else {
+              currentSprite.x = currentSprite.originalX
+              currentSprite.y = currentSprite.originalY
+              if ( i === this.userAnswerMonth ) {
+                this.userAnswerMonth = null
+                this.answer1$2Button.setFrames(2,1,0)
+                if ( this.userAnswerMonthSprite ) {
+                  this.userAnswerMonthSprite.destroy()
+                }
+              }
+            }
+          }, this)
+      }
+
       this.monthSprites = []
       for(i = 0; i < 12; i++) {
         this.monthSprites[i] = this.game.add.sprite(380 + (i % 4) * 380, 1670 + 140 * Math.floor(i/4), monthNames[i])
         this.monthSprites[i].anchor.set(0.5, 0.5)
         this.monthSprites[i].inputEnabled = true;
         this.monthSprites[i].input.useHandCursor = true
-        /*
-        ;(function(i, currentSprite, currentSound) {
-          currentSprite.events.onInputDown.add(
-            function() {
-              currentSound.play()
-            }
-          , this)
-        })(i, this.numberSprites[i], this.numberSounds[i])
-        */
+        setUpMonthsDragging.call(this, i, this.monthSprites[i], this.answer1$2Button)
+        // TODO
+        //setUpMonthsClicks.call(this, i, this.monthSprites[i], this.monthSounds[i])
         this.answerBox1$2Group.add(this.monthSprites[i])
       }
 
       this.answerBox1$2Group.alpha = 0
       this.answerBox1$2Group.visible = false
 
+      //
       // Answer box 3: YEARS
+      //
       this.answerBox1$3Group = this.game.add.group()
       this.answerBox1$3Background = this.game.add.sprite(this.game.world.centerX, 1800, 'answer_box1_3')
       this.answerBox1$3Background.anchor.set(0.5, 0.5)
