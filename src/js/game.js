@@ -13,6 +13,8 @@
     this.userAnswerDaySprite = null
     this.userAnswerMonth = null
     this.userAnswerMonthSprite = null
+    this.userAnswerYear = null
+    this.userAnswerYearSprite = null
   }
 
   Game.prototype = {
@@ -381,12 +383,6 @@
       this.answerBox1$1Background.anchor.set(0.5, 0.5)
       this.answerBox1$1Group.add(this.answerBox1$1Background)
 
-      var i;
-      this.numberSounds = []
-      for(i = 1; i <= 31; i++) {
-        this.numberSounds[i] = this.game.add.audio('number' + i + 'Audio');
-      }
-
       var setUpNumbersDragging = function(i, currentSprite, targetForDragging) {
         currentSprite.originalX = currentSprite.x
         currentSprite.originalY = currentSprite.y
@@ -430,6 +426,12 @@
             }, this)
       }
 
+      var i;
+      this.numberSounds = []
+      for(i = 1; i <= 31; i++) {
+        this.numberSounds[i] = this.game.add.audio('number' + i + 'Audio');
+      }
+
       this.numberSprites = []
       for(i = 1; i <= 10; i++) {
         this.numberSprites[i] = this.game.add.sprite(80 + i * 150, 1600, 'number' + i)
@@ -463,14 +465,6 @@
       this.answerBox1$2Background = this.game.add.sprite(this.game.world.centerX, 1800, 'answer_box1_2')
       this.answerBox1$2Background.anchor.set(0.5, 0.5)
       this.answerBox1$2Group.add(this.answerBox1$2Background)
-
-      var monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
-      /*
-      this.monthSounds = []
-      for(i = 0; i < monthNames.length; i++) {
-        this.monthSounds[i] = this.game.add.audio(monthNames[i] + 'Audio');
-      }
-      */
 
       var setUpMonthsDragging = function(i, currentSprite, targetForDragging) {
         currentSprite.originalX = currentSprite.x
@@ -508,6 +502,14 @@
           }, this)
       }
 
+      var monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+      /*
+      this.monthSounds = []
+      for(i = 0; i < monthNames.length; i++) {
+        this.monthSounds[i] = this.game.add.audio(monthNames[i] + 'Audio');
+      }
+      */
+
       this.monthSprites = []
       for(i = 0; i < 12; i++) {
         this.monthSprites[i] = this.game.add.sprite(380 + (i % 4) * 380, 1670 + 140 * Math.floor(i/4), monthNames[i])
@@ -531,6 +533,51 @@
       this.answerBox1$3Background.anchor.set(0.5, 0.5)
       this.answerBox1$3Group.add(this.answerBox1$3Background)
 
+      var setUpYearsDragging = function(i, currentSprite, targetForDragging) {
+        currentSprite.originalX = currentSprite.x
+        currentSprite.originalY = currentSprite.y
+        currentSprite.input.enableDrag()
+        currentSprite.events.onDragStop.add(
+          function() {
+            if (elementContainsPoint( targetForDragging
+                                    , this.game.input.worldX
+                                    , this.game.input.worldY )) {
+              if ( this.userAnswerYear ) {
+                this.yearSprites[this.userAnswerYear].x = this.yearSprites[this.userAnswerYear].originalX
+                this.yearSprites[this.userAnswerYear].y = this.yearSprites[this.userAnswerYear].originalY
+              }
+              currentSprite.x = targetForDragging.x + 420
+              currentSprite.y = targetForDragging.y + 74
+              this.userAnswerYear = i
+              if ( this.userAnswerYearSprite ) {
+                this.userAnswerYearSprite.destroy()
+              }
+              this.userAnswerYearSprite = this.game.add.sprite(targetForDragging.x + 420, targetForDragging.y + 74, 'year' + (2014+i))
+              this.userAnswerYearSprite.anchor.set(0.5, 0.5)
+              this.answer1$3Button.setFrames(0,0,0)
+            } else {
+              currentSprite.x = currentSprite.originalX
+              currentSprite.y = currentSprite.originalY
+              if ( i === this.userAnswerYear ) {
+                this.userAnswerYear = null
+                this.answer1$3Button.setFrames(2,1,0)
+                if ( this.userAnswerYearSprite ) {
+                  this.userAnswerYearSprite.destroy()
+                }
+              }
+            }
+          }, this)
+      }
+
+      var setUpYearsClicks = function(i, currentSprite, currentSound) {
+          currentSprite.input.useHandCursor = true
+          currentSprite.events.onInputDown.add(
+            function() {
+              currentSound.play()
+            }, this)
+      }
+
+
       this.yearSounds = []
       for(i = 0; i < 10; i++) {
         this.yearSounds[i] = this.game.add.audio('year' + (2014+i) + 'Audio');
@@ -540,14 +587,8 @@
         this.yearSprites[i] = this.game.add.sprite(370 + (i % 5) * 300, 1710 + 160 * Math.floor(i/5), 'year' + (2014+i))
         this.yearSprites[i].anchor.set(0.5, 0.5)
         this.yearSprites[i].inputEnabled = true;
-        this.yearSprites[i].input.useHandCursor = true
-        ;(function(i, currentSprite, currentSound) {
-          currentSprite.events.onInputDown.add(
-            function() {
-              currentSound.play()
-            }
-          , this)
-        })(i, this.yearSprites[i], this.yearSounds[i])
+        setUpYearsDragging.call(this, i, this.yearSprites[i], this.answer1$3Button)
+        setUpYearsClicks.call(this, i, this.yearSprites[i], this.yearSounds[i])
         this.answerBox1$3Group.add(this.yearSprites[i])
       }
 
