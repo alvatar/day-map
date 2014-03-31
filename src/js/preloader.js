@@ -183,9 +183,11 @@
       this.load.onLoadComplete.addOnce(function(){ this.ready = true }, this)
       this.load.setPreloadSprite(this.asset)
 
-      // More Audio
-      this.load.audio('great', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
-      this.load.audio('goodJob', ['assets/audio/responses/goodjob.mp3', 'assets/audio/responses/goodjob.ogg']);
+      // Common Audio
+      this.load.audio('greatSound', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
+      this.load.audio('goodJobSound', ['assets/audio/responses/goodjob.mp3', 'assets/audio/responses/goodjob.ogg']);
+      this.load.audio('noNoSound', ['assets/audio/responses/nono.mp3', 'assets/audio/responses/nono.ogg']);
+      this.load.audio('thinkAboutItSound', ['assets/audio/responses/thinkaboutit.mp3', 'assets/audio/responses/thinkaboutit.ogg']);
     },
 
     create: function () {

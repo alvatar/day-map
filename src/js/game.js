@@ -72,8 +72,10 @@
       headerTextSprite.anchor.set(0.5, 0.5)
 
       // Common Audio
-      this.greatAudio = this.game.add.audio('great');
-      this.goodJobAudio = this.game.add.audio('goodJob');
+      this.greatAudio = this.game.add.audio('greatSound');
+      this.goodJobAudio = this.game.add.audio('goodJobSound');
+      this.noNoAudio = this.game.add.audio('noNoSound');
+      this.thinkAboutItAudio = this.game.add.audio('thinkAboutItSound');
 
       // Questions: GROUP 1
       this.createSection1()
@@ -326,11 +328,6 @@
           this.answerBox1$3Group.visible = false
           this.game.add.tween(this.answerBox1$1Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          if ( this.checkQuestion1Complete() ) {
-            this.goToQuestion2()
-          } else {
-            this.dayAudio.play()
-          }
         },
         this, 2, 1, 0)
       this.game.physics.enable(this.answer1$1Button, Phaser.Physics.ARCADE);
@@ -344,11 +341,6 @@
           this.answerBox1$3Group.visible = false
           this.game.add.tween(this.answerBox1$2Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          if ( this.checkQuestion1Complete() ) {
-            this.goToQuestion2()
-          } else {
-            this.monthAudio.play()
-          }
         },
         this, 2, 1, 0)
       this.monthAudio = this.game.add.audio('monthAudio');
@@ -361,11 +353,6 @@
           this.answerBox1$3Group.alpha = 0
           this.game.add.tween(this.answerBox1$3Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          if ( this.checkQuestion1Complete() ) {
-            this.goToQuestion2()
-          } else {
-            this.yearAudio.play()
-          }
         },
         this, 2, 1, 0)
       this.yearAudio = this.game.add.audio('yearAudio');
@@ -392,7 +379,7 @@
             if (elementContainsPoint( targetForDragging
                                     , this.game.input.worldX
                                     , this.game.input.worldY )) {
-              if ( this.userAnswerDay ) {
+              if ( this.userAnswerDay !== null ) {
                 this.numberSprites[this.userAnswerDay].x = this.numberSprites[this.userAnswerDay].originalX
                 this.numberSprites[this.userAnswerDay].y = this.numberSprites[this.userAnswerDay].originalY
               }
@@ -404,6 +391,14 @@
               }
               this.userAnswerDaySprite = this.game.add.sprite(targetForDragging.x + 200, targetForDragging.y + 10, 'number'+i)
               this.answer1$1Button.setFrames(0,0,0)
+              // Check answer
+              var today = new Date()
+              if (today.getDate() !== this.userAnswerDay) {
+                this.game.time.events.add(Phaser.Timer.SECOND * 0.8, function() {
+                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                }, this);
+              }
+              this.checkQuestion1Complete()
             } else {
               currentSprite.x = currentSprite.originalX
               currentSprite.y = currentSprite.originalY
@@ -475,7 +470,7 @@
             if (elementContainsPoint( targetForDragging
                                     , this.game.input.worldX
                                     , this.game.input.worldY )) {
-              if ( this.userAnswerMonth ) {
+              if ( this.userAnswerMonth !== null ) {
                 this.monthSprites[this.userAnswerMonth].x = this.monthSprites[this.userAnswerMonth].originalX
                 this.monthSprites[this.userAnswerMonth].y = this.monthSprites[this.userAnswerMonth].originalY
               }
@@ -488,6 +483,14 @@
               this.userAnswerMonthSprite = this.game.add.sprite(targetForDragging.x + 430, targetForDragging.y + 78, monthNames[i])
               this.userAnswerMonthSprite.anchor.set(0.5, 0.5)
               this.answer1$2Button.setFrames(0,0,0)
+              // Check answer
+              var today = new Date()
+              if (today.getMonth() !== this.userAnswerMonth) {
+                this.game.time.events.add(Phaser.Timer.SECOND * 0.8, function() {
+                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                }, this);
+              }
+              this.checkQuestion1Complete()
             } else {
               currentSprite.x = currentSprite.originalX
               currentSprite.y = currentSprite.originalY
@@ -542,7 +545,7 @@
             if (elementContainsPoint( targetForDragging
                                     , this.game.input.worldX
                                     , this.game.input.worldY )) {
-              if ( this.userAnswerYear ) {
+              if ( this.userAnswerYear !== null ) {
                 this.yearSprites[this.userAnswerYear].x = this.yearSprites[this.userAnswerYear].originalX
                 this.yearSprites[this.userAnswerYear].y = this.yearSprites[this.userAnswerYear].originalY
               }
@@ -555,6 +558,14 @@
               this.userAnswerYearSprite = this.game.add.sprite(targetForDragging.x + 420, targetForDragging.y + 74, 'year' + (2014+i))
               this.userAnswerYearSprite.anchor.set(0.5, 0.5)
               this.answer1$3Button.setFrames(0,0,0)
+              // Check answer
+              var today = new Date()
+              if (today.getYear() !== this.userAnswerYear + 114) {
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                }, this);
+              }
+              this.checkQuestion1Complete()
             } else {
               currentSprite.x = currentSprite.originalX
               currentSprite.y = currentSprite.originalY
@@ -597,23 +608,28 @@
     },
 
     checkQuestion1Complete: function() {
-      /*
-      if ( this.q1counter >= 3 ) {
-        return true
-      } else {
-        this.q1counter++
-        return false
+      if ( this.userAnswerDay !== null &&
+           this.userAnswerMonth !== null &&
+           this.userAnswerYear !== null ) {
+        var today = new Date()
+        if ((today.getYear() === this.userAnswerYear + 114) &&
+            (today.getMonth() === this.userAnswerMonth) &&
+            (today.getDate() === this.userAnswerDay)) {
+          this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+            if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+            this.goToQuestion2()
+          }, this);
+          /*
+        } else {
+          this.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
+            if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+          }, this);
+        */
+        }
       }
-      */
-      return false
     },
 
     goToQuestion2: function() {
-      if (Math.random() > 0.5) {
-        this.goodJobAudio.play()
-      } else {
-        this.greatAudio.play()
-      }
       // Fade outs
       this.game.add.tween(this.question1Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
       this.game.add.tween(this.answers1Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
