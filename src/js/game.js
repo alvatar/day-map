@@ -10,6 +10,7 @@
 
   function Game() {
     this.userAnswerDay = null
+    this.userAnswerDaySprite = null
   }
 
   Game.prototype = {
@@ -382,73 +383,67 @@
         this.numberSounds[i] = this.game.add.audio('number' + i + 'Audio');
       }
 
-      this.numberSprites = []
-      for(i = 1; i <= 10; i++) {
-        this.numberSprites[i] = this.game.add.sprite(80 + i * 150, 1600, 'number' + i)
-        this.numberSprites[i].originalX = this.numberSprites[i].x
-        this.numberSprites[i].originalY = this.numberSprites[i].y
-        this.numberSprites[i].inputEnabled = true;
-        this.numberSprites[i].input.useHandCursor = true
-        this.numberSprites[i].input.enableDrag()
-        ;(function(i, currentSprite, targetForDragging) {
-            currentSprite.events.onDragStop.add(
-              function() {
-                if (elementContainsPoint( targetForDragging
-                                        , this.game.input.worldX
-                                        , this.game.input.worldY )) {
-                  if ( this.userAnswerDay ) {
-                    this.numberSprites[this.userAnswerDay].x = this.numberSprites[this.userAnswerDay].originalX
-                    this.numberSprites[this.userAnswerDay].y = this.numberSprites[this.userAnswerDay].originalY
-                  }
-                  currentSprite.x = targetForDragging.x + 200
-                  currentSprite.y = targetForDragging.y + 10
-                  this.userAnswerDay = i
-                  if ( this.userAnswerDaySprite ) {
-                    this.userAnswerDaySprite.destroy()
-                  }
-                  this.userAnswerDaySprite = this.game.add.sprite(targetForDragging.x + 200, targetForDragging.y + 10, 'number'+i)
-                } else {
-                  currentSprite.x = currentSprite.originalX
-                  currentSprite.y = currentSprite.originalY
+      var setUpNumbersDragging = function(i, currentSprite, targetForDragging) {
+          currentSprite.originalX = currentSprite.x
+          currentSprite.originalY = currentSprite.y
+          currentSprite.input.enableDrag()
+          currentSprite.events.onDragStop.add(
+            function() {
+              if (elementContainsPoint( targetForDragging
+                                      , this.game.input.worldX
+                                      , this.game.input.worldY )) {
+                if ( this.userAnswerDay ) {
+                  this.numberSprites[this.userAnswerDay].x = this.numberSprites[this.userAnswerDay].originalX
+                  this.numberSprites[this.userAnswerDay].y = this.numberSprites[this.userAnswerDay].originalY
+                }
+                currentSprite.x = targetForDragging.x + 200
+                currentSprite.y = targetForDragging.y + 10
+                this.userAnswerDay = i
+                if ( this.userAnswerDaySprite ) {
+                  this.userAnswerDaySprite.destroy()
+                }
+                this.userAnswerDaySprite = this.game.add.sprite(targetForDragging.x + 200, targetForDragging.y + 10, 'number'+i)
+              } else {
+                currentSprite.x = currentSprite.originalX
+                currentSprite.y = currentSprite.originalY
+                if ( i === this.userAnswerDay ) {
                   this.userAnswerDay = null
                   if ( this.userAnswerDaySprite ) {
                     this.userAnswerDaySprite.destroy()
                   }
                 }
-              }, this)
-        }).call(this, i, this.numberSprites[i], this.answer1$1Button)
-        ;(function(i, currentSprite, currentSound) {
-            currentSprite.events.onInputDown.add(
-              function() {
-                currentSound.play()
-              }, this)
-        })(i, this.numberSprites[i], this.numberSounds[i])
+              }
+            }, this)
+      }
+
+      var setUpNumbersClicks = function(i, currentSprite, currentSound) {
+          currentSprite.input.useHandCursor = true
+          currentSprite.events.onInputDown.add(
+            function() {
+              currentSound.play()
+            }, this)
+      }
+
+      this.numberSprites = []
+      for(i = 1; i <= 10; i++) {
+        this.numberSprites[i] = this.game.add.sprite(80 + i * 150, 1600, 'number' + i)
+        this.numberSprites[i].inputEnabled = true;
+        setUpNumbersDragging.call(this, i, this.numberSprites[i], this.answer1$1Button)
+        setUpNumbersClicks.call(this, i, this.numberSprites[i], this.numberSounds[i])
         this.answerBox1$1Group.add(this.numberSprites[i])
       }
       for(i = 11; i <= 20; i++) {
         this.numberSprites[i] = this.game.add.sprite(200 + (i-11) * 155, 1740, 'number' + i)
         this.numberSprites[i].inputEnabled = true;
-        this.numberSprites[i].input.useHandCursor = true
-        ;(function(i, currentSprite, currentSound) {
-          currentSprite.events.onInputDown.add(
-            function() {
-              currentSound.play()
-            }
-          , this)
-        })(i, this.numberSprites[i], this.numberSounds[i])
+        setUpNumbersDragging.call(this, i, this.numberSprites[i], this.answer1$1Button)
+        setUpNumbersClicks.call(this, i, this.numberSprites[i], this.numberSounds[i])
         this.answerBox1$1Group.add(this.numberSprites[i])
       }
       for(i = 21; i <= 31; i++) {
         this.numberSprites[i] = this.game.add.sprite(170 + (i-21) * 144, 1880, 'number' + i)
         this.numberSprites[i].inputEnabled = true;
-        this.numberSprites[i].input.useHandCursor = true
-        ;(function(i, currentSprite, currentSound) {
-          currentSprite.events.onInputDown.add(
-            function() {
-              currentSound.play()
-            }
-          , this)
-        })(i, this.numberSprites[i], this.numberSounds[i])
+        setUpNumbersDragging.call(this, i, this.numberSprites[i], this.answer1$1Button)
+        setUpNumbersClicks.call(this, i, this.numberSprites[i], this.numberSounds[i])
         this.answerBox1$1Group.add(this.numberSprites[i])
       }
 
