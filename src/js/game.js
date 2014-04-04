@@ -85,6 +85,9 @@
       // Questions: GROUP 1
       this.createSection1()
 
+        //XXX
+      this.createSection3()
+      this.goToQuestion4()
       /*
       // Questions: GROUP 5
       this.question5Sprite = this.game.add.sprite(this.game.world.centerX, 3400, 'text5')
@@ -771,6 +774,10 @@
       }, this)
     },
 
+    /**************************************************************************
+     * Section 4
+     *************************************************************************/
+
     goToQuestion4: function() {
       // Questions: GROUP 4
       this.createSection4()
@@ -795,18 +802,77 @@
       this.answer4Button = this.game.add.button(
         this.game.world.centerX, 2900, 'text4_1',
         function() {
-          // Fade outs
-          this.game.add.tween(this.question4Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          this.game.add.tween(this.answer4Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
-          // Fade ins
-          this.game.add.tween(this.question5Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          this.game.add.tween(this.answer5Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-          // Camera
-          this.game.add.tween(this.game.camera).to( { y: 3100 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.game.add.tween(this.answerBox4Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
         },
         this, 2, 1, 0)
       this.answer4Button.anchor.set(0.5, 0.5)
       this.answer4Button.alpha = 0
+
+      this.answerBox4Group = this.game.add.group()
+      this.answerBox4Background = this.game.add.sprite(this.game.world.centerX, 3270, 'answer_box2')
+      this.answerBox4Background.anchor.set(0.5, 0.5)
+      this.answerBox4Group.add(this.answerBox4Background)
+      this.answerBox4Group.alpha = 0
+
+      var daysOfWeekPositions = [ {x: this.game.world.centerX - 600, y: 3180},
+                                  {x: this.game.world.centerX - 200, y: 3180},
+                                  {x: this.game.world.centerX + 200, y: 3180},
+                                  {x: this.game.world.centerX + 600, y: 3180},
+                                  {x: this.game.world.centerX - 400, y: 3380},
+                                  {x: this.game.world.centerX, y: 3380},
+                                  {x: this.game.world.centerX + 400, y: 3380} ]
+
+      this.daysOfWeekSprites = []
+      this.daysOfWeekSounds = []
+      this.daysOfWeek.forEach(function(day, i) {
+        this.daysOfWeekSprites[i] = this.game.add.sprite(daysOfWeekPositions[i].x, daysOfWeekPositions[i].y, day)
+        this.daysOfWeekSprites[i].anchor.set(0.5, 0.5)
+        this.daysOfWeekSprites[i].inputEnabled = true;
+        this.daysOfWeekSprites[i].input.useHandCursor = true
+        this.answerBox4Group.add(this.daysOfWeekSprites[i])
+        this.daysOfWeekSprites[i].events.onInputDown.add(
+          function() {
+            this.daysOfWeekSounds[i].play()
+          }, this)
+        this.daysOfWeekSounds[i] = this.game.add.audio( day + 'Audio' );
+        this.setUpSpritesDragging.call(
+          this, i, this.daysOfWeekSprites[i], 'dayOfWeekTomorrow',
+          this.daysOfWeekSprites, this.answer4Button, new Phaser.Point(180,0),
+          function(answerId) {
+             var date = new Date()
+             // Check tomorrow, with a sunday-based begin of the week (turns out to be equal as a result)
+             if( date.getDay() === answerId ) {
+               this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                 if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                 this.goToQuestion5()
+               }, this);
+             } else {
+               this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                 if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+               }, this);
+             }
+          })
+      }, this)
+    },
+
+    goToQuestion5: function() {
+      this.createSection5()
+      console.log("Create section 5 TODO")
+          // Fade outs
+          this.game.add.tween(this.question4Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.game.add.tween(this.answer4Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          this.game.add.tween(this.answerBox4Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          if( 'dayOfWeekTomorrow' in this.userAnswerSprites ) {
+            this.game.add.tween(this.userAnswerSprites['dayOfWeekTomorrow']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          }
+          // Fade ins
+          //this.game.add.tween(this.question5Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          //this.game.add.tween(this.answer5Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+          // Camera
+          this.game.add.tween(this.game.camera).to( { y: 3100 } , 1000, Phaser.Easing.Quadratic.Out, true)
+    },
+
+    createSection5: function() {
     },
 
     update: function () {
