@@ -3,7 +3,6 @@
 
   function Preloader() {
     this.asset = null
-    this.ready = false
   }
 
   Preloader.prototype = {
@@ -147,21 +146,22 @@
       this.load.spritesheet('text2_1', 'assets/text2_1.png', 800, 145)
       this.load.image('answer_box2', 'assets/answer_box2.png')
       this.load.image('monday', 'assets/monday.png')
-      this.load.audio('mondayAudio', ['assets/audio/daysoftheweek/monday.mp3', 'assets/audio/daysoftheweek/monday.ogg']);
       this.load.image('tuesday', 'assets/tuesday.png')
-      this.load.audio('tuesdayAudio', ['assets/audio/daysoftheweek/tuesday.mp3', 'assets/audio/daysoftheweek/tuesday.ogg']);
       this.load.image('wednesday', 'assets/wednesday.png')
-      this.load.audio('wednesdayAudio', ['assets/audio/daysoftheweek/wednesday.mp3', 'assets/audio/daysoftheweek/wednesday.ogg']);
       this.load.image('thursday', 'assets/thursday.png')
-      this.load.audio('thursdayAudio', ['assets/audio/daysoftheweek/thursday.mp3', 'assets/audio/daysoftheweek/thursday.ogg']);
       this.load.image('friday', 'assets/friday.png')
-      this.load.audio('fridayAudio', ['assets/audio/daysoftheweek/friday.mp3', 'assets/audio/daysoftheweek/friday.ogg']);
       this.load.image('saturday', 'assets/saturday.png')
-      this.load.audio('saturdayAudio', ['assets/audio/daysoftheweek/saturday.mp3', 'assets/audio/daysoftheweek/saturday.ogg']);
       this.load.image('sunday', 'assets/sunday.png')
+
+      this.load.audio('mondayAudio', ['assets/audio/daysoftheweek/monday.mp3', 'assets/audio/daysoftheweek/monday.ogg']);
+      this.load.audio('tuesdayAudio', ['assets/audio/daysoftheweek/tuesday.mp3', 'assets/audio/daysoftheweek/tuesday.ogg']);
+      this.load.audio('wednesdayAudio', ['assets/audio/daysoftheweek/wednesday.mp3', 'assets/audio/daysoftheweek/wednesday.ogg']);
+      this.load.audio('thursdayAudio', ['assets/audio/daysoftheweek/thursday.mp3', 'assets/audio/daysoftheweek/thursday.ogg']);
+      this.load.audio('fridayAudio', ['assets/audio/daysoftheweek/friday.mp3', 'assets/audio/daysoftheweek/friday.ogg']);
+      this.load.audio('saturdayAudio', ['assets/audio/daysoftheweek/saturday.mp3', 'assets/audio/daysoftheweek/saturday.ogg']);
       this.load.audio('sundayAudio', ['assets/audio/daysoftheweek/sunday.mp3', 'assets/audio/daysoftheweek/sunday.ogg']);
 
-      this.load.image('text3', 'assets/text3.png')
+      this.load.image('question3', 'assets/text3.png')
       this.load.spritesheet('text3_1', 'assets/text3_1.png', 1000, 145)
 
       this.load.image('text4', 'assets/text4.png')
@@ -180,7 +180,7 @@
       this.load.image('text8', 'assets/text8.png')
       this.load.spritesheet('text8_1', 'assets/text8_1.png', 500, 570)
 
-      this.load.onLoadComplete.addOnce(function(){ this.ready = true }, this)
+      this.load.onLoadComplete.addOnce( function(){ this.game.state.start('game') }, this )
       this.load.setPreloadSprite(this.asset)
 
       // Common Audio
@@ -192,12 +192,6 @@
 
     create: function () {
       this.asset.cropEnabled = false
-    },
-
-    update: function () {
-      if (!!this.ready) {
-        this.game.state.start('game')
-      }
     }
   };
 

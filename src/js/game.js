@@ -3,9 +3,9 @@
 
   function elementContainsPoint(element, pointX, pointY) {
     return( pointX > element.x &&
-            pointX < (element.x + element.width) &&
+            pointX < element.x + element.width &&
             pointY > element.y &&
-            pointY < (element.y + element.height) )
+            pointY < element.y + element.height )
   }
 
   function Game() {
@@ -15,6 +15,10 @@
     this.userAnswerMonthSprite = null
     this.userAnswerYear = null
     this.userAnswerYearSprite = null
+
+    this.userAnswerDayOfWeek = null
+    this.userAnswers = []
+    this.userAnswerSprites = []
   }
 
   Game.prototype = {
@@ -83,42 +87,13 @@
       // Questions: GROUP 2
       this.createSection2()
 
-      /*
       // Questions: GROUP 3
-      this.question3Sprite = this.game.add.sprite(this.game.world.centerX, 2300, 'text3')
-      this.question3Sprite.anchor.set(0.5, 0.5)
-      this.question3Sprite.alpha = 0
-      this.answer3$1Button = this.game.add.button(
-        this.game.world.centerX, 2500, 'text3_1',
-        function() {
-          // Fade outs
-          this.game.add.tween(this.question3Sprite).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answer3$1Button).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 0
-            )
-          // Fade ins
-          this.game.add.tween(this.question4Sprite).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answer4$1Button).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
-            )
-          // Camera
-          this.game.add.tween(this.game.camera).to(
-              { y: 2550 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-        },
-        this, 2, 1, 0)
-      this.answer3$1Button.anchor.set(0.5, 0.5)
-      this.answer3$1Button.alpha = 0
+      this.createSection3()
 
+      // XXX
+      this.goToQuestion3()
+
+      /*
       // Questions: GROUP 4
       this.question4Sprite = this.game.add.sprite(this.game.world.centerX, 2850, 'text4')
       this.question4Sprite.anchor.set(0.5, 0.5)
@@ -328,6 +303,7 @@
           this.answerBox1$3Group.visible = false
           this.game.add.tween(this.answerBox1$1Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.dayAudio.play()
         },
         this, 2, 1, 0)
       this.game.physics.enable(this.answer1$1Button, Phaser.Physics.ARCADE);
@@ -341,6 +317,7 @@
           this.answerBox1$3Group.visible = false
           this.game.add.tween(this.answerBox1$2Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.monthAudio.play()
         },
         this, 2, 1, 0)
       this.monthAudio = this.game.add.audio('monthAudio');
@@ -353,6 +330,7 @@
           this.answerBox1$3Group.alpha = 0
           this.game.add.tween(this.answerBox1$3Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.yearAudio.play()
         },
         this, 2, 1, 0)
       this.yearAudio = this.game.add.audio('yearAudio');
@@ -588,7 +566,6 @@
             }, this)
       }
 
-
       this.yearSounds = []
       for(i = 0; i < 10; i++) {
         this.yearSounds[i] = this.game.add.audio('year' + (2014+i) + 'Audio');
@@ -655,111 +632,159 @@
 
       // Answer
       this.answer2Button = this.game.add.button(
-        this.game.world.centerX, 2200, 'text2_1',
-        function() {
-          // Fade outs
-          //this.game.add.tween(this.question2Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          //this.game.add.tween(this.answer2Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
-          // Fade ins
+        this.game.world.centerX, 2200, 'text2_1'
+        , function() {
           this.game.add.tween(this.answerBox2Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          //this.game.add.tween(this.question3Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          //this.game.add.tween(this.answer3$1Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-          // Camera
-          //this.game.add.tween(this.game.camera).to( { y: 2000 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          },
-        this, 2, 1, 0)
+        }
+        , this, 2, 1, 0)
       this.answer2Button.anchor.set(0.5, 0.5)
       this.answer2Button.alpha = 0
       this.answerBox2Group = this.game.add.group()
       this.answerBox2Background = this.game.add.sprite(this.game.world.centerX, 2600, 'answer_box2')
       this.answerBox2Background.anchor.set(0.5, 0.5)
-
-      this.mondaySprite = this.game.add.sprite(this.game.world.centerX - 600, 2530, 'monday')
-      this.mondaySprite.anchor.set(0.5, 0.5)
-      this.mondaySprite.inputEnabled = true;
-      this.mondaySprite.input.useHandCursor = true
-      this.mondaySprite.events.onInputDown.add(
-        function() {
-          this.mondayAudio.play()
-        }
-        , this)
-      this.mondayAudio = this.game.add.audio('mondayAudio');
-
-      this.tuesdaySprite = this.game.add.sprite(this.game.world.centerX - 200, 2530, 'tuesday')
-      this.tuesdaySprite.anchor.set(0.5, 0.5)
-      this.tuesdaySprite.inputEnabled = true;
-      this.tuesdaySprite.input.useHandCursor = true
-      this.tuesdaySprite.events.onInputDown.add(
-        function() {
-          this.tuesdayAudio.play()
-        }
-        , this)
-      this.tuesdayAudio = this.game.add.audio('tuesdayAudio');
-
-      this.wednesdaySprite = this.game.add.sprite(this.game.world.centerX + 200, 2530, 'wednesday')
-      this.wednesdaySprite.anchor.set(0.5, 0.5)
-      this.wednesdaySprite.inputEnabled = true;
-      this.wednesdaySprite.input.useHandCursor = true
-      this.wednesdaySprite.events.onInputDown.add(
-        function() {
-          this.wednesdayAudio.play()
-        }
-        , this)
-      this.wednesdayAudio = this.game.add.audio('wednesdayAudio');
-
-      this.thursdaySprite = this.game.add.sprite(this.game.world.centerX + 600, 2530, 'thursday')
-      this.thursdaySprite.anchor.set(0.5, 0.5)
-      this.thursdaySprite.inputEnabled = true;
-      this.thursdaySprite.input.useHandCursor = true
-      this.thursdaySprite.events.onInputDown.add(
-        function() {
-          this.thursdayAudio.play()
-        }
-        , this)
-      this.thursdayAudio = this.game.add.audio('thursdayAudio');
-
-      this.fridaySprite = this.game.add.sprite(this.game.world.centerX - 400, 2700, 'friday')
-      this.fridaySprite.anchor.set(0.5, 0.5)
-      this.fridaySprite.inputEnabled = true;
-      this.fridaySprite.input.useHandCursor = true
-      this.fridaySprite.events.onInputDown.add(
-        function() {
-          this.fridayAudio.play()
-        }
-        , this)
-      this.fridayAudio = this.game.add.audio('fridayAudio');
-
-      this.saturdaySprite = this.game.add.sprite(this.game.world.centerX, 2700, 'saturday')
-      this.saturdaySprite.anchor.set(0.5, 0.5)
-      this.saturdaySprite.inputEnabled = true;
-      this.saturdaySprite.input.useHandCursor = true
-      this.saturdaySprite.events.onInputDown.add(
-        function() {
-          this.saturdayAudio.play()
-        }
-        , this)
-      this.saturdayAudio = this.game.add.audio('saturdayAudio');
-
-      this.sundaySprite = this.game.add.sprite(this.game.world.centerX + 400, 2700, 'sunday')
-      this.sundaySprite.anchor.set(0.5, 0.5)
-      this.sundaySprite.inputEnabled = true;
-      this.sundaySprite.input.useHandCursor = true
-      this.sundaySprite.events.onInputDown.add(
-        function() {
-          this.sundayAudio.play()
-        }
-        , this)
-      this.sundayAudio = this.game.add.audio('sundayAudio');
-
       this.answerBox2Group.add(this.answerBox2Background)
-      this.answerBox2Group.add(this.mondaySprite)
-      this.answerBox2Group.add(this.tuesdaySprite)
-      this.answerBox2Group.add(this.wednesdaySprite)
-      this.answerBox2Group.add(this.thursdaySprite)
-      this.answerBox2Group.add(this.fridaySprite)
-      this.answerBox2Group.add(this.saturdaySprite)
-      this.answerBox2Group.add(this.sundaySprite)
       this.answerBox2Group.alpha = 0
+
+      var daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+      var daysOfWeekPositions = [ {x: this.game.world.centerX - 600, y: 2530},
+                                  {x: this.game.world.centerX - 200, y: 2530},
+                                  {x: this.game.world.centerX + 200, y: 2530},
+                                  {x: this.game.world.centerX + 600, y: 2530},
+                                  {x: this.game.world.centerX - 400, y: 2700},
+                                  {x: this.game.world.centerX, y: 2700},
+                                  {x: this.game.world.centerX + 400, y: 2700} ]
+
+      var setUpSpritesDragging = function( i // id of this solution to the answer
+                                         , currentSprite // sprite of this solution to the answer
+                                         , targetAnswer // string id of the answer
+                                         , spriteArray // all the solution sprites
+                                         , targetButton // target button where the answer will go
+                                         , offset // Point containing offset applied to targetButton
+                                         , solutionCheck // function to be run when a new solution is given
+                                         ) {
+        currentSprite.originalX = currentSprite.x
+        currentSprite.originalY = currentSprite.y
+        currentSprite.originalAnchor = currentSprite.anchor
+        currentSprite.input.enableDrag()
+        currentSprite.events.onDragStop.add(
+          function() {
+            if (targetButton.getBounds().contains(this.game.input.x, this.game.input.y)) {
+              if ( targetAnswer in this.userAnswers && this.userAnswers[targetAnswer] !== null ) {
+                spriteArray[this.userAnswers[targetAnswer]].x = spriteArray[this.userAnswers[targetAnswer]].originalX
+                spriteArray[this.userAnswers[targetAnswer]].y = spriteArray[this.userAnswers[targetAnswer]].originalY
+                spriteArray[this.userAnswers[targetAnswer]].anchor = spriteArray[this.userAnswers[targetAnswer]].originalAnchor
+              }
+              currentSprite.x = targetButton.x + offset.x
+              currentSprite.y = targetButton.y + offset.y
+              currentSprite.anchor = _.clone(targetButton.anchor)
+              this.userAnswers[targetAnswer] = i
+              if ( this.userAnswerSprites[targetAnswer] ) {
+                this.userAnswerSprites[targetAnswer].destroy()
+              }
+              this.userAnswerSprites[targetAnswer] = this.game.add.sprite(currentSprite.x, currentSprite.y, currentSprite.key)
+              this.userAnswerSprites[targetAnswer].anchor.set(0.5, 0.5)
+              targetButton.setFrames(0,0,0)
+              solutionCheck.call(this,i)
+            } else {
+              currentSprite.x = currentSprite.originalX
+              currentSprite.y = currentSprite.originalY
+              currentSprite.anchor = currentSprite.originalAnchor
+              if ( i === this.userAnswers[targetAnswer] ) {
+                this.userAnswers[targetAnswer] = null
+                targetButton.setFrames(2,1,0)
+                if ( this.userAnswerSprites[targetAnswer] ) {
+                  this.userAnswerSprites[targetAnswer].destroy()
+                }
+              }
+            }
+          }, this)
+      }
+
+      this.daysOfWeekSprites = []
+      this.daysOfWeekSounds = []
+      daysOfWeek.forEach(function(day, i) {
+        this.daysOfWeekSprites[i] = this.game.add.sprite(daysOfWeekPositions[i].x, daysOfWeekPositions[i].y, day)
+        this.daysOfWeekSprites[i].anchor.set(0.5, 0.5)
+        this.daysOfWeekSprites[i].inputEnabled = true;
+        this.daysOfWeekSprites[i].input.useHandCursor = true
+        this.answerBox2Group.add(this.daysOfWeekSprites[i])
+        this.daysOfWeekSprites[i].events.onInputDown.add(
+          function() {
+            this.daysOfWeekSounds[i].play()
+          }, this)
+        this.daysOfWeekSounds[i] = this.game.add.audio( day + 'Audio' );
+        setUpSpritesDragging.call( this, i, this.daysOfWeekSprites[i], 'dayOfWeek'
+                                 , this.daysOfWeekSprites, this.answer2Button, new Phaser.Point(100,0)
+                                 , function(answerId) {
+                                    var date = new Date()
+                                    if( date.getDay() % 7 === (answerId + 1) % 7 ) {
+                                      this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                                        if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                                        this.goToQuestion3()
+                                      }, this);
+                                    } else {
+                                      this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                                        if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                                      }, this);
+                                    }
+                                 })
+
+      }, this)
+    },
+
+    goToQuestion3: function() {
+      // Fade outs
+      this.game.add.tween(this.question2Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer2Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      this.game.add.tween(this.answerBox2Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      if ( 'dayOfWeek' in this.userAnswerSprites ) {
+        this.game.add.tween(this.userAnswerSprites['dayOfWeek']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      }
+      // Fade ins
+      this.game.add.tween(this.question3Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer3Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      // Camera
+      this.game.add.tween(this.game.camera).to( { y: 2200 } , 1000, Phaser.Easing.Quadratic.Out, true)
+    },
+
+    /**************************************************************************
+     * Section 3
+     *************************************************************************/
+
+    createSection3 : function() {
+      this.question3Sprite = this.game.add.sprite(this.game.world.centerX, 2400, 'question3')
+      this.question3Sprite.anchor.set(0.5, 0.5)
+      this.question3Sprite.alpha = 0
+      this.answer3Button = this.game.add.button(
+        this.game.world.centerX, 2600, 'text3_1',
+        function() {
+          // Fade outs
+          this.game.add.tween(this.question3Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.game.add.tween(this.answer3Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          // Fade ins
+          this.game.add.tween(this.question4Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.game.add.tween(this.answer4Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+          // Camera
+          this.game.add.tween(this.game.camera).to( { y: 2550 } , 1000, Phaser.Easing.Quadratic.Out, true)
+        },
+        this, 2, 1, 0)
+      this.answer3Button.anchor.set(0.5, 0.5)
+      this.answer3Button.alpha = 0
+    },
+
+    goToQuestion4: function() {
+      /*
+      // Fade outs
+      this.game.add.tween(this.question2Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer2Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      this.game.add.tween(this.answerBox2Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      this.game.add.tween(this.userAnswerSprites['dayOfWeek']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      // Fade ins
+      this.game.add.tween(this.question3Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer3Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      // Camera
+      this.game.add.tween(this.game.camera).to( { y: 2200 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      */
     },
 
     update: function () {

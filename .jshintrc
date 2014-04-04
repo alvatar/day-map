@@ -21,6 +21,7 @@
   "asi": true,
   "loopfunc": true,
   "globals": {
-    "Phaser": false
+    "Phaser": false,
+    "_": false
   }
 }
