@@ -86,8 +86,8 @@
       this.createSection1()
 
         //XXX
-      this.createSection3()
-      this.goToQuestion4()
+      this.createSection4()
+      this.goToQuestion5()
       /*
       // Questions: GROUP 5
       this.question5Sprite = this.game.add.sprite(this.game.world.centerX, 3400, 'text5')
@@ -616,10 +616,15 @@
       this.createSection2()
       // Fade outs
       this.game.add.tween(this.question1Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.question1Sprite.visible = false}, this)
       this.game.add.tween(this.answers1Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answers1Group.visible = false}, this)
       this.game.add.tween(this.answerBox1$1Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answerBox1$1Group.visible = false}, this)
       this.game.add.tween(this.answerBox1$2Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answerBox1$2Group.visible = false}, this)
       this.game.add.tween(this.answerBox1$3Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answerBox1$3Group.visible = false}, this)
       // Fade ins
       this.game.add.tween(this.question2Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
       this.game.add.tween(this.answer2Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
@@ -698,10 +703,14 @@
       this.createSection3()
       // Fade outs
       this.game.add.tween(this.question2Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.question2Sprite.visible = false}, this)
       this.game.add.tween(this.answer2Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer2Button.visible = false}, this)
       this.game.add.tween(this.answerBox2Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answerBox2Group.visible = false}, this)
       if ( 'dayOfWeek' in this.userAnswerSprites ) {
         this.game.add.tween(this.userAnswerSprites['dayOfWeek']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+            .onComplete.add(function(){this.userAnswerSprites['dayOfWeek'].visible = false}, this)
       }
       // Fade ins
       this.game.add.tween(this.question3Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
@@ -774,19 +783,19 @@
       }, this)
     },
 
-    /**************************************************************************
-     * Section 4
-     *************************************************************************/
-
     goToQuestion4: function() {
       // Questions: GROUP 4
       this.createSection4()
       // Fade outs
       this.game.add.tween(this.question3Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.question3Sprite.visible = false}, this)
       this.game.add.tween(this.answer3Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer3Button.visible = false}, this)
       this.game.add.tween(this.answerBox3Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answerBox3Group.visible = false}, this)
       if( 'dayOfWeekYesterday' in this.userAnswerSprites ) {
         this.game.add.tween(this.userAnswerSprites['dayOfWeekYesterday']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+            .onComplete.add(function(){this.userAnswerSprites['dayOfWeekYesterday'].visible = false}, this)
       }
       // Fade ins
       this.game.add.tween(this.question4Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
@@ -794,6 +803,10 @@
       // Camera
       this.game.add.tween(this.game.camera).to( { y: 2520 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
+
+    /**************************************************************************
+     * Section 4
+     *************************************************************************/
 
     createSection4: function() {
       this.question4Sprite = this.game.add.sprite(this.game.world.centerX, 2700, 'text4')
@@ -857,20 +870,27 @@
 
     goToQuestion5: function() {
       this.createSection5()
-      console.log("Create section 5 TODO")
           // Fade outs
-          this.game.add.tween(this.question4Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          this.game.add.tween(this.answer4Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
-          this.game.add.tween(this.answerBox4Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
-          if( 'dayOfWeekTomorrow' in this.userAnswerSprites ) {
-            this.game.add.tween(this.userAnswerSprites['dayOfWeekTomorrow']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
-          }
-          // Fade ins
-          //this.game.add.tween(this.question5Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          //this.game.add.tween(this.answer5Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-          // Camera
-          this.game.add.tween(this.game.camera).to( { y: 3100 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.question4Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.question4Sprite.visible = false}, this)
+      this.game.add.tween(this.answer4Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer4Button.visible = false}, this)
+      this.game.add.tween(this.answerBox4Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answerBox4Group.visible = false}, this)
+      if( 'dayOfWeekTomorrow' in this.userAnswerSprites ) {
+        this.game.add.tween(this.userAnswerSprites['dayOfWeekTomorrow']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+            .onComplete.add(function(){this.userAnswerSprites['dayOfWeekTomorrow'].visible = false}, this)
+      }
+      // Fade ins
+      //this.game.add.tween(this.question5Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      //this.game.add.tween(this.answer5Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      // Camera
+      this.game.add.tween(this.game.camera).to( { y: 3100 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
+
+    /**************************************************************************
+     * Section 5
+     *************************************************************************/
 
     createSection5: function() {
     },
