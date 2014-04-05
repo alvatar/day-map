@@ -1,5 +1,7 @@
 (function() {
   'use strict';
+  
+  var currentWeatherConditions = null
 
   function elementContainsPoint(element, pointX, pointY) {
     return( pointX > element.x &&
@@ -25,6 +27,23 @@
   Game.prototype = {
 
     create: function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition( function(position) {
+          var jqxhr = $.get(
+            'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude,
+            function(response) {
+              currentWeatherConditions = response
+            }, 'jsonp')
+          jqxhr.fail(function() {
+            console.log('failed to perform weather geolocation')
+          })
+        }, function(error){
+          console.log(error)
+        }) } else {
+        console.log('Geolocation is not supported')
+      }
+
+      // Configuration
       this.game.world.setBounds(0, 0, 1920, 5760)
       this.game.add.sprite(0, 0, 'background')
 
@@ -88,46 +107,8 @@
         //XXX
       this.createSection4()
       this.goToQuestion5()
-      /*
-      // Questions: GROUP 5
-      this.question5Sprite = this.game.add.sprite(this.game.world.centerX, 3400, 'text5')
-      this.question5Sprite.anchor.set(0.5, 0.5)
-      this.question5Sprite.alpha = 0
-      this.answer5$1Button = this.game.add.button(
-        this.game.world.centerX, 3750, 'text5_1',
-        function() {
-          // Fade outs
-          this.game.add.tween(this.question5Sprite).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answer5$1Button).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 0
-            )
-          // Fade ins
-          this.game.add.tween(this.question6Sprite).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answer6$1Button).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
-            )
-          this.game.add.tween(this.answer6$2Button).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
-            )
-          // Camera
-          this.game.add.tween(this.game.camera).to(
-              { y: 3600 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-        },
-        this, 2, 1, 0)
-      this.answer5$1Button.anchor.set(0.5, 0.5)
-      this.answer5$1Button.alpha = 0
 
+      /*
       // Questions: GROUP 6
       this.question6Sprite = this.game.add.sprite(this.game.world.centerX, 3900, 'text6')
       this.question6Sprite.anchor.set(0.5, 0.5)
@@ -298,7 +279,6 @@
       this.question1Audio = this.game.add.audio('question1Audio');
 
       // Answers
-      this.answers1Group = this.game.add.group()
       this.answer1$1Button = this.game.add.button(
         60, 1350, 'daySpritesheet',
         function() {
@@ -340,6 +320,7 @@
         this, 2, 1, 0)
       this.yearAudio = this.game.add.audio('yearAudio');
 
+      this.answers1Group = this.game.add.group()
       this.answers1Group.add(this.answer1$1Button)
       this.answers1Group.add(this.answer1$2Button)
       this.answers1Group.add(this.answer1$3Button)
@@ -809,7 +790,7 @@
      *************************************************************************/
 
     createSection4: function() {
-      this.question4Sprite = this.game.add.sprite(this.game.world.centerX, 2700, 'text4')
+      this.question4Sprite = this.game.add.sprite(this.game.world.centerX, 2700, 'question4')
       this.question4Sprite.anchor.set(0.5, 0.5)
       this.question4Sprite.alpha = 0
       this.answer4Button = this.game.add.button(
@@ -870,7 +851,7 @@
 
     goToQuestion5: function() {
       this.createSection5()
-          // Fade outs
+      // Fade outs
       this.game.add.tween(this.question4Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
           .onComplete.add(function(){this.question4Sprite.visible = false}, this)
       this.game.add.tween(this.answer4Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
@@ -882,8 +863,8 @@
             .onComplete.add(function(){this.userAnswerSprites['dayOfWeekTomorrow'].visible = false}, this)
       }
       // Fade ins
-      //this.game.add.tween(this.question5Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-      //this.game.add.tween(this.answer5Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      this.game.add.tween(this.question5Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer5Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
       // Camera
       this.game.add.tween(this.game.camera).to( { y: 3100 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
@@ -893,6 +874,138 @@
      *************************************************************************/
 
     createSection5: function() {
+      this.question5Sprite = this.game.add.sprite(this.game.world.centerX, 3280, 'question5')
+      this.question5Sprite.anchor.set(0.5, 0.5)
+      this.question5Sprite.alpha = 0
+      this.answer5Button = this.game.add.button(
+        this.game.world.centerX, 3680, 'text5_1',
+        function() {
+          this.game.add.tween(this.answerBox5Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+        },
+        this, 2, 1, 0)
+      this.answer5Button.anchor.set(0.5, 0.5)
+      this.answer5Button.alpha = 0
+
+      this.answerBox5left = this.game.add.sprite(335, 3800, 'answer_box_5')
+      this.answerBox5left.anchor.set(0.5, 0.5)
+      //this.answerBox5left.alpha = 0.8
+      this.answerBox5right = this.game.add.sprite(1585, 3800, 'answer_box_5')
+      this.answerBox5right.anchor.set(0.5, 0.5)
+      //this.answerBox5right.alpha = 0.8
+
+      this.answerBox5Group = this.game.add.group()
+      this.answerBox5Group.add(this.answerBox5left)
+      this.answerBox5Group.add(this.answerBox5right)
+      this.answerBox5Group.alpha = 0
+
+      var weatherIcons = [{id: 'sunny', x: 350, y: 3550},
+                          {id: 'partially_cloudy', x: 350, y: 3800},
+                          {id: 'cloudy', x: 350, y: 4050},
+                          {id: 'rainy', x: 1590, y: 3550},
+                          {id: 'snowy', x: 1590, y: 3800},
+                          {id: 'foggy', x: 1590, y: 4050}]
+      this.weatherSprites = []
+      this.weatherSounds = []
+      weatherIcons.forEach(function(e,i) {
+        this.weatherSprites[i] = this.game.add.sprite(e.x, e.y, e.id)
+        this.weatherSprites[i].anchor.set(0.5,0.5)
+        this.weatherSprites[i].inputEnabled = true;
+        this.weatherSprites[i].input.useHandCursor = true
+        this.answerBox5Group.add(this.weatherSprites[i])
+        this.weatherSounds[i] = this.game.add.audio( e.id + 'Audio' );
+        this.weatherSprites[i].events.onInputDown.add(
+          function() {
+            this.weatherSounds[i].play()
+          }, this)
+        this.setUpSpritesDragging.call(
+          this, i, this.weatherSprites[i], 'weather',
+          this.weatherSprites, this.answer5Button, new Phaser.Point(0,0),
+          function(answerId) {
+            var correctAnswer = function() {
+              if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+            }
+            var wrongAnswer = function() {
+              if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+            }
+            // http://bugs.openweathermap.org/projects/api/wiki/Weather_Data
+            // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
+            if (currentWeatherConditions) {
+              console.log(currentWeatherConditions)
+              if (currentWeatherConditions.clouds.all < 20) {
+                if(answerId === 0) { correctAnswer.call(this) } else { wrongAnswer.call(this) }
+              } else if (currentWeatherConditions.clouds.all < 40) {
+                if(answerId === 1) { correctAnswer.call(this) } else { wrongAnswer.call(this) }
+              } else {
+                if ( currentWeatherConditions.weather ) {
+                  switch ( currentWeatherConditions.weather[0].main ) {
+                    case 'Clouds':
+                      if(answerId === 2) { correctAnswer.call(this) } else { wrongAnswer.call(this) }
+                      break
+                    case 'Rain':
+                    case 'Drizzle':
+                    case 'Thunderstorm':
+                      if(answerId === 3) { correctAnswer.call(this) } else { wrongAnswer.call(this) }
+                      break
+                    case 'Snow':
+                      if(answerId === 4) { correctAnswer.call(this) } else { wrongAnswer.call(this) }
+                      break
+                    case 'Atmosphere':
+                      if(answerId === 5) { correctAnswer.call(this) } else { wrongAnswer.call(this) }
+                      break
+                    case 'Extreme':
+                    case 'Additional':
+                      correctAnswer.call(this)
+                      break
+                    default:
+                      console.log('A case of weather conditions wasn\'t handled properly')
+                      correctAnswer.call(this)
+                  }
+                }
+              }
+            } else {
+              correctAnswer().call(this)
+            }
+          })
+      }, this)
+    },
+
+    goToQuestion6: function() {
+      // Fade outs
+      this.game.add.tween(this.question5Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer5Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      // Camera
+      this.game.add.tween(this.game.camera).to( { y: 3600 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      // Fade ins
+      this.game.add.tween(this.question6Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer6Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      this.game.add.tween(this.answer6$2Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+    },
+
+    /**************************************************************************
+     * Section 6
+     *************************************************************************/
+
+    createSection6: function() {
+    },
+
+    goToQuestion7: function() {
+    },
+
+    /**************************************************************************
+     * Section 7
+     *************************************************************************/
+
+    createSection7: function() {
+    },
+
+    goToQuestion8: function() {
+    },
+
+    /**************************************************************************
+     * Section 8
+     *************************************************************************/
+
+    createSection8: function() {
     },
 
     update: function () {

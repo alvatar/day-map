@@ -164,20 +164,33 @@
       this.load.image('question3', 'assets/text3.png')
       this.load.spritesheet('text3_1', 'assets/text3_1.png', 1000, 145)
 
-      this.load.image('text4', 'assets/text4.png')
+      this.load.image('question4', 'assets/text4.png')
       this.load.spritesheet('text4_1', 'assets/text4_1.png', 900, 145)
 
-      this.load.image('text5', 'assets/text5.png')
-      this.load.spritesheet('text5_1', 'assets/text5_1.png', 1200, 385)
+      this.load.image('question5', 'assets/text5.png')
+      this.load.spritesheet('text5_1', 'assets/text5_1.png', 600, 468)
+      this.load.image('answer_box_5', 'assets/answer_box_5.png')
+      this.load.image('sunny', 'assets/sunny.png')
+      this.load.image('partially_cloudy', 'assets/partially_cloudy.png')
+      this.load.image('cloudy', 'assets/cloudy.png')
+      this.load.image('rainy', 'assets/rainy.png')
+      this.load.image('snowy', 'assets/snowy.png')
+      this.load.image('foggy', 'assets/foggy.png')
+      this.load.audio('sunnyAudio', ['assets/audio/weather/sunny.mp3', 'assets/audio/weather/sunny.ogg']);
+      this.load.audio('partially_cloudyAudio', ['assets/audio/weather/partiallycloudy.mp3', 'assets/audio/weather/partiallycloudy.ogg']);
+      this.load.audio('cloudyAudio', ['assets/audio/weather/cloudy.mp3', 'assets/audio/weather/cloudy.ogg']);
+      this.load.audio('rainyAudio', ['assets/audio/weather/rainy.mp3', 'assets/audio/weather/rainy.ogg']);
+      this.load.audio('snowyAudio', ['assets/audio/weather/snowy.mp3', 'assets/audio/weather/snowy.ogg']);
+      this.load.audio('foggyAudio', ['assets/audio/weather/foggy.mp3', 'assets/audio/weather/foggy.ogg']);
 
-      this.load.image('text6', 'assets/text6.png')
+      this.load.image('question6', 'assets/text6.png')
       this.load.spritesheet('boyAnswer', 'assets/boy_answer.png', 200, 415)
       this.load.spritesheet('girlAnswer', 'assets/girl_answer.png', 200, 407)
 
-      this.load.image('text7', 'assets/text7.png')
+      this.load.image('question7', 'assets/text7.png')
       this.load.spritesheet('text7_1', 'assets/text7_1.png', 700, 541)
 
-      this.load.image('text8', 'assets/text8.png')
+      this.load.image('question8', 'assets/text8.png')
       this.load.spritesheet('text8_1', 'assets/text8_1.png', 500, 570)
 
       this.load.onLoadComplete.addOnce( function(){ this.game.state.start('game') }, this )
