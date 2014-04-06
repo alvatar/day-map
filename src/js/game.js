@@ -105,89 +105,12 @@
       this.createSection1()
 
         //XXX
-      this.createSection4()
-      this.goToQuestion5()
+      this.createSection5()
+      this.goToQuestion6()
+
+
 
       /*
-      // Questions: GROUP 6
-      this.question6Sprite = this.game.add.sprite(this.game.world.centerX, 3900, 'text6')
-      this.question6Sprite.anchor.set(0.5, 0.5)
-      this.question6Sprite.alpha = 0
-      this.answer6$1Button = this.game.add.button(
-        this.game.world.centerX - 150, 4200, 'boyAnswer',
-        function() {
-          // Fade outs
-          this.game.add.tween(this.question6Sprite).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answer6$1Button).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 0
-            )
-          this.game.add.tween(this.answer6$2Button).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 0
-            )
-          // Fade ins
-          this.game.add.tween(this.question7Sprite).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answer7$1Button).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
-            )
-          // Camera
-          this.game.add.tween(this.game.camera).to(
-              { y: 4150 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-        },
-        this, 2, 1, 0)
-      this.answer6$1Button.anchor.set(0.5, 0.5)
-      this.answer6$1Button.alpha = 0
-      this.answer6$2Button = this.game.add.button(
-        this.game.world.centerX + 150, 4200, 'girlAnswer',
-        function() {
-          // Fade outs
-          this.game.add.tween(this.question6Sprite).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answer6$1Button).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 0
-            )
-          this.game.add.tween(this.answer6$2Button).to(
-              { alpha: 0 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 0
-            )
-          // Fade ins
-          this.game.add.tween(this.question7Sprite).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answer7$1Button).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
-            )
-          // Camera
-          this.game.add.tween(this.game.camera).to(
-              { y: 4150 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-        },
-        this, 2, 1, 0)
-      this.answer6$2Button.anchor.set(0.5, 0.5)
-      this.answer6$2Button.alpha = 0
-
-
-
-
-
-
-
       // Questions: GROUP 7
       this.question7Sprite = this.game.add.sprite(this.game.world.centerX, 4450, 'text7')
       this.question7Sprite.anchor.set(0.5, 0.5)
@@ -909,7 +832,7 @@
       weatherIcons.forEach(function(e,i) {
         this.weatherSprites[i] = this.game.add.sprite(e.x, e.y, e.id)
         this.weatherSprites[i].anchor.set(0.5,0.5)
-        this.weatherSprites[i].inputEnabled = true;
+        this.weatherSprites[i].inputEnabled = true
         this.weatherSprites[i].input.useHandCursor = true
         this.answerBox5Group.add(this.weatherSprites[i])
         this.weatherSounds[i] = this.game.add.audio( e.id + 'Audio' );
@@ -922,10 +845,15 @@
           this.weatherSprites, this.answer5Button, new Phaser.Point(0,0),
           function(answerId) {
             var correctAnswer = function() {
-              if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+              this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                this.goToQuestion6()
+              }, this);
             }
             var wrongAnswer = function() {
-              if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+               this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                 if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+               }, this);
             }
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Data
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
@@ -970,15 +898,24 @@
     },
 
     goToQuestion6: function() {
+      this.createSection6()
       // Fade outs
       this.game.add.tween(this.question5Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.question5Sprite.visible = false}, this)
       this.game.add.tween(this.answer5Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer5Button.visible = false}, this)
+      this.game.add.tween(this.answerBox5Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answerBox5Group.visible = false}, this)
+      if( 'weather' in this.userAnswerSprites ) {
+        this.game.add.tween(this.userAnswerSprites['weather']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+            .onComplete.add(function(){this.userAnswerSprites['weather'].visible = false}, this)
+      }
       // Camera
       this.game.add.tween(this.game.camera).to( { y: 3600 } , 1000, Phaser.Easing.Quadratic.Out, true)
       // Fade ins
       this.game.add.tween(this.question6Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-      this.game.add.tween(this.answer6Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-      this.game.add.tween(this.answer6$2Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      this.game.add.tween(this.answer6BoyButton).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      this.game.add.tween(this.answer6GirlButton).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
     },
 
     /**************************************************************************
@@ -986,9 +923,115 @@
      *************************************************************************/
 
     createSection6: function() {
+      this.question6Sprite = this.game.add.sprite(this.game.world.centerX, 3780, 'question6')
+      this.question6Sprite.anchor.set(0.5, 0.5)
+      this.question6Sprite.alpha = 0
+      this.answer6BoyButton = this.game.add.button(
+        this.game.world.centerX - 150, 4150, 'boyAnswer',
+        this.dressBoy,
+        this, 2, 1, 0)
+      this.answer6BoyButton.anchor.set(0.5, 0.5)
+      this.answer6BoyButton.alpha = 0
+      this.answer6GirlButton = this.game.add.button(
+        this.game.world.centerX + 150, 4150, 'girlAnswer',
+        this.dressGirl,
+        this, 2, 1, 0)
+      this.answer6GirlButton.anchor.set(0.5, 0.5)
+      this.answer6GirlButton.alpha = 0
+
+      this.answerBox6 = this.game.add.sprite(this.game.world.centerX, 3630, 'answer_box_6')
+      this.answerBox6.anchor.set(0.5,0)
+      this.answerBox6Group = this.game.add.group()
+      this.answerBox6Group.add( this.answerBox6 )
+      this.answerBox6Group.alpha = 0
+    },
+
+    dressBoy: function() {
+      this.game.add.tween(this.question6Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer6GirlButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      this.game.add.tween(this.answer6BoyButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+
+      this.boySprite = this.game.add.sprite(980, 4090, 'boy')
+      this.answerBox6Group.add( this.boySprite )
+      var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick', this.goToQuestion7, this, 2, 1, 0)
+      readyButton.anchor.set(0.5, 0.5)
+      this.answerBox6Group.add( readyButton )
+
+      var boyClothesConfig =
+        [{id: 'boots_boy', x: 1500, y: 4700, dual: false},
+         {id: 'rainboots_boy', x: 1500, y: 4550, dual: false},
+         {id: 'shoes_boy', x: 1500, y: 4400, dual: false},
+         {id: 'sandals_boy', x: 1500, y: 4280, dual: true},
+         {id: 'socks_boy', x: 1500, y: 4150, dual: false},
+         {id: 'scarf_boy', x: 1500, y: 3980, dual: false},
+         {id: 'gloves_boy', x: 1500, y: 3800, dual: false},
+         {id: 'woolcap_boy', x: 1200, y: 3800, dual: true},
+         {id: 'cap_boy', x: 700, y: 3800, dual: false},
+         {id: 'trousers_boy', x: 700, y: 4050, dual: false},
+         {id: 'shorts_boy', x: 700, y: 4350, dual: false},
+         {id: 'shirt_boy', x: 700, y: 4600, dual: true},
+         {id: 'tshirt_boy', x: 450, y: 3900, dual: false},
+         {id: 'jumper_boy', x: 450, y: 4180, dual: true},
+         {id: 'coat_boy', x: 450, y: 4500, dual: true}]
+      this.boyClothesSprites = []
+      boyClothesConfig.forEach( function(e, i) {
+        var sprite = this.boyClothesSprites[i] = this.game.add.sprite(e.x, e.y, e.id)
+        if( e.dual ) { sprite.frame = 1 }
+        sprite.anchor.set(0.5,0.5)
+        sprite.inputEnabled = true
+        sprite.input.useHandCursor = true
+        this.answerBox6Group.add( sprite )
+      }, this )
+
+      this.game.add.tween(this.answerBox6Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+    },
+
+    dressGirl: function() {
+      this.game.add.tween(this.question6Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer6GirlButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+      this.game.add.tween(this.answer6BoyButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+
+      this.girlSprite = this.game.add.sprite(980, 4090, 'girl')
+      var readyButton = this.game.add.button( this.game.world.centerX, 4000, 'tick', this.goToQuestion7, this, 2, 1, 0)
+      readyButton.anchor.set(0.5, 0.5)
+      this.answerBox6Group.add( this.girlSprite )
+
+      var girlClothesConfig =
+        [{id: 'boots_girl', x: 1500, y: 4700, dual: false},
+         {id: 'rainboots_girl', x: 1500, y: 4550, dual: false},
+         {id: 'shoes_girl', x: 1500, y: 4400, dual: true},
+         {id: 'sandals_girl', x: 1500, y: 4280, dual: true},
+         {id: 'socks_girl', x: 1500, y: 4150, dual: false},
+         {id: 'scarf_girl', x: 1500, y: 3980, dual: false},
+         {id: 'gloves_girl', x: 1500, y: 3800, dual: false},
+         {id: 'woolcap_girl', x: 1200, y: 3800, dual: true},
+         {id: 'shorts_girl', x: 900, y: 3800, dual: false},
+         {id: 'trousers_girl', x: 700, y: 3850, dual: false},
+         {id: 'skirt_girl', x: 700, y: 4120, dual: false},
+         {id: 'shirt_girl', x: 700, y: 4350, dual: true},
+         {id: 'jumper_girl', x: 700, y: 4620, dual: true},
+         {id: 'tshirt_girl', x: 450, y: 3850, dual: false},
+         {id: 'dress_girl', x: 450, y: 4180, dual: true},
+         {id: 'coat_girl', x: 450, y: 4550, dual: true}]
+      this.girlClothesSprites = []
+      girlClothesConfig.forEach( function(e, i) {
+        var sprite = this.girlClothesSprites[i] = this.game.add.sprite(e.x, e.y, e.id)
+        if( e.dual ) { sprite.frame = 1 }
+        sprite.anchor.set(0.5,0.5)
+        sprite.inputEnabled = true
+        sprite.input.useHandCursor = true
+        this.answerBox6Group.add( sprite )
+      }, this )
+      
+      this.game.add.tween(this.answerBox6Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
     },
 
     goToQuestion7: function() {
+      // Fade ins
+      this.game.add.tween(this.question7Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer7Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      // Camera
+      this.game.add.tween(this.game.camera).to( { y: 4150 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
 
     /**************************************************************************
