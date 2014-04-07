@@ -107,6 +107,7 @@
         //XXX
       this.createSection5()
       this.goToQuestion6()
+      this.dressGirl()
 
 
 
@@ -138,6 +139,7 @@
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
+
     setUpSpritesDragging: function( i // id of this solution to the answer
                                   , currentSprite // sprite of this solution to the answer
                                   , targetAnswer // string id of the answer
@@ -154,9 +156,10 @@
         function() {
           if (targetButton.getBounds().contains(this.game.input.x, this.game.input.y)) {
             if ( targetAnswer in this.userAnswers && this.userAnswers[targetAnswer] !== null ) {
-              spriteArray[this.userAnswers[targetAnswer]].x = spriteArray[this.userAnswers[targetAnswer]].originalX
-              spriteArray[this.userAnswers[targetAnswer]].y = spriteArray[this.userAnswers[targetAnswer]].originalY
-              spriteArray[this.userAnswers[targetAnswer]].anchor = spriteArray[this.userAnswers[targetAnswer]].originalAnchor
+              var answerSprite = spriteArray[this.userAnswers[targetAnswer]]
+              answerSprite.x = answerSprite.originalX
+              answerSprite.y = answerSprite.originalY
+              answerSprite.anchor = answerSprite.originalAnchor
             }
             currentSprite.x = targetButton.x + offset.x
             currentSprite.y = targetButton.y + offset.y
@@ -946,40 +949,91 @@
       this.answerBox6Group.alpha = 0
     },
 
+    setUpMultiSpritesDragging: function( i // id of this solution to the answer
+                                       , spriteArray // all the sprites to drag
+                                       , targetAnswer // string id of the answer
+                                       , spriteConfig // object with config info about the sprite
+                                       , targetButton // target Button where the sprites will be placed
+                                       , solutionCheck // function to be run when a new solution is given
+                                       ) {
+      var currentSprite = spriteArray[i]
+      currentSprite.originalX = currentSprite.x
+      currentSprite.originalY = currentSprite.y
+      currentSprite.input.enableDrag()
+      this.userAnswers[targetAnswer] = this.userAnswers[targetAnswer] || []
+      var thisUserAnswers = this.userAnswers[targetAnswer]
+      currentSprite.events.onDragStop.add(
+        function() {
+          if ( targetButton.getBounds().contains(this.game.input.x, this.game.input.y) ) {
+            if ( thisUserAnswers[spriteConfig.layer] ) {
+              // There is an answer per layer
+              var answerSprite = spriteArray[thisUserAnswers[spriteConfig.layer]]
+              answerSprite.x = answerSprite.originalX
+              answerSprite.y = answerSprite.originalY
+            }
+            currentSprite.x = targetButton.x + spriteConfig.offsetX
+            currentSprite.y = targetButton.y + spriteConfig.offsetY
+            if ( spriteConfig.dual ) { currentSprite.frame = 0 }
+            thisUserAnswers[spriteConfig.layer] = i
+            solutionCheck.call(this,i)
+          } else {
+            currentSprite.x = currentSprite.originalX
+            currentSprite.y = currentSprite.originalY
+            if ( spriteConfig.dual ) { currentSprite.frame = 1 }
+            if ( i === thisUserAnswers[spriteConfig.layer] ) { thisUserAnswers[spriteConfig.layer] = null }
+          }
+        }, this)
+    },
+
     dressBoy: function() {
       this.game.add.tween(this.question6Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.question6Sprite.visible = false}, this)
       this.game.add.tween(this.answer6GirlButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer6GirlButton.visible = false}, this)
       this.game.add.tween(this.answer6BoyButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer6BoyButton.visible = false}, this)
 
-      this.boySprite = this.game.add.sprite(980, 4090, 'boy')
-      this.answerBox6Group.add( this.boySprite )
+      this.boyBigButton = this.game.add.button(980, 4090, 'boy',
+          function() {
+            // TODO
+          }, this,
+          0, 0, 0)
+      this.boyBigButton.input.useHandCursor = true
+      this.answerBox6Group.add( this.boyBigButton )
       var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick', this.goToQuestion7, this, 2, 1, 0)
       readyButton.anchor.set(0.5, 0.5)
+      readyButton.input.useHandCursor = true
       this.answerBox6Group.add( readyButton )
 
       var boyClothesConfig =
-        [{id: 'boots_boy', x: 1500, y: 4700, dual: false},
-         {id: 'rainboots_boy', x: 1500, y: 4550, dual: false},
-         {id: 'shoes_boy', x: 1500, y: 4400, dual: false},
-         {id: 'sandals_boy', x: 1500, y: 4280, dual: true},
-         {id: 'socks_boy', x: 1500, y: 4150, dual: false},
-         {id: 'scarf_boy', x: 1500, y: 3980, dual: false},
-         {id: 'gloves_boy', x: 1500, y: 3800, dual: false},
-         {id: 'woolcap_boy', x: 1200, y: 3800, dual: true},
-         {id: 'cap_boy', x: 700, y: 3800, dual: false},
-         {id: 'trousers_boy', x: 700, y: 4050, dual: false},
-         {id: 'shorts_boy', x: 700, y: 4350, dual: false},
-         {id: 'shirt_boy', x: 700, y: 4600, dual: true},
-         {id: 'tshirt_boy', x: 450, y: 3900, dual: false},
-         {id: 'jumper_boy', x: 450, y: 4180, dual: true},
-         {id: 'coat_boy', x: 450, y: 4500, dual: true}]
+        [{id: 'boots_boy', x: 1500, y: 4700, dual: false, offsetX: 128, offsetY: 560, layer: 5},
+         {id: 'rainboots_boy', x: 1500, y: 4550, dual: false, offsetX: 128, offsetY: 552, layer: 5},
+         {id: 'shoes_boy', x: 1500, y: 4400, dual: false, offsetX: 128, offsetY: 575, layer: 5},
+         {id: 'sandals_boy', x: 1500, y: 4280, dual: true, offsetX: 131, offsetY: 577, layer: 5},
+         {id: 'socks_boy', x: 1500, y: 4150, dual: false, offsetX: 128, offsetY: 570, layer: 1},
+         {id: 'scarf_boy', x: 1500, y: 3980, dual: false, offsetX: 128, offsetY: 260, layer: 40},
+         {id: 'gloves_boy', x: 1500, y: 3800, dual: false, offsetX: 128, offsetY: 342, layer: 21},
+         {id: 'woolcap_boy', x: 1200, y: 3800, dual: true, offsetX: 120, offsetY: 40, layer: 41},
+         {id: 'cap_boy', x: 700, y: 3800, dual: false, offsetX: 124, offsetY: 38, layer: 41},
+         {id: 'trousers_boy', x: 700, y: 4050, dual: false, offsetX: 128, offsetY: 459, layer: 10},
+         {id: 'shorts_boy', x: 700, y: 4350, dual: false, offsetX: 128, offsetY: 420, layer: 10},
+         {id: 'shirt_boy', x: 700, y: 4600, dual: true, offsetX: 127, offsetY: 273, layer: 15},
+         {id: 'tshirt_boy', x: 450, y: 3900, dual: false, offsetX: 127, offsetY: 273, layer: 15},
+         {id: 'jumper_boy', x: 450, y: 4180, dual: true, offsetX: 128, offsetY: 273, layer: 25},
+         {id: 'coat_boy', x: 450, y: 4500, dual: true, offsetX: 128, offsetY: 310, layer: 30}]
       this.boyClothesSprites = []
+      boyClothesConfig = _.sortBy(boyClothesConfig, 'layer')
       boyClothesConfig.forEach( function(e, i) {
         var sprite = this.boyClothesSprites[i] = this.game.add.sprite(e.x, e.y, e.id)
-        if( e.dual ) { sprite.frame = 1 }
         sprite.anchor.set(0.5,0.5)
         sprite.inputEnabled = true
         sprite.input.useHandCursor = true
+        if( e.dual ) { sprite.frame = 1 }
+        this.setUpMultiSpritesDragging(i, this.boyClothesSprites, 'boyClothes',
+          e, this.boyBigButton,
+          function() {
+            // TODO: sound
+          })
         this.answerBox6Group.add( sprite )
       }, this )
 
@@ -988,49 +1042,67 @@
 
     dressGirl: function() {
       this.game.add.tween(this.question6Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.question6Sprite.visible = false}, this)
       this.game.add.tween(this.answer6GirlButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer6GirlButton.visible = false}, this)
       this.game.add.tween(this.answer6BoyButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer6BoyButton.visible = false}, this)
 
-      this.girlSprite = this.game.add.sprite(980, 4090, 'girl')
-      var readyButton = this.game.add.button( this.game.world.centerX, 4000, 'tick', this.goToQuestion7, this, 2, 1, 0)
+      this.girlBigButton = this.game.add.button(980, 4090, 'girl',
+          function() {
+            // TODO
+          }, this,
+          0, 0, 0)
+      this.girlBigButton.input.useHandCursor = true
+      this.answerBox6Group.add( this.girlBigButton )
+      var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick', this.goToQuestion7, this, 2, 1, 0)
       readyButton.anchor.set(0.5, 0.5)
-      this.answerBox6Group.add( this.girlSprite )
+      readyButton.input.useHandCursor = true
+      this.answerBox6Group.add( readyButton )
 
       var girlClothesConfig =
-        [{id: 'boots_girl', x: 1500, y: 4700, dual: false},
-         {id: 'rainboots_girl', x: 1500, y: 4550, dual: false},
-         {id: 'shoes_girl', x: 1500, y: 4400, dual: true},
-         {id: 'sandals_girl', x: 1500, y: 4280, dual: true},
-         {id: 'socks_girl', x: 1500, y: 4150, dual: false},
-         {id: 'scarf_girl', x: 1500, y: 3980, dual: false},
-         {id: 'gloves_girl', x: 1500, y: 3800, dual: false},
-         {id: 'woolcap_girl', x: 1200, y: 3800, dual: true},
-         {id: 'shorts_girl', x: 900, y: 3800, dual: false},
-         {id: 'trousers_girl', x: 700, y: 3850, dual: false},
-         {id: 'skirt_girl', x: 700, y: 4120, dual: false},
-         {id: 'shirt_girl', x: 700, y: 4350, dual: true},
-         {id: 'jumper_girl', x: 700, y: 4620, dual: true},
-         {id: 'tshirt_girl', x: 450, y: 3850, dual: false},
-         {id: 'dress_girl', x: 450, y: 4180, dual: true},
-         {id: 'coat_girl', x: 450, y: 4550, dual: true}]
+        [{id: 'boots_girl', x: 1500, y: 4700, dual: false, offsetX: 111, offsetY: 557, layer: 11},
+         {id: 'rainboots_girl', x: 1500, y: 4550, dual: false, offsetX: 111, offsetY: 544, layer: 11},
+         {id: 'shoes_girl', x: 1500, y: 4400, dual: true, offsetX: 112, offsetY: 567, layer: 11},
+         {id: 'sandals_girl', x: 1500, y: 4280, dual: true, offsetX: 114, offsetY: 566, layer: 11},
+         {id: 'socks_girl', x: 1500, y: 4150, dual: false, offsetX: 111, offsetY: 558, layer: 1},
+         {id: 'scarf_girl', x: 1500, y: 3980, dual: false, offsetX: 110, offsetY: 246, layer: 40},
+         {id: 'gloves_girl', x: 1500, y: 3800, dual: false, offsetX: 110, offsetY: 332, layer: 21},
+         {id: 'woolcap_girl', x: 1200, y: 3800, dual: true, offsetX: 108, offsetY: 60, layer: 41},
+         {id: 'trousers_girl', x: 700, y: 3850, dual: false, offsetX: 111, offsetY: 442, layer: 10},
+         {id: 'shorts_girl', x: 900, y: 3800, dual: false, offsetX: 112, offsetY: 383, layer: 10},
+         {id: 'skirt_girl', x: 700, y: 4120, dual: false, offsetX: 113, offsetY: 380, layer: 10},
+         {id: 'shirt_girl', x: 700, y: 4350, dual: true, offsetX: 112, offsetY: 262, layer: 15},
+         {id: 'tshirt_girl', x: 450, y: 3850, dual: false, offsetX: 110, offsetY: 264, layer: 15},
+         {id: 'jumper_girl', x: 700, y: 4620, dual: true, offsetX: 110, offsetY: 268, layer: 25},
+         {id: 'dress_girl', x: 450, y: 4180, dual: true, offsetX: 116, offsetY: 355, layer: 25},
+         {id: 'coat_girl', x: 450, y: 4550, dual: true, offsetX: 114, offsetY: 300, layer: 30}]
       this.girlClothesSprites = []
+      girlClothesConfig = _.sortBy(girlClothesConfig, 'layer')
       girlClothesConfig.forEach( function(e, i) {
         var sprite = this.girlClothesSprites[i] = this.game.add.sprite(e.x, e.y, e.id)
-        if( e.dual ) { sprite.frame = 1 }
+        //var sprite = this.girlClothesSprites[i] = this.game.add.sprite(this.girlBigButton.x + e.offsetX, this.girlBigButton.y + e.offsetY, e.id)
         sprite.anchor.set(0.5,0.5)
         sprite.inputEnabled = true
         sprite.input.useHandCursor = true
+        if( e.dual ) { sprite.frame = 1 }
+        this.setUpMultiSpritesDragging(i, this.girlClothesSprites, 'girlClothes',
+          e, this.girlBigButton,
+          function() {
+            // TODO: sound
+          })
         this.answerBox6Group.add( sprite )
       }, this )
-      
+
       this.game.add.tween(this.answerBox6Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
     },
 
     goToQuestion7: function() {
-      // Fade ins
+      this.game.add.tween(this.answerBox6Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      /*
       this.game.add.tween(this.question7Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
       this.game.add.tween(this.answer7Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-      // Camera
+      */
       this.game.add.tween(this.game.camera).to( { y: 4150 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
 
