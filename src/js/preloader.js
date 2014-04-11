@@ -153,6 +153,7 @@
       this.load.image('saturday', 'assets/saturday.png')
       this.load.image('sunday', 'assets/sunday.png')
 
+      this.load.audio('question2Audio', ['assets/audio/questions/whatdateisittoday.mp3', 'assets/audio/questions/whatdayisittoday.ogg']);
       this.load.audio('mondayAudio', ['assets/audio/daysoftheweek/monday.mp3', 'assets/audio/daysoftheweek/monday.ogg']);
       this.load.audio('tuesdayAudio', ['assets/audio/daysoftheweek/tuesday.mp3', 'assets/audio/daysoftheweek/tuesday.ogg']);
       this.load.audio('wednesdayAudio', ['assets/audio/daysoftheweek/wednesday.mp3', 'assets/audio/daysoftheweek/wednesday.ogg']);
@@ -161,12 +162,17 @@
       this.load.audio('saturdayAudio', ['assets/audio/daysoftheweek/saturday.mp3', 'assets/audio/daysoftheweek/saturday.ogg']);
       this.load.audio('sundayAudio', ['assets/audio/daysoftheweek/sunday.mp3', 'assets/audio/daysoftheweek/sunday.ogg']);
 
+      // Question 3
       this.load.image('question3', 'assets/text3.png')
       this.load.spritesheet('text3_1', 'assets/text3_1.png', 1000, 145)
+      this.load.audio('question3Audio', ['assets/audio/questions/whatdaywasityesterday.mp3', 'assets/audio/questions/whatdaywasityesterday.ogg']);
 
+      // Question 4
       this.load.image('question4', 'assets/text4.png')
       this.load.spritesheet('text4_1', 'assets/text4_1.png', 900, 145)
+      this.load.audio('question4Audio', ['assets/audio/questions/whatdayisittomorrow.mp3', 'assets/audio/questions/whatdayisittomorrow.ogg']);
 
+      // Question 5
       this.load.image('question5', 'assets/text5.png')
       this.load.spritesheet('text5_1', 'assets/text5_1.png', 600, 468)
       this.load.image('answer_box_5', 'assets/answer_box_5.png')
@@ -176,6 +182,8 @@
       this.load.image('rainy', 'assets/rainy.png')
       this.load.image('snowy', 'assets/snowy.png')
       this.load.image('foggy', 'assets/foggy.png')
+
+      this.load.audio('question5Audio', ['assets/audio/questions/whatistheweatherliketoday.mp3', 'assets/audio/questions/whatistheweatherliketoday.ogg']);
       this.load.audio('sunnyAudio', ['assets/audio/weather/sunny.mp3', 'assets/audio/weather/sunny.ogg']);
       this.load.audio('partially_cloudyAudio', ['assets/audio/weather/partiallycloudy.mp3', 'assets/audio/weather/partiallycloudy.ogg']);
       this.load.audio('cloudyAudio', ['assets/audio/weather/cloudy.mp3', 'assets/audio/weather/cloudy.ogg']);
@@ -183,6 +191,7 @@
       this.load.audio('snowyAudio', ['assets/audio/weather/snowy.mp3', 'assets/audio/weather/snowy.ogg']);
       this.load.audio('foggyAudio', ['assets/audio/weather/foggy.mp3', 'assets/audio/weather/foggy.ogg']);
 
+      // Question 6
       this.load.image('question6', 'assets/text6.png')
       this.load.spritesheet('boyAnswer', 'assets/boy_answer.png', 200, 415)
       this.load.spritesheet('girlAnswer', 'assets/girl_answer.png', 200, 407)
@@ -224,6 +233,29 @@
       this.load.spritesheet('dress_girl', 'assets/dress_girl.png', 205, 370)
       this.load.image('skirt_girl', 'assets/skirt_girl.png')
 
+      this.load.audio('question6Audio', ['assets/audio/questions/whatshouldweweartoday.mp3', 'assets/audio/questions/whatshouldweweartoday.ogg']);
+      this.load.audio('boyAudio', ['assets/audio/other/boy.mp3', 'assets/audio/other/boy.ogg']);
+      this.load.audio('girlAudio', ['assets/audio/other/girl.mp3', 'assets/audio/other/girl.ogg']);
+
+      this.load.audio('bootsAudio', ['assets/audio/clothes/boots.mp3', 'assets/audio/boots.ogg'])
+      this.load.audio('rainbootsAudio',  ['assets/audio/clothes/rainboots.mp3', 'assets/audio/clothes/rainboots.ogg'])
+      this.load.audio('shoesAudio',  ['assets/audio/clothes/shoes.mp3', 'assets/audio/clothes/shoes.ogg'])
+      this.load.audio('sandalsAudio',  ['assets/audio/clothes/sandals.mp3', 'assets/audio/clothes/sandals.ogg'])
+      this.load.audio('socksAudio',  ['assets/audio/clothes/socks.mp3', 'assets/audio/clothes/socks.ogg'])
+      this.load.audio('shortsAudio',  ['assets/audio/clothes/shorts.mp3', 'assets/audio/clothes/shorts.ogg'])
+      this.load.audio('trousersAudio',  ['assets/audio/clothes/trousers.mp3', 'assets/audio/clothes/trousers.ogg'])
+      this.load.audio('tshirtAudio',  ['assets/audio/clothes/tshirt.mp3', 'assets/audio/clothes/tshirt.ogg'])
+      this.load.audio('jumperAudio',  ['assets/audio/clothes/jumper.mp3', 'assets/audio/clothes/jumper.ogg'])
+      this.load.audio('shirtAudio',  ['assets/audio/clothes/shirt.mp3', 'assets/audio/clothes/shirt.ogg'])
+      this.load.audio('scarfAudio',  ['assets/audio/clothes/scarf.mp3', 'assets/audio/clothes/scarf.ogg'])
+      this.load.audio('coatAudio',  ['assets/audio/clothes/coat.mp3', 'assets/audio/clothes/coat.ogg'])
+      this.load.audio('glovesAudio',  ['assets/audio/clothes/gloves.mp3', 'assets/audio/clothes/gloves.ogg'])
+      this.load.audio('woolcapAudio', ['assets/audio/clothes/woolcap.mp3', 'assets/audio/clothes/woolcap.ogg'])
+      this.load.audio('capAudio', ['assets/audio/clothes/cap.mp3', 'assets/audio/clothes/cap.ogg'])
+      this.load.audio('dressAudio', ['assets/audio/clothes/dress.mp3', 'assets/audio/clothes/dress.ogg'])
+      this.load.audio('skirtAudio', ['assets/audio/clothes/skirt.mp3', 'assets/audio/clothes/skirt.ogg'])
+
+      // Question 7
       this.load.image('question7', 'assets/text7.png')
       this.load.spritesheet('text7_1', 'assets/text7_1.png', 600, 468)
       this.load.image('answer_box_7', 'assets/answer_box_7.png')
@@ -232,7 +264,15 @@
       this.load.image('home', 'assets/home.png')
       this.load.image('school', 'assets/school.png')
       this.load.image('christmas', 'assets/christmas.png')
+      
+      this.load.audio('question7Audio', ['assets/audio/questions/whatarewegoingtodotoday.mp3', 'assets/audio/questions/whatarewegoingtodotoday.ogg']);
+      this.load.audio('carnivalAudio', ['assets/audio/other/carnival.mp3', 'assets/audio/other/carnival.ogg'])
+      this.load.audio('holidaysAudio', ['assets/audio/other/holidays.mp3', 'assets/audio/other/holidays.ogg'])
+      this.load.audio('homeAudio', ['assets/audio/other/home.mp3', 'assets/audio/other/home.ogg'])
+      this.load.audio('schoolAudio', ['assets/audio/other/school.mp3', 'assets/audio/other/school.ogg'])
+      this.load.audio('christmasAudio', ['assets/audio/other/christmas.mp3', 'assets/audio/other/christmas.ogg'])
 
+      // Question 8
       this.load.image('question8', 'assets/text8.png')
       this.load.spritesheet('text8_1', 'assets/text8_1.png', 460, 571)
       this.load.image('answer_box_8', 'assets/answer_box_8.png')
@@ -240,6 +280,12 @@
       this.load.image('summer', 'assets/summer.png')
       this.load.image('autumn', 'assets/autumn.png')
       this.load.image('winter', 'assets/winter.png')
+
+      this.load.audio('question8Audio', ['assets/audio/questions/whatseasonarewein.mp3', 'assets/audio/questions/whatseasonarewein.ogg']);
+      this.load.audio('springAudio', ['assets/audio/seasons/spring.mp3', 'assets/audio/seasons/spring.ogg'])
+      this.load.audio('summerAudio', ['assets/audio/seasons/summer.mp3', 'assets/audio/seasons/summer.ogg'])
+      this.load.audio('autumnAudio', ['assets/audio/seasons/autumn.mp3', 'assets/audio/seasons/autumn.ogg'])
+      this.load.audio('winterAudio', ['assets/audio/seasons/winter.mp3', 'assets/audio/seasons/winter.ogg'])
 
       this.load.onLoadComplete.addOnce( function(){ this.game.state.start('game') }, this )
       this.load.setPreloadSprite(this.asset)

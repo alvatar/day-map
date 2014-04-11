@@ -2,6 +2,7 @@
   'use strict';
   
   var currentWeatherConditions = null
+  var daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 
   function elementContainsPoint(element, pointX, pointY) {
     return( pointX > element.x &&
@@ -21,7 +22,6 @@
     this.userAnswerDayOfWeek = null
     this.userAnswers = []
     this.userAnswerSprites = []
-    this.daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
   }
 
   Game.prototype = {
@@ -56,19 +56,10 @@
       headerCloudsSprite.events.onInputDown.add(
         function() {
           // Fade ins
-          this.game.add.tween(this.question1Sprite).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
-          this.game.add.tween(this.answers1Group).to(
-              { alpha: 1 }
-              , 1000, Phaser.Easing.Quadratic.Out, true, 1000
-            )
+          this.game.add.tween(this.question1Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.game.add.tween(this.answers1Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
           // Camera
-          this.game.add.tween(this.game.camera).to(
-              { y: 900 }
-              , 1000, Phaser.Easing.Quadratic.Out, true
-            )
+          this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
         }
         , this)
 
@@ -106,8 +97,8 @@
       this.createSection1()
 
         //XXX
-      //this.createSection7()
-      //this.goToQuestion8()
+      this.createSection7()
+      this.goToQuestion8()
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
@@ -185,11 +176,9 @@
           this.answerBox1$2Group.visible = false
           this.answerBox1$3Group.visible = false
           this.game.add.tween(this.answerBox1$1Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.dayAudio.play()
         },
         this, 2, 1, 0)
-      this.game.physics.enable(this.answer1$1Button, Phaser.Physics.ARCADE);
       this.dayAudio = this.game.add.audio('dayAudio');
 
       this.answer1$2Button = this.game.add.button(500, 1350, 'monthSpritesheet',
@@ -199,7 +188,6 @@
           this.answerBox1$2Group.alpha = 0
           this.answerBox1$3Group.visible = false
           this.game.add.tween(this.answerBox1$2Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.monthAudio.play()
         },
         this, 2, 1, 0)
@@ -212,7 +200,6 @@
           this.answerBox1$3Group.visible = true
           this.answerBox1$3Group.alpha = 0
           this.game.add.tween(this.answerBox1$3Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.yearAudio.play()
         },
         this, 2, 1, 0)
@@ -223,6 +210,32 @@
       this.answers1Group.add(this.answer1$2Button)
       this.answers1Group.add(this.answer1$3Button)
       this.answers1Group.alpha = 0
+
+      var checkQuestion1Complete = function() {
+        if ( this.userAnswerDay !== null &&
+             this.userAnswerMonth !== null &&
+             this.userAnswerYear !== null ) {
+          var today = new Date()
+          if ((today.getYear() === this.userAnswerYear + 114) &&
+              (today.getMonth() === this.userAnswerMonth) &&
+              (today.getDate() === this.userAnswerDay)) {
+            if( this.timedEvent ) {
+              this.game.time.events.remove( this.timedEvent )
+            }
+            this.timedEvent =
+            this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+              if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+              this.goToQuestion2()
+            }, this);
+            /*
+          } else {
+            this.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
+              if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+            }, this);
+          */
+          }
+        }
+      }
 
       //
       // Answer box 1: NUMBERS
@@ -256,11 +269,15 @@
               // Check answer
               var today = new Date()
               if (today.getDate() !== this.userAnswerDay) {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 0.8, function() {
                   if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
                 }, this);
               }
-              this.checkQuestion1Complete()
+              checkQuestion1Complete.call(this)
             } else {
               currentSprite.x = currentSprite.originalX
               currentSprite.y = currentSprite.originalY
@@ -276,11 +293,11 @@
       }
 
       var setUpNumbersClicks = function(i, currentSprite, currentSound) {
-          currentSprite.input.useHandCursor = true
-          currentSprite.events.onInputDown.add(
-            function() {
-              currentSound.play()
-            }, this)
+        currentSprite.input.useHandCursor = true
+        currentSprite.events.onInputDown.add(
+          function() {
+            currentSound.play()
+          }, this)
       }
 
       var i;
@@ -348,11 +365,15 @@
               // Check answer
               var today = new Date()
               if (today.getMonth() !== this.userAnswerMonth) {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 0.8, function() {
                   if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
                 }, this);
               }
-              this.checkQuestion1Complete()
+              checkQuestion1Complete.call(this)
             } else {
               currentSprite.x = currentSprite.originalX
               currentSprite.y = currentSprite.originalY
@@ -423,11 +444,15 @@
               // Check answer
               var today = new Date()
               if (today.getYear() !== this.userAnswerYear + 114) {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
                   if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
                 }, this);
               }
-              this.checkQuestion1Complete()
+              checkQuestion1Complete.call(this)
             } else {
               currentSprite.x = currentSprite.originalX
               currentSprite.y = currentSprite.originalY
@@ -466,28 +491,7 @@
 
       this.answerBox1$3Group.alpha = 0
       this.answerBox1$3Group.visible = false
-    },
 
-    checkQuestion1Complete: function() {
-      if ( this.userAnswerDay !== null &&
-           this.userAnswerMonth !== null &&
-           this.userAnswerYear !== null ) {
-        var today = new Date()
-        if ((today.getYear() === this.userAnswerYear + 114) &&
-            (today.getMonth() === this.userAnswerMonth) &&
-            (today.getDate() === this.userAnswerDay)) {
-          this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-            if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
-            this.goToQuestion2()
-          }, this);
-          /*
-        } else {
-          this.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
-            if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
-          }, this);
-        */
-        }
-      }
     },
 
     goToQuestion2: function() {
@@ -520,6 +524,14 @@
       this.question2Sprite = this.game.add.sprite(this.game.world.centerX, 2000, 'question2')
       this.question2Sprite.anchor.set(0.5, 0.5)
       this.question2Sprite.alpha = 0
+      this.question2Sprite.inputEnabled = true;
+      this.question2Sprite.input.useHandCursor = true
+      this.question2Sprite.events.onInputDown.add(
+        function() {
+          this.question2Audio.play()
+        }
+        , this)
+      this.question2Audio = this.game.add.audio('question2Audio');
 
       // Answer
       this.answer2Button = this.game.add.button(
@@ -546,7 +558,7 @@
 
       this.daysOfWeekSprites = []
       this.daysOfWeekSounds = []
-      this.daysOfWeek.forEach(function(day, i) {
+      daysOfWeek.forEach(function(day, i) {
         this.daysOfWeekSprites[i] = this.game.add.sprite(daysOfWeekPositions[i].x, daysOfWeekPositions[i].y, day)
         this.daysOfWeekSprites[i].anchor.set(0.5, 0.5)
         this.daysOfWeekSprites[i].inputEnabled = true;
@@ -564,11 +576,19 @@
              var date = new Date()
              // Take into consideration that Sunday === 0
              if( date.getDay() === [1, 2, 3, 4, 5, 6, 0][answerId] ) {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
                  this.goToQuestion3()
                }, this);
              } else {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
                }, this);
@@ -606,6 +626,15 @@
       this.question3Sprite = this.game.add.sprite(this.game.world.centerX, 2400, 'question3')
       this.question3Sprite.anchor.set(0.5, 0.5)
       this.question3Sprite.alpha = 0
+      this.question3Sprite.inputEnabled = true;
+      this.question3Sprite.input.useHandCursor = true
+      this.question3Sprite.events.onInputDown.add(
+        function() {
+          this.question3Audio.play()
+        }
+        , this)
+      this.question3Audio = this.game.add.audio('question3Audio');
+
       this.answer3Button = this.game.add.button(
         this.game.world.centerX, 2600, 'text3_1',
         function() {
@@ -631,7 +660,7 @@
 
       this.daysOfWeekSprites = []
       this.daysOfWeekSounds = []
-      this.daysOfWeek.forEach(function(day, i) {
+      daysOfWeek.forEach(function(day, i) {
         this.daysOfWeekSprites[i] = this.game.add.sprite(daysOfWeekPositions[i].x, daysOfWeekPositions[i].y, day)
         this.daysOfWeekSprites[i].anchor.set(0.5, 0.5)
         this.daysOfWeekSprites[i].inputEnabled = true;
@@ -649,11 +678,19 @@
              var date = new Date()
              // Check yesterday, with a sunday-based begin of the week.
              if( date.getDay() === [2, 3, 4, 5, 6, 0, 1][answerId] ) {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
                  this.goToQuestion4()
                }, this);
              } else {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
                }, this);
@@ -691,6 +728,15 @@
       this.question4Sprite = this.game.add.sprite(this.game.world.centerX, 2700, 'question4')
       this.question4Sprite.anchor.set(0.5, 0.5)
       this.question4Sprite.alpha = 0
+      this.question4Sprite.inputEnabled = true;
+      this.question4Sprite.input.useHandCursor = true
+      this.question4Sprite.events.onInputDown.add(
+        function() {
+          this.question4Audio.play()
+        }
+        , this)
+      this.question4Audio = this.game.add.audio('question4Audio');
+
       this.answer4Button = this.game.add.button(
         this.game.world.centerX, 2900, 'text4_1',
         function() {
@@ -716,7 +762,7 @@
 
       this.daysOfWeekSprites = []
       this.daysOfWeekSounds = []
-      this.daysOfWeek.forEach(function(day, i) {
+      daysOfWeek.forEach(function(day, i) {
         this.daysOfWeekSprites[i] = this.game.add.sprite(daysOfWeekPositions[i].x, daysOfWeekPositions[i].y, day)
         this.daysOfWeekSprites[i].anchor.set(0.5, 0.5)
         this.daysOfWeekSprites[i].inputEnabled = true;
@@ -734,11 +780,19 @@
              var date = new Date()
              // Check tomorrow, with a sunday-based begin of the week (turns out to be equal as a result)
              if( date.getDay() === answerId ) {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
                  this.goToQuestion5()
                }, this);
              } else {
+                if( this.timedEvent ) {
+                  this.game.time.events.remove( this.timedEvent )
+                }
+                this.timedEvent =
                this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
                }, this);
@@ -775,6 +829,15 @@
       this.question5Sprite = this.game.add.sprite(this.game.world.centerX, 3280, 'question5')
       this.question5Sprite.anchor.set(0.5, 0.5)
       this.question5Sprite.alpha = 0
+      this.question5Sprite.inputEnabled = true;
+      this.question5Sprite.input.useHandCursor = true
+      this.question5Sprite.events.onInputDown.add(
+        function() {
+          this.question5Audio.play()
+        }
+        , this)
+      this.question5Audio = this.game.add.audio('question5Audio');
+
       this.answer5Button = this.game.add.button(
         this.game.world.centerX, 3680, 'text5_1',
         function() {
@@ -818,15 +881,23 @@
           this.weatherSprites, this.answer5Button, new Phaser.Point(0,0),
           function(answerId) {
             var correctAnswer = function() {
+              if( this.timedEvent ) {
+                this.game.time.events.remove( this.timedEvent )
+              }
+              this.timedEvent =
               this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
                 if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
                 this.goToQuestion6()
               }, this);
             }
             var wrongAnswer = function() {
-               this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                 if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
-               }, this);
+              if( this.timedEvent ) {
+                this.game.time.events.remove( this.timedEvent )
+              }
+              this.timedEvent =
+              this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+              }, this);
             }
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Data
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
@@ -898,6 +969,15 @@
       this.question6Sprite = this.game.add.sprite(this.game.world.centerX, 3780, 'question6')
       this.question6Sprite.anchor.set(0.5, 0.5)
       this.question6Sprite.alpha = 0
+      this.question6Sprite.inputEnabled = true;
+      this.question6Sprite.input.useHandCursor = true
+      this.question6Sprite.events.onInputDown.add(
+        function() {
+          this.question6Audio.play()
+        }
+        , this)
+      this.question6Audio = this.game.add.audio('question6Audio');
+
       this.answer6BoyButton = this.game.add.button(
         this.game.world.centerX - 150, 4150, 'boyAnswer',
         this.dressBoy,
@@ -955,6 +1035,8 @@
     },
 
     dressBoy: function() {
+      this.boySound = this.game.add.audio('boyAudio');
+      this.boySound.play()
       this.game.add.tween(this.question6Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
           .onComplete.add(function(){this.question6Sprite.visible = false}, this)
       this.game.add.tween(this.answer6GirlButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
@@ -963,9 +1045,7 @@
           .onComplete.add(function(){this.answer6BoyButton.visible = false}, this)
 
       this.boyBigButton = this.game.add.button(980, 4090, 'boy',
-          function() {
-            // TODO
-          }, this,
+          function() { this.boySound.play() }, this,
           0, 0, 0)
       this.boyBigButton.input.useHandCursor = true
       this.answerBox6Group.add( this.boyBigButton )
@@ -975,34 +1055,39 @@
       this.answerBox6Group.add( readyButton )
 
       var boyClothesConfig =
-        [{id: 'boots_boy', x: 1500, y: 4700, dual: false, offsetX: 128, offsetY: 560, layer: 5},
-         {id: 'rainboots_boy', x: 1500, y: 4550, dual: false, offsetX: 128, offsetY: 552, layer: 5},
-         {id: 'shoes_boy', x: 1500, y: 4400, dual: false, offsetX: 128, offsetY: 575, layer: 5},
-         {id: 'sandals_boy', x: 1500, y: 4280, dual: true, offsetX: 131, offsetY: 577, layer: 5},
-         {id: 'socks_boy', x: 1500, y: 4150, dual: false, offsetX: 128, offsetY: 570, layer: 1},
-         {id: 'scarf_boy', x: 1500, y: 3980, dual: false, offsetX: 128, offsetY: 260, layer: 40},
-         {id: 'gloves_boy', x: 1500, y: 3800, dual: false, offsetX: 128, offsetY: 342, layer: 21},
-         {id: 'woolcap_boy', x: 1200, y: 3800, dual: true, offsetX: 120, offsetY: 40, layer: 41},
-         {id: 'cap_boy', x: 700, y: 3800, dual: false, offsetX: 124, offsetY: 38, layer: 41},
-         {id: 'trousers_boy', x: 700, y: 4050, dual: false, offsetX: 128, offsetY: 459, layer: 10},
-         {id: 'shorts_boy', x: 700, y: 4350, dual: false, offsetX: 128, offsetY: 420, layer: 10},
-         {id: 'shirt_boy', x: 700, y: 4600, dual: true, offsetX: 127, offsetY: 273, layer: 15},
-         {id: 'tshirt_boy', x: 450, y: 3900, dual: false, offsetX: 127, offsetY: 273, layer: 15},
-         {id: 'jumper_boy', x: 450, y: 4180, dual: true, offsetX: 128, offsetY: 273, layer: 25},
-         {id: 'coat_boy', x: 450, y: 4500, dual: true, offsetX: 128, offsetY: 310, layer: 30}]
+        [{id: 'boots_boy', sound: 'bootsAudio', x: 1500, y: 4700, dual: false, offsetX: 128, offsetY: 560, layer: 5},
+         {id: 'rainboots_boy', sound: 'rainbootsAudio', x: 1500, y: 4550, dual: false, offsetX: 128, offsetY: 552, layer: 5},
+         {id: 'shoes_boy', sound: 'shoesAudio', x: 1500, y: 4400, dual: false, offsetX: 128, offsetY: 575, layer: 5},
+         {id: 'sandals_boy', sound: 'sandalsAudio', x: 1500, y: 4280, dual: true, offsetX: 131, offsetY: 577, layer: 5},
+         {id: 'socks_boy', sound: 'socksAudio', x: 1500, y: 4150, dual: false, offsetX: 128, offsetY: 570, layer: 1},
+         {id: 'scarf_boy', sound: 'scarfAudio', x: 1500, y: 3980, dual: false, offsetX: 128, offsetY: 260, layer: 40},
+         {id: 'gloves_boy', sound: 'glovesAudio', x: 1500, y: 3800, dual: false, offsetX: 128, offsetY: 342, layer: 21},
+         {id: 'woolcap_boy', sound: 'woolcapAudio', x: 1200, y: 3800, dual: true, offsetX: 120, offsetY: 40, layer: 41},
+         {id: 'cap_boy', sound: 'capAudio', x: 700, y: 3800, dual: false, offsetX: 124, offsetY: 38, layer: 41},
+         {id: 'trousers_boy', sound: 'trousersAudio', x: 700, y: 4050, dual: false, offsetX: 128, offsetY: 459, layer: 10},
+         {id: 'shorts_boy', sound: 'shortsAudio', x: 700, y: 4350, dual: false, offsetX: 128, offsetY: 420, layer: 10},
+         {id: 'shirt_boy', sound: 'shirtAudio', x: 700, y: 4600, dual: true, offsetX: 127, offsetY: 273, layer: 15},
+         {id: 'tshirt_boy', sound: 'tshirtAudio', x: 450, y: 3900, dual: false, offsetX: 127, offsetY: 273, layer: 15},
+         {id: 'jumper_boy', sound: 'jumperAudio', x: 450, y: 4180, dual: true, offsetX: 128, offsetY: 273, layer: 25},
+         {id: 'coat_boy', sound: 'coatAudio', x: 450, y: 4500, dual: true, offsetX: 128, offsetY: 310, layer: 30}]
       this.boyClothesSprites = []
+      this.boyClothesSounds = []
       boyClothesConfig = _.sortBy(boyClothesConfig, 'layer')
       boyClothesConfig.forEach( function(e, i) {
         var sprite = this.boyClothesSprites[i] = this.game.add.sprite(e.x, e.y, e.id)
         sprite.anchor.set(0.5,0.5)
         sprite.inputEnabled = true
         sprite.input.useHandCursor = true
+        sprite.events.onInputDown.add(
+          function() {
+            this.boyClothesSounds[i].play()
+          }
+          , this)
+        this.boyClothesSounds[i] = this.game.add.audio(e.sound);
         if( e.dual ) { sprite.frame = 1 }
         this.setUpMultiSpritesDragging(i, this.boyClothesSprites, 'boyClothes',
           e, this.boyBigButton,
-          function() {
-            // TODO: sound
-          })
+          function() { /* do nothing */ })
         this.answerBox6Group.add( sprite )
       }, this )
 
@@ -1010,6 +1095,8 @@
     },
 
     dressGirl: function() {
+      this.girlSound = this.game.add.audio('girlAudio');
+      this.girlSound.play()
       this.game.add.tween(this.question6Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
           .onComplete.add(function(){this.question6Sprite.visible = false}, this)
       this.game.add.tween(this.answer6GirlButton).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
@@ -1018,9 +1105,7 @@
           .onComplete.add(function(){this.answer6BoyButton.visible = false}, this)
 
       this.girlBigButton = this.game.add.button(980, 4090, 'girl',
-          function() {
-            // TODO
-          }, this,
+          function() { this.girlSound.play() }, this,
           0, 0, 0)
       this.girlBigButton.input.useHandCursor = true
       this.answerBox6Group.add( this.girlBigButton )
@@ -1030,36 +1115,40 @@
       this.answerBox6Group.add( readyButton )
 
       var girlClothesConfig =
-        [{id: 'boots_girl', x: 1500, y: 4700, dual: false, offsetX: 111, offsetY: 557, layer: 11},
-         {id: 'rainboots_girl', x: 1500, y: 4550, dual: false, offsetX: 111, offsetY: 544, layer: 11},
-         {id: 'shoes_girl', x: 1500, y: 4400, dual: true, offsetX: 112, offsetY: 567, layer: 11},
-         {id: 'sandals_girl', x: 1500, y: 4280, dual: true, offsetX: 114, offsetY: 566, layer: 11},
-         {id: 'socks_girl', x: 1500, y: 4150, dual: false, offsetX: 111, offsetY: 558, layer: 1},
-         {id: 'scarf_girl', x: 1500, y: 3980, dual: false, offsetX: 110, offsetY: 246, layer: 40},
-         {id: 'gloves_girl', x: 1500, y: 3800, dual: false, offsetX: 110, offsetY: 332, layer: 21},
-         {id: 'woolcap_girl', x: 1200, y: 3800, dual: true, offsetX: 108, offsetY: 60, layer: 41},
-         {id: 'trousers_girl', x: 700, y: 3850, dual: false, offsetX: 111, offsetY: 442, layer: 10},
-         {id: 'shorts_girl', x: 900, y: 3800, dual: false, offsetX: 112, offsetY: 383, layer: 10},
-         {id: 'skirt_girl', x: 700, y: 4120, dual: false, offsetX: 113, offsetY: 380, layer: 10},
-         {id: 'shirt_girl', x: 700, y: 4350, dual: true, offsetX: 112, offsetY: 262, layer: 15},
-         {id: 'tshirt_girl', x: 450, y: 3850, dual: false, offsetX: 110, offsetY: 264, layer: 15},
-         {id: 'jumper_girl', x: 700, y: 4620, dual: true, offsetX: 110, offsetY: 268, layer: 25},
-         {id: 'dress_girl', x: 450, y: 4180, dual: true, offsetX: 116, offsetY: 355, layer: 25},
-         {id: 'coat_girl', x: 450, y: 4550, dual: true, offsetX: 114, offsetY: 300, layer: 30}]
+        [{id: 'boots_girl', sound: 'bootsAudio', x: 1500, y: 4700, dual: false, offsetX: 111, offsetY: 557, layer: 11},
+         {id: 'rainboots_girl', sound: 'rainbootsAudio', x: 1500, y: 4550, dual: false, offsetX: 111, offsetY: 544, layer: 11},
+         {id: 'shoes_girl', sound: 'shoesAudio', x: 1500, y: 4400, dual: true, offsetX: 112, offsetY: 567, layer: 11},
+         {id: 'sandals_girl', sound: 'sandalsAudio', x: 1500, y: 4280, dual: true, offsetX: 114, offsetY: 566, layer: 11},
+         {id: 'socks_girl', sound: 'socksAudio', x: 1500, y: 4150, dual: false, offsetX: 111, offsetY: 558, layer: 1},
+         {id: 'scarf_girl', sound: 'scarfAudio', x: 1500, y: 3980, dual: false, offsetX: 110, offsetY: 246, layer: 40},
+         {id: 'gloves_girl', sound: 'glovesAudio', x: 1500, y: 3800, dual: false, offsetX: 110, offsetY: 332, layer: 21},
+         {id: 'woolcap_girl', sound: 'woolcapAudio', x: 1200, y: 3800, dual: true, offsetX: 108, offsetY: 60, layer: 41},
+         {id: 'trousers_girl', sound: 'trousersAudio', x: 700, y: 3850, dual: false, offsetX: 111, offsetY: 442, layer: 10},
+         {id: 'shorts_girl', sound: 'shortsAudio', x: 900, y: 3800, dual: false, offsetX: 112, offsetY: 383, layer: 10},
+         {id: 'skirt_girl', sound: 'skirtAudio', x: 700, y: 4120, dual: false, offsetX: 113, offsetY: 380, layer: 10},
+         {id: 'shirt_girl', sound: 'shirtAudio', x: 700, y: 4350, dual: true, offsetX: 112, offsetY: 262, layer: 15},
+         {id: 'tshirt_girl', sound: 'tshirtAudio', x: 450, y: 3850, dual: false, offsetX: 110, offsetY: 264, layer: 15},
+         {id: 'jumper_girl', sound: 'jumperAudio', x: 700, y: 4620, dual: true, offsetX: 110, offsetY: 268, layer: 25},
+         {id: 'dress_girl', sound: 'dressAudio', x: 450, y: 4180, dual: true, offsetX: 116, offsetY: 355, layer: 25},
+         {id: 'coat_girl', sound: 'coatAudio', x: 450, y: 4550, dual: true, offsetX: 114, offsetY: 300, layer: 30}]
       this.girlClothesSprites = []
+      this.girlClothesSounds = []
       girlClothesConfig = _.sortBy(girlClothesConfig, 'layer')
       girlClothesConfig.forEach( function(e, i) {
         var sprite = this.girlClothesSprites[i] = this.game.add.sprite(e.x, e.y, e.id)
-        //var sprite = this.girlClothesSprites[i] = this.game.add.sprite(this.girlBigButton.x + e.offsetX, this.girlBigButton.y + e.offsetY, e.id)
         sprite.anchor.set(0.5,0.5)
         sprite.inputEnabled = true
         sprite.input.useHandCursor = true
+        sprite.events.onInputDown.add(
+          function() {
+            this.girlClothesSounds[i].play()
+          }
+          , this)
+        this.girlClothesSounds[i] = this.game.add.audio(e.sound);
         if( e.dual ) { sprite.frame = 1 }
         this.setUpMultiSpritesDragging(i, this.girlClothesSprites, 'girlClothes',
           e, this.girlBigButton,
-          function() {
-            // TODO: sound
-          })
+          function() { /* do nothing */ })
         this.answerBox6Group.add( sprite )
       }, this )
 
@@ -1083,6 +1172,15 @@
       this.question7Sprite = this.game.add.sprite(this.game.world.centerX, 4330, 'question7')
       this.question7Sprite.anchor.set(0.5, 0.5)
       this.question7Sprite.alpha = 0
+      this.question7Sprite.inputEnabled = true;
+      this.question7Sprite.input.useHandCursor = true
+      this.question7Sprite.events.onInputDown.add(
+        function() {
+          this.question7Audio.play()
+        }
+        , this)
+      this.question7Audio = this.game.add.audio('question7Audio');
+
       this.answer7Button = this.game.add.button(
         this.game.world.centerX, 4730, 'text7_1',
         function() {
@@ -1090,7 +1188,7 @@
           this.answerBox7Group.visible = true
           this.game.add.tween(this.answerBox7Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
           this.game.add.tween(this.question7Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
-          .onComplete.add(function(){this.question7Sprite.visible = false}, this)
+              .onComplete.add(function(){this.question7Sprite.visible = false}, this)
           // TODO: sound
         },
         this, 2, 1, 0)
@@ -1106,14 +1204,15 @@
       this.answerBox7Group.alpha = 0
       this.answerBox7Group.visible = false
 
-      this.answerSprites7 = []
       var spritesConfig = [
-        {id: 'holidays', x: 300, y: 4450},
-        {id: 'school', x: 300, y: 4800},
-        {id: 'home', x: 300, y: 5100},
-        {id: 'christmas', x: 1600, y: 4550},
-        {id: 'carnival', x: 1600, y: 5000}
+        {id: 'holidays', sound: 'holidaysAudio', x: 300, y: 4450},
+        {id: 'school', x: 300, sound: 'schoolAudio', y: 4800},
+        {id: 'home', x: 300, sound: 'homeAudio', y: 5100},
+        {id: 'christmas', sound: 'christmasAudio', x: 1600, y: 4550},
+        {id: 'carnival', sound: 'carnivalAudio', x: 1600, y: 5000}
       ]
+      this.answerSprites7 = []
+      this.answerSounds7 = []
       spritesConfig.forEach( function(e, i) {
         var elem = this.answerSprites7[i] = this.game.add.sprite( e.x, e.y, e.id )
         elem.anchor.set(0.5,0.5)
@@ -1122,12 +1221,17 @@
         this.answerBox7Group.add(elem)
         elem.events.onInputDown.add(
           function() {
-            // TODO
+            this.answerSounds7[i].play()
           }, this)
+        this.answerSounds7[i] = this.game.add.audio( e.sound )
         this.setUpSpritesDragging.call(
           this, i, this.answerSprites7[i], 'whatToDo',
           this.answerSprites7, this.answer7Button, new Phaser.Point(0,0),
           function(/* answerId */) {
+            if( this.timedEvent ) {
+              this.game.time.events.remove( this.timedEvent )
+            }
+            this.timedEvent =
             this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
               if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
               this.goToQuestion8()
@@ -1162,6 +1266,15 @@
       this.question8Sprite = this.game.add.sprite(this.game.world.centerX, 4670, 'question8')
       this.question8Sprite.anchor.set(0.5, 0.5)
       this.question8Sprite.alpha = 0
+      this.question8Sprite.inputEnabled = true;
+      this.question8Sprite.input.useHandCursor = true
+      this.question8Sprite.events.onInputDown.add(
+        function() {
+          this.question8Audio.play()
+        }
+        , this)
+      this.question8Audio = this.game.add.audio('question8Audio');
+
       this.answer8Button = this.game.add.button(
         this.game.world.centerX, 5100, 'text8_1',
         function() {
@@ -1185,11 +1298,12 @@
       this.answerBox8Group.visible = false
 
       this.answerSprites8 = []
+      this.answerSounds8 = []
       var spritesConfig = [
-        {id: 'spring', x: 350, y: 4850},
-        {id: 'summer', x: 350, y: 5350},
-        {id: 'autumn', x: 1580, y: 4850},
-        {id: 'winter', x: 1580, y: 5350}
+        {id: 'spring', sound: 'springAudio', x: 350, y: 4850},
+        {id: 'summer', sound: 'summerAudio', x: 350, y: 5350},
+        {id: 'autumn', sound: 'autumnAudio', x: 1580, y: 4850},
+        {id: 'winter', sound: 'winterAudio', x: 1580, y: 5350}
       ]
       var getCurrentSeason = function() {
         var date = new Date()
@@ -1216,20 +1330,27 @@
         this.answerBox8Group.add(elem)
         elem.events.onInputDown.add(
           function() {
-            // TODO
+            this.answerSounds8[i].play()
           }, this)
+        this.answerSounds8[i] = this.game.add.audio( e.sound )
         this.setUpSpritesDragging.call(
           this, i, this.answerSprites8[i], 'season',
           this.answerSprites8, this.answer8Button, new Phaser.Point(0,0),
           function( answerId ) {
-            console.log(spritesConfig[answerId].id)
-            console.log(getCurrentSeason())
             if ( spritesConfig[answerId].id === getCurrentSeason() ) {
+              if( this.timedEvent ) {
+                this.game.time.events.remove( this.timedEvent )
+              }
+              this.timedEvent =
               this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
                 if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
                 this.goToEnd()
               }, this);
             } else {
+              if( this.timedEvent ) {
+                this.game.time.events.remove( this.timedEvent )
+              }
+              this.timedEvent =
               this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
                 if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
               }, this);
