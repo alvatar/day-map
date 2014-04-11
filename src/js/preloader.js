@@ -225,7 +225,13 @@
       this.load.image('skirt_girl', 'assets/skirt_girl.png')
 
       this.load.image('question7', 'assets/text7.png')
-      this.load.spritesheet('text7_1', 'assets/text7_1.png', 700, 541)
+      this.load.spritesheet('text7_1', 'assets/text7_1.png', 600, 468)
+      this.load.image('answer_box_7', 'assets/answer_box_7.png')
+      this.load.image('carnival', 'assets/carnival.png')
+      this.load.image('holidays', 'assets/holidays.png')
+      this.load.image('home', 'assets/home.png')
+      this.load.image('school', 'assets/school.png')
+      this.load.image('christmas', 'assets/christmas.png')
 
       this.load.image('question8', 'assets/text8.png')
       this.load.spritesheet('text8_1', 'assets/text8_1.png', 500, 570)

@@ -105,37 +105,8 @@
       this.createSection1()
 
         //XXX
-      this.createSection5()
-      this.goToQuestion6()
-      this.dressGirl()
-
-
-
-      /*
-      // Questions: GROUP 7
-      this.question7Sprite = this.game.add.sprite(this.game.world.centerX, 4450, 'text7')
-      this.question7Sprite.anchor.set(0.5, 0.5)
-      this.question7Sprite.alpha = 0
-      this.answer7$1Button = this.game.add.button(
-        this.game.world.centerX, 4850, 'text7_1',
-        function() {
-        },
-        this, 2, 1, 0)
-      this.answer7$1Button.anchor.set(0.5, 0.5)
-      this.answer7$1Button.alpha = 0
-
-      // Questions: GROUP 8
-      this.text8Sprite = this.game.add.sprite(this.game.world.centerX, 5000, 'text8')
-      this.text8Sprite.anchor.set(0.5, 0.5)
-      this.text8Sprite.alpha = 0
-      this.answer8$1Button = this.game.add.button(
-        this.game.world.centerX, 5200, 'text8_1',
-        function() {
-        },
-        this, 2, 1, 0)
-      this.answer8$1Button.anchor.set(0.5, 0.5)
-      this.answer8$1Button.alpha = 0
-      */
+      this.createSection6()
+      this.goToQuestion7()
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
@@ -814,10 +785,8 @@
 
       this.answerBox5left = this.game.add.sprite(335, 3800, 'answer_box_5')
       this.answerBox5left.anchor.set(0.5, 0.5)
-      //this.answerBox5left.alpha = 0.8
       this.answerBox5right = this.game.add.sprite(1585, 3800, 'answer_box_5')
       this.answerBox5right.anchor.set(0.5, 0.5)
-      //this.answerBox5right.alpha = 0.8
 
       this.answerBox5Group = this.game.add.group()
       this.answerBox5Group.add(this.answerBox5left)
@@ -1098,11 +1067,11 @@
     },
 
     goToQuestion7: function() {
+      this.createSection7()
       this.game.add.tween(this.answerBox6Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
-      /*
+          .onComplete.add(function(){this.answerBox6Group.visible = false}, this)
       this.game.add.tween(this.question7Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
       this.game.add.tween(this.answer7Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-      */
       this.game.add.tween(this.game.camera).to( { y: 4150 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
 
@@ -1111,6 +1080,60 @@
      *************************************************************************/
 
     createSection7: function() {
+      this.question7Sprite = this.game.add.sprite(this.game.world.centerX, 4330, 'question7')
+      this.question7Sprite.anchor.set(0.5, 0.5)
+      this.question7Sprite.alpha = 0
+      this.answer7Button = this.game.add.button(
+        this.game.world.centerX, 4730, 'text7_1',
+        function() {
+          this.answer7Button.setFrames(0,0,0)
+          this.answerBox7Group.visible = true
+          this.game.add.tween(this.answerBox7Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+          this.game.add.tween(this.question7Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+          .onComplete.add(function(){this.question7Sprite.visible = false}, this)
+          // TODO: sound
+        },
+        this, 2, 1, 0)
+      this.answer7Button.anchor.set(0.5, 0.5)
+      this.answer7Button.alpha = 0
+      this.answer7Button.input.useHandCursor = true
+
+      this.answerBox7left = this.game.add.sprite( 30, 4200, 'answer_box_7' )
+      this.answerBox7right = this.game.add.sprite( 1305, 4200, 'answer_box_7' )
+      this.answerBox7Group = this.game.add.group()
+      this.answerBox7Group.add( this.answerBox7left )
+      this.answerBox7Group.add( this.answerBox7right )
+      this.answerBox7Group.alpha = 0
+      this.answerBox7Group.visible = false
+
+      this.answerSprites7 = []
+      var spritesConfig = [
+        {id: 'holidays', x: 300, y: 4450},
+        {id: 'school', x: 300, y: 4800},
+        {id: 'home', x: 300, y: 5100},
+        {id: 'christmas', x: 1600, y: 4550},
+        {id: 'carnival', x: 1600, y: 5000}
+      ]
+      spritesConfig.forEach( function(e, i) {
+        var elem = this.answerSprites7[i] = this.game.add.sprite( e.x, e.y, e.id )
+        elem.anchor.set(0.5,0.5)
+        elem.inputEnabled = true
+        elem.input.useHandCursor = true
+        this.answerBox7Group.add(elem)
+        elem.events.onInputDown.add(
+          function() {
+            // TODO
+          }, this)
+        this.setUpSpritesDragging.call(
+          this, i, this.answerSprites7[i], 'whatToDo',
+          this.answerSprites7, this.answer7Button, new Phaser.Point(0,0),
+          function(/* answerId */) {
+            this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+              if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+              this.goToQuestion8()
+            }, this);
+          })
+      }, this)
     },
 
     goToQuestion8: function() {
@@ -1121,6 +1144,19 @@
      *************************************************************************/
 
     createSection8: function() {
+      /*
+      // Questions: GROUP 8
+      this.text8Sprite = this.game.add.sprite(this.game.world.centerX, 5000, 'text8')
+      this.text8Sprite.anchor.set(0.5, 0.5)
+      this.text8Sprite.alpha = 0
+      this.answer8$1Button = this.game.add.button(
+        this.game.world.centerX, 5200, 'text8_1',
+        function() {
+        },
+        this, 2, 1, 0)
+      this.answer8$1Button.anchor.set(0.5, 0.5)
+      this.answer8$1Button.alpha = 0
+      */
     },
 
     update: function () {
