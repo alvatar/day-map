@@ -33,6 +33,7 @@
             'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude,
             function(response) {
               currentWeatherConditions = response
+              console.log(currentWeatherConditions)
             }, 'jsonp')
           jqxhr.fail(function() {
             console.log('failed to perform weather geolocation')
@@ -105,8 +106,8 @@
       this.createSection1()
 
         //XXX
-      this.createSection6()
-      this.goToQuestion7()
+      //this.createSection7()
+      //this.goToQuestion8()
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
@@ -149,7 +150,7 @@
             currentSprite.anchor = currentSprite.originalAnchor
             if ( i === this.userAnswers[targetAnswer] ) {
               this.userAnswers[targetAnswer] = null
-              targetButton.setFrames(2,1,0)
+              //targetButton.setFrames(2,1,0)
               if ( this.userAnswerSprites[targetAnswer] ) {
                 this.userAnswerSprites[targetAnswer].destroy()
               }
@@ -830,7 +831,6 @@
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Data
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
             if (currentWeatherConditions) {
-              console.log(currentWeatherConditions)
               if (currentWeatherConditions.clouds.all < 20) {
                 if(answerId === 0) { correctAnswer.call(this) } else { wrongAnswer.call(this) }
               } else if (currentWeatherConditions.clouds.all < 40) {
@@ -1088,8 +1088,8 @@
         function() {
           this.answer7Button.setFrames(0,0,0)
           this.answerBox7Group.visible = true
-          this.game.add.tween(this.answerBox7Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-          this.game.add.tween(this.question7Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+          this.game.add.tween(this.answerBox7Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          this.game.add.tween(this.question7Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
           .onComplete.add(function(){this.question7Sprite.visible = false}, this)
           // TODO: sound
         },
@@ -1137,6 +1137,20 @@
     },
 
     goToQuestion8: function() {
+      this.createSection8()
+      // Fade outs
+      this.game.add.tween(this.answerBox7Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.answerBox7Group.visible = false}, this)
+      this.game.add.tween(this.answer7Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer7Button.visible = false}, this)
+      if( 'whatToDo' in this.userAnswerSprites ) {
+        this.game.add.tween(this.userAnswerSprites['whatToDo']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+            .onComplete.add(function(){this.userAnswerSprites['whatToDo'].visible = false}, this)
+      }
+      // Fade ins
+      this.game.add.tween(this.question8Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answer8Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      this.game.add.tween(this.game.camera).to( { y: 4650 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
 
     /**************************************************************************
@@ -1144,19 +1158,96 @@
      *************************************************************************/
 
     createSection8: function() {
-      /*
       // Questions: GROUP 8
-      this.text8Sprite = this.game.add.sprite(this.game.world.centerX, 5000, 'text8')
-      this.text8Sprite.anchor.set(0.5, 0.5)
-      this.text8Sprite.alpha = 0
-      this.answer8$1Button = this.game.add.button(
-        this.game.world.centerX, 5200, 'text8_1',
+      this.question8Sprite = this.game.add.sprite(this.game.world.centerX, 4670, 'question8')
+      this.question8Sprite.anchor.set(0.5, 0.5)
+      this.question8Sprite.alpha = 0
+      this.answer8Button = this.game.add.button(
+        this.game.world.centerX, 5100, 'text8_1',
         function() {
+          this.answer8Button.setFrames(0,0,0)
+          this.answerBox8Group.visible = true
+          this.game.add.tween(this.answerBox8Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          this.game.add.tween(this.question8Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+              .onComplete.add(function(){this.question8Sprite.visible = false}, this)
+          // TODO: sound
         },
         this, 2, 1, 0)
-      this.answer8$1Button.anchor.set(0.5, 0.5)
-      this.answer8$1Button.alpha = 0
-      */
+      this.answer8Button.anchor.set(0.5, 0.5)
+      this.answer8Button.alpha = 0
+
+      this.answerBox8left = this.game.add.sprite( 60, 4550, 'answer_box_8' )
+      this.answerBox8right = this.game.add.sprite( 1285, 4550, 'answer_box_8' )
+      this.answerBox8Group = this.game.add.group()
+      this.answerBox8Group.add( this.answerBox8left )
+      this.answerBox8Group.add( this.answerBox8right )
+      this.answerBox8Group.alpha = 0
+      this.answerBox8Group.visible = false
+
+      this.answerSprites8 = []
+      var spritesConfig = [
+        {id: 'spring', x: 350, y: 4850},
+        {id: 'summer', x: 350, y: 5350},
+        {id: 'autumn', x: 1580, y: 4850},
+        {id: 'winter', x: 1580, y: 5350}
+      ]
+      var getCurrentSeason = function() {
+        var date = new Date()
+        switch(date.getMonth()) {
+          case 0: case 1:
+            return 'winter'
+          case 2: // March
+            if(date.getDate() < 20) { return 'winter' } else { return 'spring' } break
+          case 3: case 4: case 5: // June
+            if(date.getDate() < 21) { return 'spring' } else { return 'summer' } break
+          case 6: case 7: case 8: // September
+            if(date.getDate() < 22) { return 'summer' } else { return 'autumn' } break
+          case 9: case 10: case 11: // December
+            if(date.getDate() < 21) { return 'autumn' } else { return 'winter' } break
+          default:
+            console.log('error in getCurrentSeason')
+        }
+      }
+      spritesConfig.forEach( function(e, i) {
+        var elem = this.answerSprites8[i] = this.game.add.sprite( e.x, e.y, e.id )
+        elem.anchor.set(0.5,0.5)
+        elem.inputEnabled = true
+        elem.input.useHandCursor = true
+        this.answerBox8Group.add(elem)
+        elem.events.onInputDown.add(
+          function() {
+            // TODO
+          }, this)
+        this.setUpSpritesDragging.call(
+          this, i, this.answerSprites8[i], 'season',
+          this.answerSprites8, this.answer8Button, new Phaser.Point(0,0),
+          function( answerId ) {
+            console.log(spritesConfig[answerId].id)
+            console.log(getCurrentSeason())
+            if ( spritesConfig[answerId].id === getCurrentSeason() ) {
+              this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                this.goToEnd()
+              }, this);
+            } else {
+              this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+              }, this);
+            }
+          })
+      }, this)
+    },
+
+    goToEnd : function() {
+      // Fade outs
+      this.game.add.tween(this.answerBox8Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          .onComplete.add(function(){this.answerBox8Group.visible = false}, this)
+      this.game.add.tween(this.answer8Button).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+          .onComplete.add(function(){this.answer8Button.visible = false}, this)
+      if( 'season' in this.userAnswerSprites ) {
+        this.game.add.tween(this.userAnswerSprites['season']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
+            .onComplete.add(function(){this.userAnswerSprites['season'].visible = false}, this)
+      }
     },
 
     update: function () {

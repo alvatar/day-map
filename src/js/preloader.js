@@ -234,7 +234,12 @@
       this.load.image('christmas', 'assets/christmas.png')
 
       this.load.image('question8', 'assets/text8.png')
-      this.load.spritesheet('text8_1', 'assets/text8_1.png', 500, 570)
+      this.load.spritesheet('text8_1', 'assets/text8_1.png', 460, 571)
+      this.load.image('answer_box_8', 'assets/answer_box_8.png')
+      this.load.image('spring', 'assets/spring.png')
+      this.load.image('summer', 'assets/summer.png')
+      this.load.image('autumn', 'assets/autumn.png')
+      this.load.image('winter', 'assets/winter.png')
 
       this.load.onLoadComplete.addOnce( function(){ this.game.state.start('game') }, this )
       this.load.setPreloadSprite(this.asset)
