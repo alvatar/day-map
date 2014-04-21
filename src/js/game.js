@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  
+
   var currentWeatherConditions = null
   var daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 
@@ -12,6 +12,8 @@
   }
 
   function Game() {
+    this.timedEvent = null
+
     this.userAnswerDay = null
     this.userAnswerDaySprite = null
     this.userAnswerMonth = null
@@ -27,26 +29,53 @@
   Game.prototype = {
 
     create: function () {
+
+      // This breaks under Android
+      /*
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition( function(position) {
-          var jqxhr = $.get(
-            'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude,
-            function(response) {
-              currentWeatherConditions = response
-              console.log(currentWeatherConditions)
-            }, 'jsonp')
-          jqxhr.fail(function() {
-            console.log('failed to perform weather geolocation')
-          })
+          if (typeof $ !== 'undefined') { // This would be in case we use jQuery
+            var jqxhr = $.get(
+              'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude,
+              function(response) {
+                currentWeatherConditions = response
+                console.log(currentWeatherConditions)
+              }, 'jsonp')
+            jqxhr.fail(function() {
+              console.log('failed to perform weather geolocation')
+            })
+          } else {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                // xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                  currentWeatherConditions = JSON.parse( xmlhttp.responseText )
+                  console.log(currentWeatherConditions)
+                }
+            }
+            xmlhttp.open('GET', 'http://api.openweathermap.org/data/2.5/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude, true);
+            xmlhttp.send();
+          }
         }, function(error){
           console.log(error)
-        }) } else {
+        })
+      } else {
         console.log('Geolocation is not supported')
       }
+      */
 
       // Configuration
-      this.game.world.setBounds(0, 0, 1920, 5760)
-      this.game.add.sprite(0, 0, 'background')
+      this.game.world.setBounds(0, 0, 1920, 7000)
+      this.backgroundSprite = this.game.add.sprite(0, 0, 'background')
+
+      var backgroundScale = window['daymap'].Globals.size.width / 1536.0
+      this.backgroundSprite.scale.setTo( backgroundScale, backgroundScale )
 
       // Header title
       var headerCloudsSprite = this.game.add.sprite(this.game.world.centerX, 500, 'headerClouds')
@@ -95,10 +124,6 @@
 
       // Questions: GROUP 1
       this.createSection1()
-
-        //XXX
-      this.createSection7()
-      this.goToQuestion8()
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
@@ -934,7 +959,7 @@
                 }
               }
             } else {
-              correctAnswer().call(this)
+              correctAnswer.call(this)
             }
           })
       }, this)
@@ -1312,11 +1337,17 @@
             return 'winter'
           case 2: // March
             if(date.getDate() < 20) { return 'winter' } else { return 'spring' } break
-          case 3: case 4: case 5: // June
+          case 3: case 4:
+            return 'spring'
+          case 5: // June
             if(date.getDate() < 21) { return 'spring' } else { return 'summer' } break
-          case 6: case 7: case 8: // September
+          case 6:
+            return 'summer'
+          case 7: case 8: // September
             if(date.getDate() < 22) { return 'summer' } else { return 'autumn' } break
-          case 9: case 10: case 11: // December
+          case 9: case 10:
+            return 'autumn'
+          case 11: // December
             if(date.getDate() < 21) { return 'autumn' } else { return 'winter' } break
           default:
             console.log('error in getCurrentSeason')
