@@ -45,8 +45,7 @@
         this.game.scale.pageAlignHorizontally = true
         this.game.scale.pageAlignVertically = true;
         //this.game.scale.fullscreenScaleMode = Phaser.ScaleManager.SHOW_ALL
-        //this.game.scale.setShowAll();
-        this.game.scale.setShowAll();
+        this.game.scale.setExactFit();
         this.game.scale.setScreenSize(true)
 
         // Work around?

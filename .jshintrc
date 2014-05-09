@@ -23,6 +23,7 @@
   "globals": {
     "Phaser": false,
     "_": false,
-    "$": false
+    "$": false,
+    "CocoonJS": false
   }
 }

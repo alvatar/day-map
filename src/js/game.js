@@ -84,6 +84,9 @@
       headerCloudsSprite.input.useHandCursor = true
       headerCloudsSprite.events.onInputDown.add(
         function() {
+          // Questions: GROUP 1
+          this.createSection1()
+
           // Fade ins
           this.game.add.tween(this.question1Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
           this.game.add.tween(this.answers1Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
@@ -121,9 +124,6 @@
       this.goodJobAudio = this.game.add.audio('goodJobSound');
       this.noNoAudio = this.game.add.audio('noNoSound');
       this.thinkAboutItAudio = this.game.add.audio('thinkAboutItSound');
-
-      // Questions: GROUP 1
-      this.createSection1()
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
     },
@@ -191,6 +191,7 @@
         }
         , this)
       this.question1Audio = this.game.add.audio('question1Audio');
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){this.question1Audio.play()}, this);
 
       // Answers
       this.answer1$1Button = this.game.add.button(
@@ -557,6 +558,7 @@
         }
         , this)
       this.question2Audio = this.game.add.audio('question2Audio');
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){this.question2Audio.play()}, this);
 
       // Answer
       this.answer2Button = this.game.add.button(
@@ -659,6 +661,7 @@
         }
         , this)
       this.question3Audio = this.game.add.audio('question3Audio');
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){this.question3Audio.play()}, this);
 
       this.answer3Button = this.game.add.button(
         this.game.world.centerX, 2600, 'text3_1',
@@ -761,6 +764,7 @@
         }
         , this)
       this.question4Audio = this.game.add.audio('question4Audio');
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){this.question4Audio.play()}, this);
 
       this.answer4Button = this.game.add.button(
         this.game.world.centerX, 2900, 'text4_1',
@@ -862,6 +866,7 @@
         }
         , this)
       this.question5Audio = this.game.add.audio('question5Audio');
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){this.question5Audio.play()}, this);
 
       this.answer5Button = this.game.add.button(
         this.game.world.centerX, 3680, 'text5_1',
@@ -991,7 +996,7 @@
      *************************************************************************/
 
     createSection6: function() {
-      this.question6Sprite = this.game.add.sprite(this.game.world.centerX, 3780, 'question6')
+      this.question6Sprite = this.game.add.sprite(this.game.world.centerX, 3740, 'question6')
       this.question6Sprite.anchor.set(0.5, 0.5)
       this.question6Sprite.alpha = 0
       this.question6Sprite.inputEnabled = true;
@@ -1002,6 +1007,7 @@
         }
         , this)
       this.question6Audio = this.game.add.audio('question6Audio');
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){this.question6Audio.play()}, this);
 
       this.answer6BoyButton = this.game.add.button(
         this.game.world.centerX - 150, 4150, 'boyAnswer',
@@ -1016,8 +1022,9 @@
       this.answer6GirlButton.anchor.set(0.5, 0.5)
       this.answer6GirlButton.alpha = 0
 
-      this.answerBox6 = this.game.add.sprite(this.game.world.centerX, 3630, 'answer_box_6')
+      this.answerBox6 = this.game.add.sprite(this.game.world.centerX, 3660, 'answer_box_6')
       this.answerBox6.anchor.set(0.5,0)
+      this.answerBox6.scale.set(0.92,0.92)
       this.answerBox6Group = this.game.add.group()
       this.answerBox6Group.add( this.answerBox6 )
       this.answerBox6Group.alpha = 0
@@ -1074,20 +1081,24 @@
           0, 0, 0)
       this.boyBigButton.input.useHandCursor = true
       this.answerBox6Group.add( this.boyBigButton )
-      var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick', this.goToQuestion7, this, 2, 1, 0)
+      var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick',
+          function() {
+            if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+            this.goToQuestion7()
+          }, this, 2, 1, 0)
       readyButton.anchor.set(0.5, 0.5)
       readyButton.input.useHandCursor = true
       this.answerBox6Group.add( readyButton )
 
       var boyClothesConfig =
-        [{id: 'boots_boy', sound: 'bootsAudio', x: 1500, y: 4700, dual: false, offsetX: 128, offsetY: 560, layer: 5},
-         {id: 'rainboots_boy', sound: 'rainbootsAudio', x: 1500, y: 4550, dual: false, offsetX: 128, offsetY: 552, layer: 5},
-         {id: 'shoes_boy', sound: 'shoesAudio', x: 1500, y: 4400, dual: false, offsetX: 128, offsetY: 575, layer: 5},
-         {id: 'sandals_boy', sound: 'sandalsAudio', x: 1500, y: 4280, dual: true, offsetX: 131, offsetY: 577, layer: 5},
-         {id: 'socks_boy', sound: 'socksAudio', x: 1500, y: 4150, dual: false, offsetX: 128, offsetY: 570, layer: 1},
-         {id: 'scarf_boy', sound: 'scarfAudio', x: 1500, y: 3980, dual: false, offsetX: 128, offsetY: 260, layer: 40},
+        [{id: 'boots_boy', sound: 'bootsAudio', x: 1500, y: 4660, dual: false, offsetX: 128, offsetY: 560, layer: 5},
+         {id: 'rainboots_boy', sound: 'rainbootsAudio', x: 1500, y: 4510, dual: false, offsetX: 128, offsetY: 552, layer: 5},
+         {id: 'shoes_boy', sound: 'shoesAudio', x: 1500, y: 4360, dual: false, offsetX: 128, offsetY: 575, layer: 5},
+         {id: 'sandals_boy', sound: 'sandalsAudio', x: 1500, y: 4240, dual: true, offsetX: 131, offsetY: 577, layer: 5},
+         {id: 'socks_boy', sound: 'socksAudio', x: 1500, y: 4110, dual: false, offsetX: 128, offsetY: 570, layer: 1},
+         {id: 'scarf_boy', sound: 'scarfAudio', x: 1500, y: 3940, dual: false, offsetX: 128, offsetY: 260, layer: 40},
          {id: 'gloves_boy', sound: 'glovesAudio', x: 1500, y: 3800, dual: false, offsetX: 128, offsetY: 342, layer: 21},
-         {id: 'woolcap_boy', sound: 'woolcapAudio', x: 1200, y: 3800, dual: true, offsetX: 120, offsetY: 40, layer: 41},
+         {id: 'woolcap_boy', sound: 'woolcapAudio', x: 1200, y: 3820, dual: true, offsetX: 120, offsetY: 40, layer: 41},
          {id: 'cap_boy', sound: 'capAudio', x: 700, y: 3800, dual: false, offsetX: 124, offsetY: 38, layer: 41},
          {id: 'trousers_boy', sound: 'trousersAudio', x: 700, y: 4050, dual: false, offsetX: 128, offsetY: 459, layer: 10},
          {id: 'shorts_boy', sound: 'shortsAudio', x: 700, y: 4350, dual: false, offsetX: 128, offsetY: 420, layer: 10},
@@ -1134,28 +1145,33 @@
           0, 0, 0)
       this.girlBigButton.input.useHandCursor = true
       this.answerBox6Group.add( this.girlBigButton )
-      var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick', this.goToQuestion7, this, 2, 1, 0)
+      var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick',
+          function(){
+            if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+            this.goToQuestion7()
+          },
+      this, 2, 1, 0)
       readyButton.anchor.set(0.5, 0.5)
       readyButton.input.useHandCursor = true
       this.answerBox6Group.add( readyButton )
 
       var girlClothesConfig =
-        [{id: 'boots_girl', sound: 'bootsAudio', x: 1500, y: 4700, dual: false, offsetX: 111, offsetY: 557, layer: 11},
-         {id: 'rainboots_girl', sound: 'rainbootsAudio', x: 1500, y: 4550, dual: false, offsetX: 111, offsetY: 544, layer: 11},
-         {id: 'shoes_girl', sound: 'shoesAudio', x: 1500, y: 4400, dual: true, offsetX: 112, offsetY: 567, layer: 11},
-         {id: 'sandals_girl', sound: 'sandalsAudio', x: 1500, y: 4280, dual: true, offsetX: 114, offsetY: 566, layer: 11},
-         {id: 'socks_girl', sound: 'socksAudio', x: 1500, y: 4150, dual: false, offsetX: 111, offsetY: 558, layer: 1},
-         {id: 'scarf_girl', sound: 'scarfAudio', x: 1500, y: 3980, dual: false, offsetX: 110, offsetY: 246, layer: 40},
-         {id: 'gloves_girl', sound: 'glovesAudio', x: 1500, y: 3800, dual: false, offsetX: 110, offsetY: 332, layer: 21},
+        [{id: 'boots_girl', sound: 'bootsAudio', x: 1500, y: 4660, dual: false, offsetX: 111, offsetY: 557, layer: 11},
+         {id: 'rainboots_girl', sound: 'rainbootsAudio', x: 1500, y: 4510, dual: false, offsetX: 111, offsetY: 544, layer: 11},
+         {id: 'shoes_girl', sound: 'shoesAudio', x: 1500, y: 4360, dual: true, offsetX: 112, offsetY: 567, layer: 11},
+         {id: 'sandals_girl', sound: 'sandalsAudio', x: 1500, y: 4240, dual: true, offsetX: 114, offsetY: 566, layer: 11},
+         {id: 'socks_girl', sound: 'socksAudio', x: 1500, y: 4110, dual: false, offsetX: 111, offsetY: 558, layer: 1},
+         {id: 'scarf_girl', sound: 'scarfAudio', x: 1500, y: 3940, dual: false, offsetX: 110, offsetY: 246, layer: 40},
+         {id: 'gloves_girl', sound: 'glovesAudio', x: 1500, y: 3760, dual: false, offsetX: 110, offsetY: 332, layer: 21},
          {id: 'woolcap_girl', sound: 'woolcapAudio', x: 1200, y: 3800, dual: true, offsetX: 108, offsetY: 60, layer: 41},
-         {id: 'trousers_girl', sound: 'trousersAudio', x: 700, y: 3850, dual: false, offsetX: 111, offsetY: 442, layer: 10},
-         {id: 'shorts_girl', sound: 'shortsAudio', x: 900, y: 3800, dual: false, offsetX: 112, offsetY: 383, layer: 10},
-         {id: 'skirt_girl', sound: 'skirtAudio', x: 700, y: 4120, dual: false, offsetX: 113, offsetY: 380, layer: 10},
-         {id: 'shirt_girl', sound: 'shirtAudio', x: 700, y: 4350, dual: true, offsetX: 112, offsetY: 262, layer: 15},
-         {id: 'tshirt_girl', sound: 'tshirtAudio', x: 450, y: 3850, dual: false, offsetX: 110, offsetY: 264, layer: 15},
-         {id: 'jumper_girl', sound: 'jumperAudio', x: 700, y: 4620, dual: true, offsetX: 110, offsetY: 268, layer: 25},
-         {id: 'dress_girl', sound: 'dressAudio', x: 450, y: 4180, dual: true, offsetX: 116, offsetY: 355, layer: 25},
-         {id: 'coat_girl', sound: 'coatAudio', x: 450, y: 4550, dual: true, offsetX: 114, offsetY: 300, layer: 30}]
+         {id: 'trousers_girl', sound: 'trousersAudio', x: 700, y: 3810, dual: false, offsetX: 111, offsetY: 442, layer: 10},
+         {id: 'shorts_girl', sound: 'shortsAudio', x: 900, y: 3760, dual: false, offsetX: 112, offsetY: 383, layer: 10},
+         {id: 'skirt_girl', sound: 'skirtAudio', x: 700, y: 4080, dual: false, offsetX: 113, offsetY: 380, layer: 10},
+         {id: 'shirt_girl', sound: 'shirtAudio', x: 700, y: 4310, dual: true, offsetX: 112, offsetY: 262, layer: 15},
+         {id: 'tshirt_girl', sound: 'tshirtAudio', x: 450, y: 3810, dual: false, offsetX: 110, offsetY: 264, layer: 15},
+         {id: 'jumper_girl', sound: 'jumperAudio', x: 700, y: 4580, dual: true, offsetX: 110, offsetY: 268, layer: 25},
+         {id: 'dress_girl', sound: 'dressAudio', x: 450, y: 4140, dual: true, offsetX: 116, offsetY: 355, layer: 25},
+         {id: 'coat_girl', sound: 'coatAudio', x: 450, y: 4510, dual: true, offsetX: 114, offsetY: 300, layer: 30}]
       this.girlClothesSprites = []
       this.girlClothesSounds = []
       girlClothesConfig = _.sortBy(girlClothesConfig, 'layer')
@@ -1205,6 +1221,7 @@
         }
         , this)
       this.question7Audio = this.game.add.audio('question7Audio');
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){this.question7Audio.play()}, this);
 
       this.answer7Button = this.game.add.button(
         this.game.world.centerX, 4730, 'text7_1',
@@ -1221,8 +1238,10 @@
       this.answer7Button.alpha = 0
       this.answer7Button.input.useHandCursor = true
 
-      this.answerBox7left = this.game.add.sprite( 30, 4200, 'answer_box_7' )
-      this.answerBox7right = this.game.add.sprite( 1305, 4200, 'answer_box_7' )
+      this.answerBox7left = this.game.add.sprite( 60, 4200, 'answer_box_7' )
+      this.answerBox7left.scale.set(0.92,0.92)
+      this.answerBox7right = this.game.add.sprite( 1320, 4200, 'answer_box_7' )
+      this.answerBox7right.scale.set(0.92,0.92)
       this.answerBox7Group = this.game.add.group()
       this.answerBox7Group.add( this.answerBox7left )
       this.answerBox7Group.add( this.answerBox7right )
@@ -1230,11 +1249,11 @@
       this.answerBox7Group.visible = false
 
       var spritesConfig = [
-        {id: 'holidays', sound: 'holidaysAudio', x: 300, y: 4450},
-        {id: 'school', x: 300, sound: 'schoolAudio', y: 4800},
-        {id: 'home', x: 300, sound: 'homeAudio', y: 5100},
-        {id: 'christmas', sound: 'christmasAudio', x: 1600, y: 4550},
-        {id: 'carnival', sound: 'carnivalAudio', x: 1600, y: 5000}
+        {id: 'carnival', sound: 'carnivalAudio', x: 300, y: 4450},
+        {id: 'school', x: 300, sound: 'schoolAudio', y: 4750},
+        {id: 'home', x: 300, sound: 'homeAudio', y: 5000},
+        {id: 'christmas', sound: 'christmasAudio', x: 1600, y: 4500},
+        {id: 'holidays', sound: 'holidaysAudio', x: 1600, y: 4950},
       ]
       this.answerSprites7 = []
       this.answerSounds7 = []
@@ -1279,7 +1298,7 @@
       // Fade ins
       this.game.add.tween(this.question8Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
       this.game.add.tween(this.answer8Button).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-      this.game.add.tween(this.game.camera).to( { y: 4650 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.game.camera).to( { y: 4470 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
 
     /**************************************************************************
@@ -1299,6 +1318,7 @@
         }
         , this)
       this.question8Audio = this.game.add.audio('question8Audio');
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){this.question8Audio.play()}, this);
 
       this.answer8Button = this.game.add.button(
         this.game.world.centerX, 5100, 'text8_1',
@@ -1314,8 +1334,10 @@
       this.answer8Button.anchor.set(0.5, 0.5)
       this.answer8Button.alpha = 0
 
-      this.answerBox8left = this.game.add.sprite( 60, 4550, 'answer_box_8' )
-      this.answerBox8right = this.game.add.sprite( 1285, 4550, 'answer_box_8' )
+      this.answerBox8left = this.game.add.sprite( 85, 4530, 'answer_box_8' )
+      this.answerBox8left.scale.set(0.9, 0.9)
+      this.answerBox8right = this.game.add.sprite( 1300, 4530, 'answer_box_8' )
+      this.answerBox8right.scale.set(0.9, 0.9)
       this.answerBox8Group = this.game.add.group()
       this.answerBox8Group.add( this.answerBox8left )
       this.answerBox8Group.add( this.answerBox8right )
@@ -1325,10 +1347,10 @@
       this.answerSprites8 = []
       this.answerSounds8 = []
       var spritesConfig = [
-        {id: 'spring', sound: 'springAudio', x: 350, y: 4850},
-        {id: 'summer', sound: 'summerAudio', x: 350, y: 5350},
-        {id: 'autumn', sound: 'autumnAudio', x: 1580, y: 4850},
-        {id: 'winter', sound: 'winterAudio', x: 1580, y: 5350}
+        {id: 'spring', sound: 'springAudio', x: 350, y: 4800},
+        {id: 'summer', sound: 'summerAudio', x: 350, y: 5300},
+        {id: 'autumn', sound: 'autumnAudio', x: 1580, y: 4800},
+        {id: 'winter', sound: 'winterAudio', x: 1580, y: 5300}
       ]
       var getCurrentSeason = function() {
         var date = new Date()
