@@ -72,6 +72,7 @@
 
       // Configuration
       this.game.world.setBounds(0, 0, 1920, 7000)
+      this.game.stage.backgroundColor = '#1f5e41'
       this.backgroundSprite = this.game.add.sprite(0, 0, 'background')
 
       var backgroundScale = window['daymap'].Globals.size.width / 1536.0

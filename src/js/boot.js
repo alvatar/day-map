@@ -5,12 +5,12 @@
 
   Boot.prototype = {
     preload: function () {
-      this.load.image('preloader', 'assets/preloader.gif')
+      this.load.image('preloader', 'assets/preloader.png')
+      this.load.image('littleBird', 'assets/little_bird.png')
     },
 
     create: function () {
       this.game.input.maxPointers = 1
-      this.game.stage.backgroundColor = '#1f5e41'
       // this.game.stage.disableVisibilityChange = true
 
       if (this.game.device.desktop) {

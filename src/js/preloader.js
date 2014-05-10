@@ -2,19 +2,26 @@
   'use strict';
 
   function Preloader() {
-    this.asset = null
+    this.preloaderSprite = null
   }
 
   Preloader.prototype = {
 
     preload: function () {
-      this.asset = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloader')
-      this.asset.anchor.setTo(0.5, 0.5)
+      this.preloaderSprite = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloader')
+      this.preloaderSprite.anchor.setTo(0.5, 0.5)
       
+      this.birdSprite = this.add.sprite(this.game.world.centerX - 125, this.game.world.centerY, 'littleBird')
+      this.birdSprite.anchor.setTo(0.5, 0.5)
+      this.birdSprite.scale.set(0.3, 0.3)
+      this.birdSprite2 = this.add.sprite(this.game.world.centerX + 125, this.game.world.centerY, 'littleBird')
+      this.birdSprite2.anchor.setTo(0.5, 0.5)
+      this.birdSprite2.scale.set(0.3, 0.3)
+      //this.birdSprite = this.add.sprite(this.game.world.centerX - 100, this.game.world.centerY, 'littleBird')
+
       this.load.image('background', 'assets/background_80percent.png')
       this.load.image('headerClouds', 'assets/header_clouds.png')
       this.load.image('headerText', 'assets/header_text.png')
-      this.load.image('littleBird', 'assets/little_bird.png')
 
       // Question 1
       this.load.image('question1', 'assets/text1.png')
@@ -286,18 +293,18 @@
       this.load.audio('autumnAudio', ['assets/audio/seasons/autumn.mp3', 'assets/audio/seasons/autumn.ogg'])
       this.load.audio('winterAudio', ['assets/audio/seasons/winter.mp3', 'assets/audio/seasons/winter.ogg'])
 
-      this.load.onLoadComplete.addOnce( function(){ this.game.state.start('game') }, this )
-      this.load.setPreloadSprite(this.asset)
-
       // Common Audio
       this.load.audio('greatSound', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
       this.load.audio('goodJobSound', ['assets/audio/responses/goodjob.mp3', 'assets/audio/responses/goodjob.ogg']);
       this.load.audio('noNoSound', ['assets/audio/responses/nono.mp3', 'assets/audio/responses/nono.ogg']);
       this.load.audio('thinkAboutItSound', ['assets/audio/responses/thinkaboutit.mp3', 'assets/audio/responses/thinkaboutit.ogg']);
+
+      this.load.onLoadComplete.addOnce( function(){ this.game.state.start('game') }, this )
+      this.load.setPreloadSprite(this.preloaderSprite)
     },
 
     create: function () {
-      this.asset.cropEnabled = false
+      this.preloaderSprite.cropEnabled = false
     }
   };
 

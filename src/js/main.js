@@ -214,7 +214,7 @@ window.onload = function () {
     app.Globals.size.height = appH = 1920 / 1.5
   }
 
-  var game = new Phaser.Game(appW, appH, Phaser.AUTO, 'daymap-game')
+  var game = new Phaser.Game(appW, appH, Phaser.AUTO, 'daymap-game', null, true)
   game.state.add('boot', app.Boot)
   game.state.add('preloader', app.Preloader)
   game.state.add('game', app.Game)
