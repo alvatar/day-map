@@ -8,6 +8,12 @@
   Preloader.prototype = {
 
     preload: function () {
+      // Force a background tilesprite only if we are on mobile
+      if (!this.game.device.desktop) {
+        this.backgroundTile = this.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'webBackground')
+        this.backgroundTile.scale.set(2.0, 2.0)
+      }
+
       this.preloaderSprite = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloader')
       this.preloaderSprite.anchor.setTo(0.5, 0.5)
       

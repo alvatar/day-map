@@ -7,6 +7,10 @@
     preload: function () {
       this.load.image('preloader', 'assets/preloader.png')
       this.load.image('littleBird', 'assets/little_bird.png')
+      // Force a background tilesprite only if we are on mobile
+      if (!this.game.device.desktop) {
+        this.load.image('webBackground', 'assets/web_bg.png')
+      }
     },
 
     create: function () {

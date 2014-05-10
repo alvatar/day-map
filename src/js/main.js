@@ -190,7 +190,7 @@ window.onload = function () {
 
   var app = window['daymap']
 
-  var appW, appH
+  var appW, appH, game
   /*
   if ( typeof window.ontouchstart !== 'undefined' || // If touch device ||
        navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i)
@@ -209,12 +209,13 @@ window.onload = function () {
       ratio = 1.45
     }
     app.Globals.size.height = appH = appW / ratio
+    game = new Phaser.Game(appW, appH, Phaser.AUTO, 'daymap-game')
   } else {
     app.Globals.size.width = appW = 1920
     app.Globals.size.height = appH = 1920 / 1.5
+    game = new Phaser.Game(appW, appH, Phaser.AUTO, 'daymap-game', null, true)
   }
 
-  var game = new Phaser.Game(appW, appH, Phaser.AUTO, 'daymap-game', null, true)
   game.state.add('boot', app.Boot)
   game.state.add('preloader', app.Preloader)
   game.state.add('game', app.Game)
