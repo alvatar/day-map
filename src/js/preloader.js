@@ -28,6 +28,8 @@
       this.load.image('background', 'assets/background_80percent.png')
       this.load.image('headerClouds', 'assets/header_clouds.png')
       this.load.image('headerText', 'assets/header_text.png')
+      this.load.spritesheet('plane1', 'assets/plane1.png', 420, 125)
+      this.load.image('plane2', 'assets/plane2.png')
 
       // Question 1
       this.load.image('question1', 'assets/text1.png')

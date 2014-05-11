@@ -73,12 +73,35 @@
       // Configuration
       this.game.world.setBounds(0, 0, 1920, 7000)
       this.game.stage.backgroundColor = '#1f5e41'
-      this.backgroundSprite = this.game.add.sprite(0, 0, 'background')
 
+      // Actually draw a background
+      this.graphics = this.game.add.graphics(0,0)
+      //this.graphics.lineStyle(0,0,0)
+      this.graphics.beginFill(0x1f5e41)
+      this.graphics.drawRect(0, 0, this.game.world.width, this.game.world.height);
+      this.graphics.endFill()
+
+      this.backgroundSprite = this.game.add.sprite(0, 0, 'background')
       var backgroundScale = window['daymap'].Globals.size.width / 1536.0
       this.backgroundSprite.scale.setTo( backgroundScale, backgroundScale )
 
       // Header title
+      var plane1Sprite = this.game.add.sprite( -100, 2200, 'plane1')
+      plane1Sprite.anchor.set(0.5, 0.5)
+      plane1Sprite.scale.set(-0.4, 0.4)
+      plane1Sprite.animations.add('fly');
+      plane1Sprite.animations.play('fly', 8, true);
+      this.game.add.tween(plane1Sprite)
+          .to( { x: 4400 }, 26000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
+      this.game.add.tween(plane1Sprite)
+          .to( { y: 2230 }, 2000, Phaser.Easing.Quadratic.InOut, true, 0, Number.MAX_VALUE, true)
+
+      var plane2Sprite = this.game.add.sprite( this.game.world.width + 200, 320, 'plane2')
+      plane2Sprite.anchor.set(0.5, 0.5)
+      plane2Sprite.scale.set(0.2, 0.2)
+      this.game.add.tween(plane2Sprite)
+          .to( { x: -2100 }, 60000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
+
       var headerCloudsSprite = this.game.add.sprite(this.game.world.centerX, 500, 'headerClouds')
       headerCloudsSprite.anchor.set(0.5, 0.5)
       headerCloudsSprite.inputEnabled = true;
