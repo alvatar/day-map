@@ -145,8 +145,13 @@
       this.goodJobAudio = this.game.add.audio('goodJobSound');
       this.noNoAudio = this.game.add.audio('noNoSound');
       this.thinkAboutItAudio = this.game.add.audio('thinkAboutItSound');
+      this.happyEndingAudio = this.game.add.audio('happyEndingSound');
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
+
+      ///// XXX
+      this.createSection7()
+        this.goToQuestion8()
     },
 
     /* Considers right an answer only if correct the first time is answered
@@ -1445,19 +1450,20 @@
                 this.game.time.events.remove( this.timedEvent )
               }
               this.timedEvent =
-              this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
-                this.goToEnd()
-              }, this);
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                  this.game.time.events.add(Phaser.Timer.SECOND, function(){this.happyEndingAudio.play()}, this);
+                  this.goToEnd()
+                }, this);
               this.setQuestionAnswer( 7, true )
             } else {
               if( this.timedEvent ) {
                 this.game.time.events.remove( this.timedEvent )
               }
               this.timedEvent =
-              this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
-              }, this);
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                }, this);
               this.setQuestionAnswer( 7, false )
             }
           })
@@ -1476,14 +1482,13 @@
             .onComplete.add(function(){this.userAnswerSprites['season'].visible = false}, this)
       }
       // Fade ins
-      this.game.add.tween(this.endScoreBox).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.endScoreGroup).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
       this.game.add.tween(this.game.camera).to( { y: 5000 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
 
     createEnd : function() {
       this.endScoreBox = this.game.add.sprite(this.game.world.centerX, 5500, 'endScoreBox')
       this.endScoreBox.anchor.set(0.5, 0.5)
-      this.endScoreBox.alpha = 0
       this.endScoreGroup = this.game.add.group()
       this.endScoreGroup.add( this.endScoreBox )
 
@@ -1514,6 +1519,7 @@
       this.restartButton.inputEnabled = true;
       this.restartButton.input.useHandCursor = true
       this.endScoreGroup.add( this.restartButton )
+      this.endScoreGroup.alpha = 0
       this.restartButton.events.onInputDown.add(
         function() {
           this.timedEvent = null

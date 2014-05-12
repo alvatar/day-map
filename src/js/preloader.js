@@ -307,6 +307,7 @@
       this.load.image('boyFaceHappy', 'assets/happy_face_boy.png')
       this.load.image('boyFaceSad', 'assets/sad_face_boy.png')
       this.load.image('restartSprite', 'assets/restart.png')
+      this.load.audio('happyEndingSound', ['assets/audio/other/ending_score_music.mp3', 'assets/audio/other/ending_score_music.ogg'])
 
       // Common Audio
       this.load.audio('greatSound', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
