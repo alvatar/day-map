@@ -23,7 +23,6 @@
       this.birdSprite2 = this.add.sprite(this.game.world.centerX + 125, this.game.world.centerY, 'littleBird')
       this.birdSprite2.anchor.setTo(0.5, 0.5)
       this.birdSprite2.scale.set(0.3, 0.3)
-      //this.birdSprite = this.add.sprite(this.game.world.centerX - 100, this.game.world.centerY, 'littleBird')
 
       this.load.image('background', 'assets/background_80percent.png')
       this.load.image('headerClouds', 'assets/header_clouds.png')
@@ -300,6 +299,14 @@
       this.load.audio('summerAudio', ['assets/audio/seasons/summer.mp3', 'assets/audio/seasons/summer.ogg'])
       this.load.audio('autumnAudio', ['assets/audio/seasons/autumn.mp3', 'assets/audio/seasons/autumn.ogg'])
       this.load.audio('winterAudio', ['assets/audio/seasons/winter.mp3', 'assets/audio/seasons/winter.ogg'])
+
+      // End score
+      this.load.image('endScoreBox', 'assets/end_score_box.png')
+      this.load.image('girlFaceHappy', 'assets/happy_face_girl.png')
+      this.load.image('girlFaceSad', 'assets/sad_face_girl.png')
+      this.load.image('boyFaceHappy', 'assets/happy_face_boy.png')
+      this.load.image('boyFaceSad', 'assets/sad_face_boy.png')
+      this.load.image('restartSprite', 'assets/restart.png')
 
       // Common Audio
       this.load.audio('greatSound', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);

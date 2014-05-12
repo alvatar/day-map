@@ -24,6 +24,11 @@
     this.userAnswerDayOfWeek = null
     this.userAnswers = []
     this.userAnswerSprites = []
+
+    this.correctAnswers = []
+    this.scoreSprites = []
+
+    this.userGender = null
   }
 
   Game.prototype = {
@@ -98,7 +103,6 @@
 
       var plane2Sprite = this.game.add.sprite( this.game.world.width + 200, 320, 'plane2')
       plane2Sprite.anchor.set(0.5, 0.5)
-      plane2Sprite.scale.set(0.2, 0.2)
       this.game.add.tween(plane2Sprite)
           .to( { x: -2100 }, 60000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
 
@@ -108,14 +112,7 @@
       headerCloudsSprite.input.useHandCursor = true
       headerCloudsSprite.events.onInputDown.add(
         function() {
-          // Questions: GROUP 1
-          this.createSection1()
-
-          // Fade ins
-          this.game.add.tween(this.question1Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
-          this.game.add.tween(this.answers1Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
-          // Camera
-          this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
+          this.goToQuestion1()
         }
         , this)
 
@@ -150,6 +147,15 @@
       this.thinkAboutItAudio = this.game.add.audio('thinkAboutItSound');
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
+    },
+
+    /* Considers right an answer only if correct the first time is answered
+     */
+    setQuestionAnswer : function( i, correct ) {
+      //console.log('Answer for ' + i + ' is ' + correct)
+      if( this.correctAnswers[i] === undefined ) {
+        this.correctAnswers[i] = correct
+      }
     },
 
     setUpSpritesDragging: function( i // id of this solution to the answer
@@ -197,6 +203,16 @@
             }
           }
         }, this)
+    },
+
+    goToQuestion1 : function() {
+      // Questions: GROUP 1
+      this.createSection1()
+      // Fade ins
+      this.game.add.tween(this.question1Sprite).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.answers1Group).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true, 1000)
+      // Camera
+      this.game.add.tween(this.game.camera).to( { y: 1000 } , 1000, Phaser.Easing.Quadratic.Out, true)
     },
 
     /**************************************************************************
@@ -273,16 +289,13 @@
               this.game.time.events.remove( this.timedEvent )
             }
             this.timedEvent =
-            this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-              if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
-              this.goToQuestion2()
-            }, this);
-            /*
+              this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                this.goToQuestion2()
+              }, this);
+            this.setQuestionAnswer( 0, true )
           } else {
-            this.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
-              if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
-            }, this);
-          */
+            this.setQuestionAnswer( 0, false )
           }
         }
       }
@@ -631,18 +644,20 @@
                   this.game.time.events.remove( this.timedEvent )
                 }
                 this.timedEvent =
-               this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                 if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
-                 this.goToQuestion3()
-               }, this);
+                  this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                    if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                    this.goToQuestion3()
+                  }, this);
+                this.setQuestionAnswer( 1, true )
              } else {
                 if( this.timedEvent ) {
                   this.game.time.events.remove( this.timedEvent )
                 }
                 this.timedEvent =
-               this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                 if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
-               }, this);
+                  this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                    if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                  }, this);
+                this.setQuestionAnswer( 1, false )
              }
           })
       }, this)
@@ -727,26 +742,28 @@
           this, i, this.daysOfWeekSprites[i], 'dayOfWeekYesterday',
           this.daysOfWeekSprites, this.answer3Button, new Phaser.Point(225,0),
           function(answerId) {
-             var date = new Date()
-             // Check yesterday, with a sunday-based begin of the week.
-             if( date.getDay() === [2, 3, 4, 5, 6, 0, 1][answerId] ) {
-                if( this.timedEvent ) {
-                  this.game.time.events.remove( this.timedEvent )
-                }
-                this.timedEvent =
-               this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                 if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
-                 this.goToQuestion4()
-               }, this);
-             } else {
-                if( this.timedEvent ) {
-                  this.game.time.events.remove( this.timedEvent )
-                }
-                this.timedEvent =
-               this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                 if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
-               }, this);
-             }
+            var date = new Date()
+            // Check yesterday, with a sunday-based begin of the week.
+            if( date.getDay() === [2, 3, 4, 5, 6, 0, 1][answerId] ) {
+              if( this.timedEvent ) {
+                this.game.time.events.remove( this.timedEvent )
+              }
+              this.timedEvent =
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                  this.goToQuestion4()
+                }, this);
+              this.setQuestionAnswer( 2, true )
+            } else {
+              if( this.timedEvent ) {
+                this.game.time.events.remove( this.timedEvent )
+              }
+              this.timedEvent =
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                }, this);
+              this.setQuestionAnswer( 2, false )
+            }
           })
       }, this)
     },
@@ -830,26 +847,28 @@
           this, i, this.daysOfWeekSprites[i], 'dayOfWeekTomorrow',
           this.daysOfWeekSprites, this.answer4Button, new Phaser.Point(180,0),
           function(answerId) {
-             var date = new Date()
-             // Check tomorrow, with a sunday-based begin of the week (turns out to be equal as a result)
-             if( date.getDay() === answerId ) {
-                if( this.timedEvent ) {
-                  this.game.time.events.remove( this.timedEvent )
-                }
-                this.timedEvent =
-               this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                 if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
-                 this.goToQuestion5()
-               }, this);
-             } else {
-                if( this.timedEvent ) {
-                  this.game.time.events.remove( this.timedEvent )
-                }
-                this.timedEvent =
-               this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                 if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
-               }, this);
-             }
+            var date = new Date()
+            // Check tomorrow, with a sunday-based begin of the week (turns out to be equal as a result)
+            if( date.getDay() === answerId ) {
+              if( this.timedEvent ) {
+                this.game.time.events.remove( this.timedEvent )
+              }
+              this.timedEvent =
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                  this.goToQuestion5()
+                }, this);
+              this.setQuestionAnswer( 3, true )
+            } else {
+              if( this.timedEvent ) {
+                this.game.time.events.remove( this.timedEvent )
+              }
+              this.timedEvent =
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
+                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                }, this);
+              this.setQuestionAnswer( 3, false )
+            }
           })
       }, this)
     },
@@ -939,20 +958,22 @@
                 this.game.time.events.remove( this.timedEvent )
               }
               this.timedEvent =
-              this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
-                this.goToQuestion6()
-              }, this);
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                  this.goToQuestion6()
+                }, this);
+              this.setQuestionAnswer( 4, true )
             }
             var wrongAnswer = function() {
               if( this.timedEvent ) {
                 this.game.time.events.remove( this.timedEvent )
               }
               this.timedEvent =
-              this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
-              }, this);
-            }
+                this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
+                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                }, this);
+              this.setQuestionAnswer( 4, false )
+            }  
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Data
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
             if (currentWeatherConditions) {
@@ -1091,6 +1112,7 @@
     },
 
     dressBoy: function() {
+      this.userGender = 'boy'
       this.boySound = this.game.add.audio('boyAudio');
       this.boySound.play()
       this.game.add.tween(this.question6Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
@@ -1109,6 +1131,7 @@
           function() {
             if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
             this.goToQuestion7()
+            this.setQuestionAnswer( 5, true )
           }, this, 2, 1, 0)
       readyButton.anchor.set(0.5, 0.5)
       readyButton.input.useHandCursor = true
@@ -1155,6 +1178,7 @@
     },
 
     dressGirl: function() {
+      this.userGender = 'girl'
       this.girlSound = this.game.add.audio('girlAudio');
       this.girlSound.play()
       this.game.add.tween(this.question6Sprite).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
@@ -1173,6 +1197,7 @@
           function(){
             if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
             this.goToQuestion7()
+            this.setQuestionAnswer( 5, true )
           },
       this, 2, 1, 0)
       readyButton.anchor.set(0.5, 0.5)
@@ -1304,6 +1329,7 @@
               if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
               this.goToQuestion8()
             }, this);
+            this.setQuestionAnswer( 6, true )
           })
       }, this)
     },
@@ -1423,6 +1449,7 @@
                 if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
                 this.goToEnd()
               }, this);
+              this.setQuestionAnswer( 7, true )
             } else {
               if( this.timedEvent ) {
                 this.game.time.events.remove( this.timedEvent )
@@ -1431,12 +1458,14 @@
               this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
                 if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
               }, this);
+              this.setQuestionAnswer( 7, false )
             }
           })
       }, this)
     },
 
     goToEnd : function() {
+      this.createEnd()
       // Fade outs
       this.game.add.tween(this.answerBox8Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
           .onComplete.add(function(){this.answerBox8Group.visible = false}, this)
@@ -1446,9 +1475,71 @@
         this.game.add.tween(this.userAnswerSprites['season']).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true, 0)
             .onComplete.add(function(){this.userAnswerSprites['season'].visible = false}, this)
       }
+      // Fade ins
+      this.game.add.tween(this.endScoreBox).to( { alpha: 1 } , 1000, Phaser.Easing.Quadratic.Out, true)
+      this.game.add.tween(this.game.camera).to( { y: 5000 } , 1000, Phaser.Easing.Quadratic.Out, true)
+    },
+
+    createEnd : function() {
+      this.endScoreBox = this.game.add.sprite(this.game.world.centerX, 5500, 'endScoreBox')
+      this.endScoreBox.anchor.set(0.5, 0.5)
+      this.endScoreBox.alpha = 0
+      this.endScoreGroup = this.game.add.group()
+      this.endScoreGroup.add( this.endScoreBox )
+
+      var scoreSpriteNames
+      if( this.userGender === 'girl' ){
+        scoreSpriteNames = { happy: 'girlFaceHappy', sad: 'girlFaceSad' }
+      } else if( this.userGender === 'boy' ) {
+        scoreSpriteNames = { happy: 'boyFaceHappy', sad: 'boyFaceSad' }
+      } else {
+        console.log("internal error: createEnd. this.userGender is not defined")
+        scoreSpriteNames = { happy: 'girlFaceHappy', sad: 'girlFaceSad' }
+      }
+      for(var i = 0; i < 8; i++) {
+        var step = Math.floor(i/4.0)
+        var chosenSprite
+        if( this.correctAnswers[i] ) {
+          chosenSprite = scoreSpriteNames['happy']
+        } else {
+          chosenSprite = scoreSpriteNames['sad']
+        }
+        this.scoreSprites[i] = this.game.add.sprite( this.game.world.centerX + ((i%4 * 300) - 450), 5380 + 240 * step, chosenSprite )
+        this.scoreSprites[i].anchor.set(0.5, 0.5)
+        this.endScoreGroup.add( this.scoreSprites[i] )
+      }
+
+      this.restartButton = this.game.add.sprite(this.game.world.centerX, 6050, 'restartSprite')
+      this.restartButton.anchor.set(0.5, 0.5)
+      this.restartButton.inputEnabled = true;
+      this.restartButton.input.useHandCursor = true
+      this.endScoreGroup.add( this.restartButton )
+      this.restartButton.events.onInputDown.add(
+        function() {
+          this.timedEvent = null
+          this.userAnswerDay = null
+          this.userAnswerDaySprite = null
+          this.userAnswerMonth = null
+          this.userAnswerMonthSprite = null
+          this.userAnswerYear = null
+          this.userAnswerYearSprite = null
+          this.userAnswerDayOfWeek = null
+          this.userAnswers = []
+          this.userAnswerSprites = []
+          this.correctAnswers = []
+          this.scoreSprites = []
+          this.userGender = null
+
+          // Go back to the beginning
+          this.game.add.tween(this.endScoreGroup).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
+              .onComplete.add(function(){this.endScoreGroup.visible = false}, this)
+          this.game.add.tween(this.camera).to( { y: 0 } , 2000, Phaser.Easing.Quadratic.Out, true)
+        }
+        , this)
     },
 
     update: function () {
+      /*
       if (this.cursors.up.isDown) {
         this.game.camera.y -= 40;
       } else if (this.cursors.down.isDown) {
@@ -1460,6 +1551,7 @@
       } else if (this.cursors.right.isDown) {
         this.game.camera.x += 40;
       }
+      */
     }
 
   };
