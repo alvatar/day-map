@@ -30,6 +30,7 @@ gulp.task('download', function () {
 
 gulp.task('copy', function () {
   gulp.src(paths.assets).pipe(gulp.dest(paths.dist + 'assets'));
+  gulp.src('src/js/lib/*.js').pipe(gulp.dest(paths.dist + 'js/lib/'));
 });
 
 gulp.task('uglify', ['jshint'], function () {
