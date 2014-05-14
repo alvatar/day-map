@@ -3,10 +3,12 @@
   "description": "",
   "readme": "",
   "repository": "",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "readme": "",
   "repository": "",
-  "dependencies": {},
+  "dependencies": {
+    "statik": "~1.2.5"
+  },
   
   "devDependencies": {
     "gulp": "*",
@@ -22,6 +24,9 @@
     "gulp-connect": "*",
     "gulp-watch": "*",
     "tiny-lr": "*"
+  },
+  "engines":{
+    "node": ">=0.8.0"
   },
 
   "scripts": {
