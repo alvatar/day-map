@@ -116,6 +116,19 @@
         }
         , this)
 
+      var gopherSprite = this.game.add.sprite( this.game.world.width + 10, 4220, 'gopher')
+      gopherSprite.anchor.set(0.5, 0.5)
+      gopherSprite.angle = -35
+      gopherSprite.animations.add( 'smell', _.range(0,40,0).concat([1,2,3,4,5,6,7]) ) // Generate many frames with the first sprite
+      gopherSprite.animations.play('smell', 12, true);
+
+      var gopherSprite2 = this.game.add.sprite( 0, 5300, 'gopher')
+      gopherSprite2.anchor.set(0.5, 0.5)
+      gopherSprite2.scale.set(-1.0, 1.0)
+      gopherSprite2.angle = 40
+      gopherSprite2.animations.add( 'smell', _.range(0,40,0).concat([1,2,3,4,5,6,7]) ) // Generate many frames with the first sprite
+      gopherSprite2.animations.play('smell', 12, true);
+
       var littleBirdSprite = this.game.add.sprite( this.game.world.width, 500, 'littleBird' )
       littleBirdSprite.scale.set(0.5, 0.5)
       this.game.add.tween(littleBirdSprite)

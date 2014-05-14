@@ -29,6 +29,7 @@
       this.load.image('headerText', 'assets/header_text.png')
       this.load.spritesheet('plane1', 'assets/plane1.png', 420, 125)
       this.load.image('plane2', 'assets/plane2.png')
+      this.load.spritesheet('gopher', 'assets/gopher.png', 160, 187)
 
       // Question 1
       this.load.image('question1', 'assets/text1.png')
