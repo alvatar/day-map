@@ -69,14 +69,13 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('connect', connect.server({
-  root: [__dirname + '/src'],
-  port: 9000,
-  livereload: true,
-  open: {
-    browser: 'chromium' // if not working on OSX try: 'Google Chrome'
-  }
-}));
+gulp.task('connect', function() {
+  connect.server({
+    root: __dirname + '/src',
+    port: 9000,
+    livereload: true
+  })
+});
 
 gulp.task('watch', function () {
   gulp.watch(paths.js, ['jshint']);
