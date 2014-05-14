@@ -148,10 +148,6 @@
       this.happyEndingAudio = this.game.add.audio('happyEndingSound');
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
-
-      ///// XXX
-      this.createSection7()
-        this.goToQuestion8()
     },
 
     /* Considers right an answer only if correct the first time is answered
@@ -978,7 +974,7 @@
                   if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
                 }, this);
               this.setQuestionAnswer( 4, false )
-            }  
+            }
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Data
             // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
             if (currentWeatherConditions) {
@@ -1498,7 +1494,7 @@
       } else if( this.userGender === 'boy' ) {
         scoreSpriteNames = { happy: 'boyFaceHappy', sad: 'boyFaceSad' }
       } else {
-        console.log("internal error: createEnd. this.userGender is not defined")
+        console.log('internal error: createEnd. this.userGender is not defined')
         scoreSpriteNames = { happy: 'girlFaceHappy', sad: 'girlFaceSad' }
       }
       for(var i = 0; i < 8; i++) {
@@ -1524,17 +1520,23 @@
         function() {
           this.timedEvent = null
           this.userAnswerDay = null
-          this.userAnswerDaySprite = null
           this.userAnswerMonth = null
-          this.userAnswerMonthSprite = null
           this.userAnswerYear = null
-          this.userAnswerYearSprite = null
           this.userAnswerDayOfWeek = null
           this.userAnswers = []
           this.userAnswerSprites = []
           this.correctAnswers = []
           this.scoreSprites = []
           this.userGender = null
+          if ( this.userAnswerDaySprite ) {
+            this.userAnswerDaySprite.destroy()
+          }
+          if ( this.userAnswerMonthSprite ) {
+            this.userAnswerMonthSprite.destroy()
+          }
+          if ( this.userAnswerYearSprite ) {
+            this.userAnswerYearSprite.destroy()
+          }
 
           // Go back to the beginning
           this.game.add.tween(this.endScoreGroup).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
@@ -1545,7 +1547,6 @@
     },
 
     update: function () {
-      /*
       if (this.cursors.up.isDown) {
         this.game.camera.y -= 40;
       } else if (this.cursors.down.isDown) {
@@ -1557,7 +1558,6 @@
       } else if (this.cursors.right.isDown) {
         this.game.camera.x += 40;
       }
-      */
     }
 
   };

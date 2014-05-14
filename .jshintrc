@@ -24,6 +24,7 @@
     "Phaser": false,
     "_": false,
     "$": false,
-    "CocoonJS": false
+    "jscd": false,
+    "swfobject": false
   }
 }
