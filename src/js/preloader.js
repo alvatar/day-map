@@ -311,6 +311,7 @@
       this.load.audio('happyEndingSound', ['assets/audio/other/ending_score_music.mp3', 'assets/audio/other/ending_score_music.ogg'])
 
       // Common Audio
+      this.load.audio('backgroundMusic', ['assets/audio/other/jazzyfrenchy.mp3', 'assets/audio/other/jazzyfrenchy.ogg']);
       this.load.audio('greatSound', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
       this.load.audio('goodJobSound', ['assets/audio/responses/goodjob.mp3', 'assets/audio/responses/goodjob.ogg']);
       this.load.audio('noNoSound', ['assets/audio/responses/nono.mp3', 'assets/audio/responses/nono.ogg']);

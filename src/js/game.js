@@ -90,6 +90,10 @@
       var backgroundScale = window['daymap'].Globals.size.width / 1536.0
       this.backgroundSprite.scale.setTo( backgroundScale, backgroundScale )
 
+      // Background music
+      this.music = this.game.add.audio('backgroundMusic')
+      this.music.play()
+
       // Header title
       var plane1Sprite = this.game.add.sprite( -100, 2200, 'plane1')
       plane1Sprite.anchor.set(0.5, 0.5)
@@ -113,6 +117,7 @@
       headerCloudsSprite.events.onInputDown.add(
         function() {
           this.goToQuestion1()
+          this.music.volume = 0.25
         }
         , this)
 
