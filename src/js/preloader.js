@@ -22,7 +22,7 @@
       this.birdSprite.scale.set(0.3, 0.3)
       this.birdSprite2 = this.add.sprite(this.game.world.centerX + 125, this.game.world.centerY, 'littleBird')
       this.birdSprite2.anchor.setTo(0.5, 0.5)
-      this.birdSprite2.scale.set(0.3, 0.3)
+      this.birdSprite2.scale.set(-0.3, 0.3)
 
       this.load.image('background', 'assets/background_80percent.png')
       this.load.image('headerClouds', 'assets/header_clouds.png')
