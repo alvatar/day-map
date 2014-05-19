@@ -120,18 +120,18 @@
       this.load.image('november', 'assets/november.png')
       this.load.image('december', 'assets/december.png')
 
-      // this.load.audio('januaryAudio', ['assets/audio/months/january.mp3', 'assets/audio/months/january.ogg']);
-      // this.load.audio('februaryAudio', ['assets/audio/months/february.mp3', 'assets/audio/months/february.ogg']);
-      // this.load.audio('marchAudio', ['assets/audio/months/march.mp3', 'assets/audio/months/march.ogg']);
-      // this.load.audio('aprilAudio', ['assets/audio/months/april.mp3', 'assets/audio/months/april.ogg']);
-      // this.load.audio('mayAudio', ['assets/audio/months/may.mp3', 'assets/audio/months/may.ogg']);
-      // this.load.audio('juneAudio', ['assets/audio/months/june.mp3', 'assets/audio/months/june.ogg']);
-      // this.load.audio('julyAudio', ['assets/audio/months/july.mp3', 'assets/audio/months/july.ogg']);
-      // this.load.audio('augustAudio', ['assets/audio/months/august.mp3', 'assets/audio/months/august.ogg']);
-      // this.load.audio('septemberAudio', ['assets/audio/months/september.mp3', 'assets/audio/months/september.ogg']);
-      // this.load.audio('octoberAudio', ['assets/audio/months/october.mp3', 'assets/audio/months/october.ogg']);
-      // this.load.audio('novemberAudio', ['assets/audio/months/november.mp3', 'assets/audio/months/november.ogg']);
-      // this.load.audio('decemberAudio', ['assets/audio/months/december.mp3', 'assets/audio/months/december.ogg']);
+      this.load.audio('januaryAudio', ['assets/audio/months/january.mp3', 'assets/audio/months/january.ogg']);
+      this.load.audio('februaryAudio', ['assets/audio/months/february.mp3', 'assets/audio/months/february.ogg']);
+      this.load.audio('marchAudio', ['assets/audio/months/march.mp3', 'assets/audio/months/march.ogg']);
+      this.load.audio('aprilAudio', ['assets/audio/months/april.mp3', 'assets/audio/months/april.ogg']);
+      this.load.audio('mayAudio', ['assets/audio/months/may.mp3', 'assets/audio/months/may.ogg']);
+      this.load.audio('juneAudio', ['assets/audio/months/june.mp3', 'assets/audio/months/june.ogg']);
+      this.load.audio('julyAudio', ['assets/audio/months/july.mp3', 'assets/audio/months/july.ogg']);
+      this.load.audio('augustAudio', ['assets/audio/months/august.mp3', 'assets/audio/months/august.ogg']);
+      this.load.audio('septemberAudio', ['assets/audio/months/september.mp3', 'assets/audio/months/september.ogg']);
+      this.load.audio('octoberAudio', ['assets/audio/months/october.mp3', 'assets/audio/months/october.ogg']);
+      this.load.audio('novemberAudio', ['assets/audio/months/november.mp3', 'assets/audio/months/november.ogg']);
+      this.load.audio('decemberAudio', ['assets/audio/months/december.mp3', 'assets/audio/months/december.ogg']);
 
       this.load.image('answer_box1_3', 'assets/answer_box1_3.png')
       this.load.image('year2014', 'assets/2014.png')

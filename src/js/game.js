@@ -92,7 +92,7 @@
 
       // Background music
       this.music = this.game.add.audio('backgroundMusic')
-      this.music.play()
+      this.music.play('',0,1,true)
 
       // Header title
       var plane1Sprite = this.game.add.sprite( -100, 2200, 'plane1')
@@ -117,7 +117,7 @@
       headerCloudsSprite.events.onInputDown.add(
         function() {
           this.goToQuestion1()
-          this.music.volume = 0.25
+          this.music.volume = 0.2
         }
         , this)
 
@@ -327,6 +327,14 @@
       this.answerBox1$1Background.anchor.set(0.5, 0.5)
       this.answerBox1$1Group.add(this.answerBox1$1Background)
 
+      var setUpClick = function(i, currentSprite, currentSound) {
+        currentSprite.input.useHandCursor = true
+        currentSprite.events.onInputDown.add(
+          function() {
+            currentSound.play()
+          }, this)
+      }
+
       var setUpNumbersDragging = function(i, currentSprite, targetForDragging) {
         currentSprite.originalX = currentSprite.x
         currentSprite.originalY = currentSprite.y
@@ -374,14 +382,6 @@
           }, this)
       }
 
-      var setUpNumbersClicks = function(i, currentSprite, currentSound) {
-        currentSprite.input.useHandCursor = true
-        currentSprite.events.onInputDown.add(
-          function() {
-            currentSound.play()
-          }, this)
-      }
-
       var i;
       this.numberSounds = []
       for(i = 1; i <= 31; i++) {
@@ -393,21 +393,21 @@
         this.numberSprites[i] = this.game.add.sprite(80 + i * 150, 1600, 'number' + i)
         this.numberSprites[i].inputEnabled = true;
         setUpNumbersDragging.call(this, i, this.numberSprites[i], this.answer1$1Button)
-        setUpNumbersClicks.call(this, i, this.numberSprites[i], this.numberSounds[i])
+        setUpClick.call(this, i, this.numberSprites[i], this.numberSounds[i])
         this.answerBox1$1Group.add(this.numberSprites[i])
       }
       for(i = 11; i <= 20; i++) {
         this.numberSprites[i] = this.game.add.sprite(200 + (i-11) * 155, 1740, 'number' + i)
         this.numberSprites[i].inputEnabled = true;
         setUpNumbersDragging.call(this, i, this.numberSprites[i], this.answer1$1Button)
-        setUpNumbersClicks.call(this, i, this.numberSprites[i], this.numberSounds[i])
+        setUpClick.call(this, i, this.numberSprites[i], this.numberSounds[i])
         this.answerBox1$1Group.add(this.numberSprites[i])
       }
       for(i = 21; i <= 31; i++) {
         this.numberSprites[i] = this.game.add.sprite(170 + (i-21) * 144, 1880, 'number' + i)
         this.numberSprites[i].inputEnabled = true;
         setUpNumbersDragging.call(this, i, this.numberSprites[i], this.answer1$1Button)
-        setUpNumbersClicks.call(this, i, this.numberSprites[i], this.numberSounds[i])
+        setUpClick.call(this, i, this.numberSprites[i], this.numberSounds[i])
         this.answerBox1$1Group.add(this.numberSprites[i])
       }
 
@@ -471,12 +471,10 @@
       }
 
       var monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
-      /*
       this.monthSounds = []
       for(i = 0; i < monthNames.length; i++) {
         this.monthSounds[i] = this.game.add.audio(monthNames[i] + 'Audio');
       }
-      */
 
       this.monthSprites = []
       for(i = 0; i < 12; i++) {
@@ -485,8 +483,7 @@
         this.monthSprites[i].inputEnabled = true;
         this.monthSprites[i].input.useHandCursor = true
         setUpMonthsDragging.call(this, i, this.monthSprites[i], this.answer1$2Button)
-        // TODO
-        //setUpMonthsClicks.call(this, i, this.monthSprites[i], this.monthSounds[i])
+        setUpClick.call(this, i, this.monthSprites[i], this.monthSounds[i])
         this.answerBox1$2Group.add(this.monthSprites[i])
       }
 
@@ -549,14 +546,6 @@
           }, this)
       }
 
-      var setUpYearsClicks = function(i, currentSprite, currentSound) {
-          currentSprite.input.useHandCursor = true
-          currentSprite.events.onInputDown.add(
-            function() {
-              currentSound.play()
-            }, this)
-      }
-
       this.yearSounds = []
       for(i = 0; i < 10; i++) {
         this.yearSounds[i] = this.game.add.audio('year' + (2014+i) + 'Audio');
@@ -567,7 +556,7 @@
         this.yearSprites[i].anchor.set(0.5, 0.5)
         this.yearSprites[i].inputEnabled = true;
         setUpYearsDragging.call(this, i, this.yearSprites[i], this.answer1$3Button)
-        setUpYearsClicks.call(this, i, this.yearSprites[i], this.yearSounds[i])
+        setUpClick.call(this, i, this.yearSprites[i], this.yearSounds[i])
         this.answerBox1$3Group.add(this.yearSprites[i])
       }
 
