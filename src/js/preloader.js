@@ -14,22 +14,37 @@
         this.backgroundTile.scale.set(2.0, 2.0)
       }
 
+      // Loader
       this.preloaderSprite = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloader')
       this.preloaderSprite.anchor.setTo(0.5, 0.5)
-      
       this.birdSprite = this.add.sprite(this.game.world.centerX - 125, this.game.world.centerY, 'littleBird')
       this.birdSprite.anchor.setTo(0.5, 0.5)
       this.birdSprite.scale.set(0.3, 0.3)
       this.birdSprite2 = this.add.sprite(this.game.world.centerX + 125, this.game.world.centerY, 'littleBird')
       this.birdSprite2.anchor.setTo(0.5, 0.5)
       this.birdSprite2.scale.set(-0.3, 0.3)
+      //this.load.audio('birdSound', ['assets/audio/other/bird.mp3', 'assets/audio/other/bird.ogg']);
 
+      // Header
       this.load.image('background', 'assets/background_80percent.png')
       this.load.image('headerClouds', 'assets/header_clouds.png')
       this.load.image('headerText', 'assets/header_text.png')
+      this.load.audio('letsStartSound', ['assets/audio/other/letsstart.mp3', 'assets/audio/other/letsstart.ogg']);
+      this.load.audio('letsBeginSound', ['assets/audio/other/letsbegin.mp3', 'assets/audio/other/letsbegin.ogg']);
+
+      // Little friends
       this.load.spritesheet('plane1', 'assets/plane1.png', 420, 125)
       this.load.image('plane2', 'assets/plane2.png')
+      this.load.audio('planeSound', ['assets/audio/other/plane.mp3', 'assets/audio/other/plane.ogg']);
       this.load.spritesheet('gopher', 'assets/gopher.png', 160, 187)
+      this.load.audio('gopherSound', ['assets/audio/other/gopher.mp3', 'assets/audio/other/gopher.ogg']);
+
+      // Common Audio
+      this.load.audio('backgroundMusic', ['assets/audio/other/jazzyfrenchy.mp3', 'assets/audio/other/jazzyfrenchy.ogg']);
+      this.load.audio('greatSound', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
+      this.load.audio('goodJobSound', ['assets/audio/responses/goodjob.mp3', 'assets/audio/responses/goodjob.ogg']);
+      this.load.audio('noNoSound', ['assets/audio/responses/nono.mp3', 'assets/audio/responses/nono.ogg']);
+      this.load.audio('thinkAboutItSound', ['assets/audio/responses/thinkaboutit.mp3', 'assets/audio/responses/thinkaboutit.ogg']);
 
       // Question 1
       this.load.image('question1', 'assets/text1.png')
@@ -167,7 +182,7 @@
       this.load.image('saturday', 'assets/saturday.png')
       this.load.image('sunday', 'assets/sunday.png')
 
-      this.load.audio('question2Audio', ['assets/audio/questions/whatdateisittoday.mp3', 'assets/audio/questions/whatdayisittoday.ogg']);
+      this.load.audio('question2Audio', ['assets/audio/questions/whatdayisittoday.mp3', 'assets/audio/questions/whatdayisittoday.ogg']);
       this.load.audio('mondayAudio', ['assets/audio/daysoftheweek/monday.mp3', 'assets/audio/daysoftheweek/monday.ogg']);
       this.load.audio('tuesdayAudio', ['assets/audio/daysoftheweek/tuesday.mp3', 'assets/audio/daysoftheweek/tuesday.ogg']);
       this.load.audio('wednesdayAudio', ['assets/audio/daysoftheweek/wednesday.mp3', 'assets/audio/daysoftheweek/wednesday.ogg']);
@@ -309,13 +324,6 @@
       this.load.image('boyFaceSad', 'assets/sad_face_boy.png')
       this.load.image('restartSprite', 'assets/restart.png')
       this.load.audio('happyEndingSound', ['assets/audio/other/ending_score_music.mp3', 'assets/audio/other/ending_score_music.ogg'])
-
-      // Common Audio
-      this.load.audio('backgroundMusic', ['assets/audio/other/jazzyfrenchy.mp3', 'assets/audio/other/jazzyfrenchy.ogg']);
-      this.load.audio('greatSound', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
-      this.load.audio('goodJobSound', ['assets/audio/responses/goodjob.mp3', 'assets/audio/responses/goodjob.ogg']);
-      this.load.audio('noNoSound', ['assets/audio/responses/nono.mp3', 'assets/audio/responses/nono.ogg']);
-      this.load.audio('thinkAboutItSound', ['assets/audio/responses/thinkaboutit.mp3', 'assets/audio/responses/thinkaboutit.ogg']);
 
       this.load.onLoadComplete.addOnce( function(){ this.game.state.start('game') }, this )
       this.load.setPreloadSprite(this.preloaderSprite)

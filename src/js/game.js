@@ -95,20 +95,27 @@
       this.music.play('',0,1,true)
 
       // Header title
-      var plane1Sprite = this.game.add.sprite( -100, 2200, 'plane1')
-      plane1Sprite.anchor.set(0.5, 0.5)
-      plane1Sprite.scale.set(-0.4, 0.4)
-      plane1Sprite.animations.add('fly');
-      plane1Sprite.animations.play('fly', 8, true);
-      this.game.add.tween(plane1Sprite)
+      this.plane1Sprite = this.game.add.sprite( -100, 2200, 'plane1')
+      this.plane1Sprite.anchor.set(0.5, 0.5)
+      this.plane1Sprite.scale.set(-0.4, 0.4)
+      this.plane1Sprite.animations.add('fly');
+      this.plane1Sprite.animations.play('fly', 8, true);
+      this.game.add.tween( this.plane1Sprite )
           .to( { x: 4400 }, 26000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
-      this.game.add.tween(plane1Sprite)
+      this.game.add.tween( this.plane1Sprite )
           .to( { y: 2230 }, 2000, Phaser.Easing.Quadratic.InOut, true, 0, Number.MAX_VALUE, true)
+      this.plane1Sprite.inputEnabled = true;
+      this.plane1Sprite.input.useHandCursor = true
+      this.plane1Sprite.events.onInputDown.add( function() { this.planeSound.play() } , this)
+      this.planeSound = this.game.add.audio('planeSound')
 
-      var plane2Sprite = this.game.add.sprite( this.game.world.width + 200, 320, 'plane2')
-      plane2Sprite.anchor.set(0.5, 0.5)
-      this.game.add.tween(plane2Sprite)
+      this.plane2Sprite = this.game.add.sprite( this.game.world.width + 200, 320, 'plane2')
+      this.plane2Sprite.anchor.set(0.5, 0.5)
+      this.game.add.tween( this.plane2Sprite )
           .to( { x: -2100 }, 60000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
+      this.plane2Sprite.inputEnabled = true;
+      this.plane2Sprite.input.useHandCursor = true
+      this.plane2Sprite.events.onInputDown.add( function() { this.planeSound.play() } , this)
 
       var headerCloudsSprite = this.game.add.sprite(this.game.world.centerX, 500, 'headerClouds')
       headerCloudsSprite.anchor.set(0.5, 0.5)
@@ -116,44 +123,64 @@
       headerCloudsSprite.input.useHandCursor = true
       headerCloudsSprite.events.onInputDown.add(
         function() {
-          this.goToQuestion1()
-          this.music.volume = 0.2
+          this.game.time.events.add(Phaser.Timer.SECOND * 2, function(){this.goToQuestion1()}, this);
+          this.music.volume = 0.1
+          if (Math.random() > 0.5) { this.headerSound1.play() } else { this.headerSound2.play() }
         }
         , this)
+      this.headerSound1 = this.game.add.audio('letsStartSound')
+      this.headerSound2 = this.game.add.audio('letsBeginSound')
 
-      var gopherSprite = this.game.add.sprite( this.game.world.width + 10, 4220, 'gopher')
-      gopherSprite.anchor.set(0.5, 0.5)
-      gopherSprite.angle = -35
-      gopherSprite.animations.add( 'smell', _.range(0,40,0).concat([1,2,3,4,5,6,7]) ) // Generate many frames with the first sprite
-      gopherSprite.animations.play('smell', 12, true);
+      this.gopherSprite = this.game.add.sprite( this.game.world.width + 10, 4220, 'gopher')
+      this.gopherSprite.anchor.set(0.5, 0.5)
+      this.gopherSprite.angle = -35
+      this.gopherSprite.animations.add( 'smell', _.range(0,40,0).concat([1,2,3,4,5,6,7]) ) // Generate many frames with the first sprite
+      this.gopherSprite.animations.play('smell', 12, true);
+      this.gopherSprite.inputEnabled = true;
+      this.gopherSprite.input.useHandCursor = true
+      this.gopherSprite.events.onInputDown.add( function() { this.gopherSound.play() } , this)
+      this.gopherSound = this.game.add.audio('gopherSound')
 
-      var gopherSprite2 = this.game.add.sprite( 0, 5300, 'gopher')
-      gopherSprite2.anchor.set(0.5, 0.5)
-      gopherSprite2.scale.set(-1.0, 1.0)
-      gopherSprite2.angle = 40
-      gopherSprite2.animations.add( 'smell', _.range(0,40,0).concat([1,2,3,4,5,6,7]) ) // Generate many frames with the first sprite
-      gopherSprite2.animations.play('smell', 12, true);
+      this.gopherSprite2 = this.game.add.sprite( 0, 5300, 'gopher')
+      this.gopherSprite2.anchor.set(0.5, 0.5)
+      this.gopherSprite2.scale.set(-1.0, 1.0)
+      this.gopherSprite2.angle = 40
+      this.gopherSprite2.animations.add( 'smell', _.range(0,40,0).concat([1,2,3,4,5,6,7]) ) // Generate many frames with the first sprite
+      this.gopherSprite2.animations.play('smell', 12, true);
+      this.gopherSprite2.inputEnabled = true;
+      this.gopherSprite2.input.useHandCursor = true
+      this.gopherSprite2.events.onInputDown.add( function() { this.gopherSound.play() } , this)
 
-      var littleBirdSprite = this.game.add.sprite( this.game.world.width, 500, 'littleBird' )
-      littleBirdSprite.scale.set(0.5, 0.5)
-      this.game.add.tween(littleBirdSprite)
+      this.littleBirdSprite = this.game.add.sprite( this.game.world.width, 500, 'littleBird' )
+      this.littleBirdSprite.scale.set(0.5, 0.5)
+      this.game.add.tween( this.littleBirdSprite )
           .to( { y: 540 }, 1000, Phaser.Easing.Quadratic.InOut, true, 0, Number.MAX_VALUE, true)
-      this.game.add.tween(littleBirdSprite)
+      this.game.add.tween( this.littleBirdSprite )
           .to( { x: -600 }, 20000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
+      this.littleBirdSprite.inputEnabled = true;
+      this.littleBirdSprite.input.useHandCursor = true
+      //this.littleBirdSprite.events.onInputDown.add( function() { this.birdSound.play() } , this)
+      //this.birdSound = this.game.add.audio('birdSound')
 
-      var littleBirdSprite2 = this.game.add.sprite( this.game.world.width + 340, 500, 'littleBird' )
-      littleBirdSprite2.scale.set(0.35, 0.35)
-      this.game.add.tween(littleBirdSprite2)
+      this.littleBirdSprite2 = this.game.add.sprite( this.game.world.width + 340, 500, 'littleBird' )
+      this.littleBirdSprite2.scale.set(0.35, 0.35)
+      this.game.add.tween( this.littleBirdSprite2 )
           .to( { y: 550 }, 1500, Phaser.Easing.Quadratic.InOut, true, 0, Number.MAX_VALUE, true)
-      this.game.add.tween(littleBirdSprite2)
+      this.game.add.tween( this.littleBirdSprite2 )
           .to( { x: -400 }, 20000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
+      this.littleBirdSprite2.inputEnabled = true;
+      this.littleBirdSprite2.input.useHandCursor = true
+      //this.littleBirdSprite2.events.onInputDown.add( function() { this.birdSound.play() } , this)
 
-      var littleBirdSprite3 = this.game.add.sprite( this.game.world.width + 440, 500, 'littleBird' )
-      littleBirdSprite3.scale.set(0.25, 0.25)
-      this.game.add.tween(littleBirdSprite3)
+      this.littleBirdSprite3 = this.game.add.sprite( this.game.world.width + 440, 500, 'littleBird' )
+      this.littleBirdSprite3.scale.set(0.25, 0.25)
+      this.game.add.tween( this.littleBirdSprite3 )
           .to( { y: 640 }, 800, Phaser.Easing.Quadratic.InOut, true, 0, Number.MAX_VALUE, true)
-      this.game.add.tween(littleBirdSprite3)
+      this.game.add.tween( this.littleBirdSprite3 )
           .to( { x: -100 }, 20000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
+      this.littleBirdSprite3.inputEnabled = true;
+      this.littleBirdSprite3.input.useHandCursor = true
+      //this.littleBirdSprite3.events.onInputDown.add( function() { this.birdSound.play() } , this)
       
       var headerTextSprite = this.game.add.sprite(this.game.world.centerX, 500, 'headerText')
       headerTextSprite.anchor.set(0.5, 0.5)
@@ -1455,7 +1482,6 @@
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
                   if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
-                  this.game.time.events.add(Phaser.Timer.SECOND, function(){this.happyEndingAudio.play()}, this);
                   this.goToEnd()
                 }, this);
               this.setQuestionAnswer( 7, true )
@@ -1474,6 +1500,10 @@
     },
 
     goToEnd : function() {
+      this.game.time.events.add(Phaser.Timer.SECOND, function(){
+        this.happyEndingAudio.play()
+        this.music.volume = 0.0
+      }, this);
       this.createEnd()
       // Fade outs
       this.game.add.tween(this.answerBox8Group).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
@@ -1544,6 +1574,7 @@
           if ( this.userAnswerYearSprite ) {
             this.userAnswerYearSprite.destroy()
           }
+          this.music.volume = 1.0
 
           // Go back to the beginning
           this.game.add.tween(this.endScoreGroup).to( { alpha: 0 } , 1000, Phaser.Easing.Quadratic.Out, true)
@@ -1554,6 +1585,7 @@
     },
 
     update: function () {
+      /*
       if (this.cursors.up.isDown) {
         this.game.camera.y -= 40;
       } else if (this.cursors.down.isDown) {
@@ -1565,6 +1597,7 @@
       } else if (this.cursors.right.isDown) {
         this.game.camera.x += 40;
       }
+      */
     }
 
   };
