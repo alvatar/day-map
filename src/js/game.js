@@ -125,11 +125,10 @@
         function() {
           this.game.time.events.add(Phaser.Timer.SECOND * 2, function(){this.goToQuestion1()}, this);
           this.music.volume = 0.1
-          if (Math.random() > 0.5) { this.headerSound1.play() } else { this.headerSound2.play() }
+          this.headerSound.play()
         }
         , this)
-      this.headerSound1 = this.game.add.audio('letsStartSound')
-      this.headerSound2 = this.game.add.audio('letsBeginSound')
+      this.headerSound = this.game.add.audio('letsBeginSound')
 
       this.gopherSprite = this.game.add.sprite( this.game.world.width + 10, 4220, 'gopher')
       this.gopherSprite.anchor.set(0.5, 0.5)
@@ -159,8 +158,8 @@
           .to( { x: -600 }, 20000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
       this.littleBirdSprite.inputEnabled = true;
       this.littleBirdSprite.input.useHandCursor = true
-      //this.littleBirdSprite.events.onInputDown.add( function() { this.birdSound.play() } , this)
-      //this.birdSound = this.game.add.audio('birdSound')
+      this.littleBirdSprite.events.onInputDown.add( function() { this.birdSound.play() } , this)
+      this.birdSound = this.game.add.audio('birdSound')
 
       this.littleBirdSprite2 = this.game.add.sprite( this.game.world.width + 340, 500, 'littleBird' )
       this.littleBirdSprite2.scale.set(0.35, 0.35)
@@ -170,7 +169,7 @@
           .to( { x: -400 }, 20000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
       this.littleBirdSprite2.inputEnabled = true;
       this.littleBirdSprite2.input.useHandCursor = true
-      //this.littleBirdSprite2.events.onInputDown.add( function() { this.birdSound.play() } , this)
+      this.littleBirdSprite2.events.onInputDown.add( function() { this.birdSound.play() } , this)
 
       this.littleBirdSprite3 = this.game.add.sprite( this.game.world.width + 440, 500, 'littleBird' )
       this.littleBirdSprite3.scale.set(0.25, 0.25)
@@ -180,16 +179,24 @@
           .to( { x: -100 }, 20000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
       this.littleBirdSprite3.inputEnabled = true;
       this.littleBirdSprite3.input.useHandCursor = true
-      //this.littleBirdSprite3.events.onInputDown.add( function() { this.birdSound.play() } , this)
+      this.littleBirdSprite3.events.onInputDown.add( function() { this.birdSound.play() } , this)
       
       var headerTextSprite = this.game.add.sprite(this.game.world.centerX, 500, 'headerText')
       headerTextSprite.anchor.set(0.5, 0.5)
 
       // Common Audio
+      this.greatManAudio = this.game.add.audio('greatManSound');
+      this.goodJobManAudio = this.game.add.audio('goodJobManSound');
+      this.noNoManAudio = this.game.add.audio('noNoManSound');
+      this.thinkAboutItManAudio = this.game.add.audio('thinkAboutItManSound');
+
       this.greatAudio = this.game.add.audio('greatSound');
       this.goodJobAudio = this.game.add.audio('goodJobSound');
       this.noNoAudio = this.game.add.audio('noNoSound');
-      this.thinkAboutItAudio = this.game.add.audio('thinkAboutItSound');
+      this.thinkAgainAudio = this.game.add.audio('thinkAgainSound');
+      this.wonderfulAudio = this.game.add.audio('wonderfulSound');
+      this.wellDoneAudio = this.game.add.audio('wellDoneSound');
+
       this.happyEndingAudio = this.game.add.audio('happyEndingSound');
 
       this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -204,6 +211,22 @@
       }
     },
 
+    /* Play good answer sound
+     */
+    playGoodAnswerSound: function () {
+      var sounds = [this.greatAudio, this.goodJobAudio, this.wonderfulAudio, this.wellDoneAudio, this.greatManAudio, this.goodJobManAudio]
+      sounds[ Math.floor(Math.random()*sounds.length) ].play()
+    },
+
+    /* Play wrong answer sound
+     */
+    playWrongAnswerSound: function () {
+      var sounds = [this.noNoAudio, this.thinkAgainAudio, this.noNoManAudio, this.thinkAboutItManAudio]
+      sounds[ Math.floor(Math.random()*sounds.length) ].play()
+    },
+
+    /* Set up sprites so they work as drag and drop
+     */
     setUpSpritesDragging: function( i // id of this solution to the answer
                                   , currentSprite // sprite of this solution to the answer
                                   , targetAnswer // string id of the answer
@@ -336,7 +359,7 @@
             }
             this.timedEvent =
               this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                this.playGoodAnswerSound()
                 this.goToQuestion2()
               }, this);
             this.setQuestionAnswer( 0, true )
@@ -391,7 +414,7 @@
                 }
                 this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 0.8, function() {
-                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                  this.playWrongAnswerSound()
                 }, this);
               }
               checkQuestion1Complete.call(this)
@@ -479,7 +502,7 @@
                 }
                 this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 0.8, function() {
-                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                  this.playWrongAnswerSound()
                 }, this);
               }
               checkQuestion1Complete.call(this)
@@ -555,7 +578,7 @@
                 }
                 this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                  this.playWrongAnswerSound()
                 }, this);
               }
               checkQuestion1Complete.call(this)
@@ -680,7 +703,7 @@
                 }
                 this.timedEvent =
                   this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                    if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                    this.playGoodAnswerSound()
                     this.goToQuestion3()
                   }, this);
                 this.setQuestionAnswer( 1, true )
@@ -690,7 +713,7 @@
                 }
                 this.timedEvent =
                   this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                    if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                    this.playWrongAnswerSound()
                   }, this);
                 this.setQuestionAnswer( 1, false )
              }
@@ -785,7 +808,7 @@
               }
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                  this.playGoodAnswerSound()
                   this.goToQuestion4()
                 }, this);
               this.setQuestionAnswer( 2, true )
@@ -795,7 +818,7 @@
               }
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                  this.playWrongAnswerSound()
                 }, this);
               this.setQuestionAnswer( 2, false )
             }
@@ -890,7 +913,7 @@
               }
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                  this.playGoodAnswerSound()
                   this.goToQuestion5()
                 }, this);
               this.setQuestionAnswer( 3, true )
@@ -900,7 +923,7 @@
               }
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                  this.playWrongAnswerSound()
                 }, this);
               this.setQuestionAnswer( 3, false )
             }
@@ -994,7 +1017,7 @@
               }
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                  this.playGoodAnswerSound()
                   this.goToQuestion6()
                 }, this);
               this.setQuestionAnswer( 4, true )
@@ -1005,7 +1028,7 @@
               }
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                  this.playWrongAnswerSound()
                 }, this);
               this.setQuestionAnswer( 4, false )
             }
@@ -1164,7 +1187,7 @@
       this.answerBox6Group.add( this.boyBigButton )
       var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick',
           function() {
-            if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+            this.playGoodAnswerSound()
             this.goToQuestion7()
             this.setQuestionAnswer( 5, true )
           }, this, 2, 1, 0)
@@ -1230,7 +1253,7 @@
       this.answerBox6Group.add( this.girlBigButton )
       var readyButton = this.game.add.button( this.game.world.centerX, 3970, 'tick',
           function(){
-            if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+            this.playGoodAnswerSound()
             this.goToQuestion7()
             this.setQuestionAnswer( 5, true )
           },
@@ -1361,7 +1384,7 @@
             }
             this.timedEvent =
             this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-              if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+              this.playGoodAnswerSound()
               this.goToQuestion8()
             }, this);
             this.setQuestionAnswer( 6, true )
@@ -1481,7 +1504,7 @@
               }
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.2, function() {
-                  if (Math.random() > 0.5) { this.goodJobAudio.play() } else { this.greatAudio.play() }
+                  this.playGoodAnswerSound()
                   this.goToEnd()
                 }, this);
               this.setQuestionAnswer( 7, true )
@@ -1491,7 +1514,7 @@
               }
               this.timedEvent =
                 this.game.time.events.add(Phaser.Timer.SECOND * 1.0, function() {
-                  if (Math.random() > 0.5) { this.noNoAudio.play() } else { this.thinkAboutItAudio.play() }
+                  this.playWrongAnswerSound()
                 }, this);
               this.setQuestionAnswer( 7, false )
             }

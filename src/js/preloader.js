@@ -23,13 +23,12 @@
       this.birdSprite2 = this.add.sprite(this.game.world.centerX + 125, this.game.world.centerY, 'littleBird')
       this.birdSprite2.anchor.setTo(0.5, 0.5)
       this.birdSprite2.scale.set(-0.3, 0.3)
-      //this.load.audio('birdSound', ['assets/audio/other/bird.mp3', 'assets/audio/other/bird.ogg']);
+      this.load.audio('birdSound', ['assets/audio/other/bird.mp3', 'assets/audio/other/bird.ogg']);
 
       // Header
       this.load.image('background', 'assets/background_80percent.png')
       this.load.image('headerClouds', 'assets/header_clouds.png')
       this.load.image('headerText', 'assets/header_text.png')
-      this.load.audio('letsStartSound', ['assets/audio/other/letsstart.mp3', 'assets/audio/other/letsstart.ogg']);
       this.load.audio('letsBeginSound', ['assets/audio/other/letsbegin.mp3', 'assets/audio/other/letsbegin.ogg']);
 
       // Little friends
@@ -41,10 +40,18 @@
 
       // Common Audio
       this.load.audio('backgroundMusic', ['assets/audio/other/jazzyfrenchy.mp3', 'assets/audio/other/jazzyfrenchy.ogg']);
+
+      this.load.audio('noNoManSound', ['assets/audio/responses/nono_man.mp3', 'assets/audio/responses/nono_man.ogg']);
+      this.load.audio('thinkAboutItManSound', ['assets/audio/responses/thinkaboutit_man.mp3', 'assets/audio/responses/thinkaboutit_man.ogg']);
+      this.load.audio('greatManSound', ['assets/audio/responses/great_man.mp3', 'assets/audio/responses/great_man.ogg']);
+      this.load.audio('goodJobManSound', ['assets/audio/responses/goodjob_man.mp3', 'assets/audio/responses/goodjob_man.ogg']);
+
+      this.load.audio('noNoSound', ['assets/audio/responses/nono.mp3', 'assets/audio/responses/nono.ogg']);
+      this.load.audio('thinkAgainSound', ['assets/audio/responses/think_again.mp3', 'assets/audio/responses/think_again.ogg']);
       this.load.audio('greatSound', ['assets/audio/responses/great.mp3', 'assets/audio/responses/great.ogg']);
       this.load.audio('goodJobSound', ['assets/audio/responses/goodjob.mp3', 'assets/audio/responses/goodjob.ogg']);
-      this.load.audio('noNoSound', ['assets/audio/responses/nono.mp3', 'assets/audio/responses/nono.ogg']);
-      this.load.audio('thinkAboutItSound', ['assets/audio/responses/thinkaboutit.mp3', 'assets/audio/responses/thinkaboutit.ogg']);
+      this.load.audio('wonderfulSound', ['assets/audio/responses/wonderful.mp3', 'assets/audio/responses/wonderful.ogg']);
+      this.load.audio('wellDoneSound', ['assets/audio/responses/welldone.mp3', 'assets/audio/responses/welldone.ogg']);
 
       // Question 1
       this.load.image('question1', 'assets/text1.png')
