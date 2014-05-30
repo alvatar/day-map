@@ -96,6 +96,8 @@
         this.startDialogGroup.add( this.appStoreSprite )
         this.startDialogGroup.add( this.googlePlaySprite )
         this.startDialogGroup.add( this.startTryOut )
+      } else {
+        this.isStartClicked = true
       }
 
       // Header

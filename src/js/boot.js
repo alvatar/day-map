@@ -42,6 +42,9 @@
         // Work around for some Phaser/CocoonJS isues
         this.game.add.sprite(0,0,'')
         // Force background tilesprite
+
+        // A bug in iOS requires that there is some input before loading Audio
+        if( true ) {
         this.backgroundTile = this.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'webBackground')
         this.backgroundTile.scale.set(2.0, 2.0)
         this.startTryOut = this.game.add.button(
@@ -51,6 +54,9 @@
           }
           , this, 0, 1, 2)
         this.startTryOut.anchor.set(0.5, 0.5)
+        } else {
+          this.game.state.start('preloader')
+        }
       }
     }
   };
