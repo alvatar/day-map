@@ -54,24 +54,25 @@
         window.open('http://fourthbit.com')
       }, this)
       this.googlePlaySprite.alpha = 0.7
-      this.startTryOut = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY + 350, 'startTryOut')
-      this.startTryOut.anchor.set(0.5, 0.5)
-      this.startTryOut.inputEnabled = true
-      this.startTryOut.input.useHandCursor = true
-      this.startTryOut.events.onInputDown.add( function() {
-        if( this.isLoaded ) {
-          this.loadingGroup.visible = false
+      this.startTryOut = this.game.add.button(
+        this.game.world.centerX, this.game.world.centerY + 350, 'startTryOut'
+        , function() {
+          if( this.isLoaded ) {
+            this.loadingGroup.visible = false
+          }
+          this.game.add.tween(this.startDialogGroup).to( { y: '-80' } , 400, Phaser.Easing.Quadratic.Out, true)
+          this.game.add.tween(this.startDialogGroup).to( { alpha: 0 } , 400, Phaser.Easing.Quadratic.Out, true)
+              .onComplete.add(function(){
+                this.startDialogGroup.visible = false
+                if( this.isLoaded ) {
+                  this.game.state.start('game')
+                }
+              }, this)
+          this.isStartClicked = true
         }
-        this.game.add.tween(this.startDialogGroup).to( { y: '-80' } , 400, Phaser.Easing.Quadratic.Out, true)
-        this.game.add.tween(this.startDialogGroup).to( { alpha: 0 } , 400, Phaser.Easing.Quadratic.Out, true)
-            .onComplete.add(function(){
-              this.startDialogGroup.visible = false
-              if( this.isLoaded ) {
-                this.game.state.start('game')
-              }
-            }, this)
-        this.isStartClicked = true
-      }, this)
+        , this, 0, 1, 2)
+      this.startTryOut.anchor.set(0.5, 0.5)
+      this.startTryOut.input.useHandCursor = true
 
       this.startDialogGroup = this.game.add.group()
       this.startDialogGroup.add( this.appStoresBackground )

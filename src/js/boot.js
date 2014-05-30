@@ -14,7 +14,7 @@
         this.load.image('appStoreBackground', 'assets/appstores_background.png')
         this.load.image('appStore', 'assets/app_store.png')
         this.load.image('googlePlay', 'assets/google_play.png')
-        this.load.image('startTryOut', 'assets/start_tryout.png')
+        this.load.spritesheet('startTryOut', 'assets/start_tryout.png', 550, 208)
       } else {
         this.load.image('webBackground', 'assets/web_bg.png')
       }
