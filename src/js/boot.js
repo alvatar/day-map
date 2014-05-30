@@ -7,33 +7,23 @@
     preload: function () {
       this.load.image('preloader', 'assets/preloader.png')
       this.load.image('littleBird', 'assets/little_bird.png')
+      this.load.image('littleBird', 'assets/loading.png')
+      this.load.image('loading', 'assets/loading.png')
       // Force a background tilesprite only if we are on mobile
-      if (!this.game.device.desktop) {
+      if (this.game.device.desktop) {
+        this.load.image('appStoreBackground', 'assets/appstores_background.png')
+        this.load.image('appStore', 'assets/app_store.png')
+        this.load.image('googlePlay', 'assets/google_play.png')
+        this.load.image('startTryOut', 'assets/start_tryout.png')
+      } else {
         this.load.image('webBackground', 'assets/web_bg.png')
       }
     },
 
     create: function () {
       this.game.input.maxPointers = 1
-      // this.game.stage.disableVisibilityChange = true
 
       if (this.game.device.desktop) {
-
-        /*
-        this.game.scale.maxWidth = 1920;
-        this.game.scale.maxHeight = window.innerHeight * window.devicePixelRatio *
-                                  ( 1920 / (window.innerWidth * window.devicePixelRatio) )
-                                  */
-        /*
-        var winH = window.innerHeight * window.devicePixelRatio
-          , winW = window.innerWidth * window.devicePixelRatio 
-        if( (winW / winH) > 1.5 ) {
-          this.game.scale.maxHeight = winH
-          this.game.scale.maxWidth = winH * 1.5
-        }
-
-        */
-
         this.game.scale.forceLandscape = true;
         this.game.scale.pageAlignHorizontally = true;
         this.game.scale.pageAlignVertically = true;
@@ -41,14 +31,9 @@
         this.game.scale.setShowAll();
         this.game.scale.setScreenSize(true);
       } else {
-        //this.game.scale.minWidth =  480
-        //this.game.scale.minHeight = 260
-        // this.game.scale.maxWidth = 640
-        // this.game.scale.maxHeight = 480
         this.game.scale.forceLandscape = true
         this.game.scale.pageAlignHorizontally = true
         this.game.scale.pageAlignVertically = true;
-        //this.game.scale.fullscreenScaleMode = Phaser.ScaleManager.SHOW_ALL
         this.game.scale.setExactFit();
         this.game.scale.setScreenSize(true)
 

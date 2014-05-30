@@ -3,13 +3,17 @@
 
   function Preloader() {
     this.preloaderSprite = null
+    this.isLoaded = false
+    this.isStartClicked = false
   }
 
   Preloader.prototype = {
 
     preload: function () {
-      // Force a background tilesprite only if we are on mobile
-      if (!this.game.device.desktop) {
+      if( this.game.device.desktop ) {
+        this.isStartClicked = false
+      } else {
+        // Force a background tilesprite only if we are on mobile
         this.backgroundTile = this.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'webBackground')
         this.backgroundTile.scale.set(2.0, 2.0)
       }
@@ -23,7 +27,57 @@
       this.birdSprite2 = this.add.sprite(this.game.world.centerX + 125, this.game.world.centerY, 'littleBird')
       this.birdSprite2.anchor.setTo(0.5, 0.5)
       this.birdSprite2.scale.set(-0.3, 0.3)
-      this.load.audio('birdSound', ['assets/audio/other/bird.mp3', 'assets/audio/other/bird.ogg']);
+      this.loadingSprite = this.add.sprite(this.game.world.centerX + 20, this.game.world.centerY - 80, 'loading')
+      this.loadingSprite.anchor.set(0.5, 0.5)
+      this.loadingGroup = this.game.add.group()
+      this.loadingGroup.add( this.preloaderSprite )
+      this.loadingGroup.add( this.birdSprite )
+      this.loadingGroup.add( this.birdSprite2 )
+      this.loadingGroup.add( this.loadingSprite )
+
+      // Start dialog
+      this.appStoresBackground = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 100, 'appStoreBackground')
+      this.appStoresBackground.anchor.set(0.5, 0.5)
+      this.appStoreSprite = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY - 100, 'appStore')
+      this.appStoreSprite.anchor.set(0.5, 0.5)
+      this.appStoreSprite.inputEnabled = true
+      this.appStoreSprite.input.useHandCursor = true
+      this.appStoreSprite.events.onInputDown.add( function() {
+        window.open('http://fourthbit.com')
+      }, this)
+      this.appStoreSprite.alpha = 0.8
+      this.googlePlaySprite = this.game.add.sprite(this.game.world.centerX + 350, this.game.world.centerY - 100, 'googlePlay')
+      this.googlePlaySprite.anchor.set(0.5, 0.5)
+      this.googlePlaySprite.inputEnabled = true
+      this.googlePlaySprite.input.useHandCursor = true
+      this.googlePlaySprite.events.onInputDown.add( function() {
+        window.open('http://fourthbit.com')
+      }, this)
+      this.googlePlaySprite.alpha = 0.7
+      this.startTryOut = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY + 350, 'startTryOut')
+      this.startTryOut.anchor.set(0.5, 0.5)
+      this.startTryOut.inputEnabled = true
+      this.startTryOut.input.useHandCursor = true
+      this.startTryOut.events.onInputDown.add( function() {
+        if( this.isLoaded ) {
+          this.loadingGroup.visible = false
+        }
+        this.game.add.tween(this.startDialogGroup).to( { y: '-80' } , 400, Phaser.Easing.Quadratic.Out, true)
+        this.game.add.tween(this.startDialogGroup).to( { alpha: 0 } , 400, Phaser.Easing.Quadratic.Out, true)
+            .onComplete.add(function(){
+              this.startDialogGroup.visible = false
+              if( this.isLoaded ) {
+                this.game.state.start('game')
+              }
+            }, this)
+        this.isStartClicked = true
+      }, this)
+
+      this.startDialogGroup = this.game.add.group()
+      this.startDialogGroup.add( this.appStoresBackground )
+      this.startDialogGroup.add( this.appStoreSprite )
+      this.startDialogGroup.add( this.googlePlaySprite )
+      this.startDialogGroup.add( this.startTryOut )
 
       // Header
       this.load.image('background', 'assets/background_80percent.png')
@@ -32,6 +86,7 @@
       this.load.audio('letsBeginSound', ['assets/audio/other/letsbegin.mp3', 'assets/audio/other/letsbegin.ogg']);
 
       // Little friends
+      this.load.audio('birdSound', ['assets/audio/other/bird.mp3', 'assets/audio/other/bird.ogg']);
       this.load.spritesheet('plane1', 'assets/plane1.png', 420, 125)
       this.load.image('plane2', 'assets/plane2.png')
       this.load.audio('planeSound', ['assets/audio/other/plane.mp3', 'assets/audio/other/plane.ogg']);
@@ -332,7 +387,12 @@
       this.load.image('restartSprite', 'assets/restart.png')
       this.load.audio('happyEndingSound', ['assets/audio/other/ending_score_music.mp3', 'assets/audio/other/ending_score_music.ogg'])
 
-      this.load.onLoadComplete.addOnce( function(){ this.game.state.start('game') }, this )
+      this.load.onLoadComplete.addOnce( function(){
+        this.isLoaded = true
+        if( this.isStartClicked ) {
+          this.game.state.start('game')
+        }
+      }, this )
       this.load.setPreloadSprite(this.preloaderSprite)
     },
 

@@ -92,7 +92,7 @@
 
       // Background music
       this.music = this.game.add.audio('backgroundMusic')
-      this.music.play('',0,1,true)
+      //this.music.play('',0,1,true)
 
       // Header title
       this.plane1Sprite = this.game.add.sprite( -100, 2200, 'plane1')
