@@ -210,7 +210,7 @@ window.onload = function () {
       ratio = 1.45
     }
     app.Globals.size.height = appH = appW / ratio
-    game = new Phaser.Game(appW, appH, Phaser.AUTO, 'daymap-game')
+    game = new Phaser.Game(appW, appH, Phaser.CANVAS, 'daymap-game')
   } else {
     app.Globals.size.width = appW = 1920
     app.Globals.size.height = appH = 1920 / 1.5
