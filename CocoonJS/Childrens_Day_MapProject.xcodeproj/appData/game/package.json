@@ -1,0 +1,35 @@
+{
+  "name": "daymap",
+  "description": "",
+  "readme": "",
+  "repository": "",
+  "version": "1.0.0",
+  "readme": "",
+  "repository": "",
+  "dependencies": {
+    "statik": "~1.2.5"
+  },
+  
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-util": "*",
+    "gulp-concat": "*",
+    "gulp-download": "*",
+    "gulp-rename": "*",
+    "gulp-minify-css": "*",
+    "gulp-minify-html": "*",
+    "gulp-processhtml": "*",
+    "gulp-jshint": "*",
+    "gulp-uglify": "*",
+    "gulp-connect": "*",
+    "gulp-watch": "*",
+    "tiny-lr": "*"
+  },
+  "engines":{
+    "node": ">=0.8.0"
+  },
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
