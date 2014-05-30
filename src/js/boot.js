@@ -17,7 +17,8 @@
         this.load.spritesheet('startTryOut', 'assets/start_tryout.png', 550, 208)
       } else {
         this.load.image('webBackground', 'assets/web_bg.png')
-        this.load.spritesheet('start', 'assets/start.png', 550, 86)
+        this.load.image('start', 'assets/start.png')
+        this.load.image('startMoving', 'assets/start_moving.png')
       }
     },
 
@@ -41,22 +42,30 @@
         this.game.scale.setScreenSize(true)
         // Work around for some Phaser/CocoonJS isues
         this.game.add.sprite(0,0,'')
-        // Force background tilesprite
 
+        // Why we do this for mobile devices?
         // A bug in iOS requires that there is some input before loading Audio
-        if( true ) {
         this.backgroundTile = this.add.tileSprite(0, 0, this.game.world.width, this.game.world.height, 'webBackground')
         this.backgroundTile.scale.set(2.0, 2.0)
-        this.startTryOut = this.game.add.button(
+        this.startMoving = this.game.add.sprite( this.game.world.centerX, this.game.world.centerY, 'startMoving' )
+        this.startMoving.anchor.set(0.5, 0.5)
+        this.game.add.tween( this.startMoving )
+            .to( { angle: 360 }, 40000, Phaser.Easing.Linear.In, true, 0, Number.MAX_VALUE, false)
+        this.startButton = this.game.add.button(
           this.game.world.centerX, this.game.world.centerY, 'start'
           , function() {
-            this.game.state.start('preloader')
+            this.game.add.tween(this.startMoving.scale).to( { x: 1.6, y: 1.6} , 600, Phaser.Easing.Quadratic.Out, true)
+            this.game.add.tween(this.startButton.scale).to( { x: 1.6, y: 1.6} , 600, Phaser.Easing.Quadratic.Out, true)
+            this.game.add.tween(this.startMobileGroup).to( { alpha: 0 } , 600, Phaser.Easing.Quadratic.Out, true)
+                .onComplete.add(function(){
+                  this.game.state.start('preloader')
+                }, this)
           }
-          , this, 0, 1, 2)
-        this.startTryOut.anchor.set(0.5, 0.5)
-        } else {
-          this.game.state.start('preloader')
-        }
+          , this, 0, 0, 0)
+        this.startButton.anchor.set(0.5, 0.5)
+        this.startMobileGroup = this.game.add.group()
+        this.startMobileGroup.add( this.startMoving )
+        this.startMobileGroup.add( this.startButton )
       }
     }
   };

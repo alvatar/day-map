@@ -123,7 +123,7 @@
       headerCloudsSprite.input.useHandCursor = true
       headerCloudsSprite.events.onInputDown.add(
         function() {
-          this.game.time.events.add(Phaser.Timer.SECOND * 2, function(){this.goToQuestion1()}, this);
+          this.game.time.events.add(Phaser.Timer.SECOND * 2, function(){this.goToQuestion1()}, this)
           this.music.volume = 0.1
           this.headerSound.play()
         }

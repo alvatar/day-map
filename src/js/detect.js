@@ -175,6 +175,7 @@
     };
 }(this));
 
+/*
 alert(
     'OS: ' + jscd.os +' '+ jscd.osVersion + '\n'+
     'Browser: ' + jscd.browser +' '+ jscd.browserVersion + '\n' + 
@@ -183,3 +184,4 @@ alert(
     'Cookies: ' + jscd.cookies + '\n' +
     'Screen Size: ' + jscd.screen
 );
+*/
