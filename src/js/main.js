@@ -26,7 +26,7 @@ window.onload = function () {
   } else {
     app.Globals.size.width = appW = 1920
     app.Globals.size.height = appH = 1920 / 1.5
-    game = new Phaser.Game(appW, appH, Phaser.AUTO, '', null, true)
+    game = new Phaser.Game(appW, appH, Phaser.CANVAS, '', null, true)
   }
 
   game.state.add('boot', app.Boot)
