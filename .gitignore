@@ -3,3 +3,4 @@
 node_modules/
 src/*zip
 dist
+.DS_Store
