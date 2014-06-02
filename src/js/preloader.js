@@ -18,6 +18,9 @@
         this.backgroundTile.scale.set(2.0, 2.0)
       }
 
+      // Work around for some Phaser/CocoonJS isues
+      this.game.add.sprite(0,0,'')
+
       // Loader
       this.preloaderSprite = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'preloader')
       this.preloaderSprite.anchor.setTo(0.5, 0.5)

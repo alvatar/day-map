@@ -40,8 +40,6 @@
         this.game.scale.pageAlignVertically = true;
         this.game.scale.setExactFit();
         this.game.scale.setScreenSize(true)
-        // Work around for some Phaser/CocoonJS isues
-        this.game.add.sprite(0,0,'')
 
         // Why we do this for mobile devices?
         // A bug in iOS requires that there is some input before loading Audio

@@ -34,6 +34,8 @@
   Game.prototype = {
 
     create: function () {
+      // Work around for some Phaser/CocoonJS isues
+      this.game.add.sprite(0,0,'')
 
       // This breaks under Android
       /*
