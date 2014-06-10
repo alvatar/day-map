@@ -47,7 +47,7 @@
         this.appStoreSprite.inputEnabled = true
         this.appStoreSprite.input.useHandCursor = true
         this.appStoreSprite.events.onInputDown.add( function() {
-          window.open('http://fourthbit.com')
+          window.open('https://itunes.apple.com/es/app/childrens-day-map/id884492102?mt=8')
         }, this)
         this.appStoreSprite.events.onInputOver.add( function() {
           this.game.add.tween(this.appStoreSprite.scale).to( { x: 1.15, y: 1.15} , 400, Phaser.Easing.Quadratic.Out, true)
@@ -63,7 +63,7 @@
         this.googlePlaySprite.inputEnabled = true
         this.googlePlaySprite.input.useHandCursor = true
         this.googlePlaySprite.events.onInputDown.add( function() {
-          window.open('http://fourthbit.com')
+          window.open('https://play.google.com/store/apps/details?id=com.fourthbit.daymap')
         }, this)
         this.googlePlaySprite.events.onInputOver.add( function() {
           this.game.add.tween(this.googlePlaySprite.scale).to( { x: 1.15, y: 1.15} , 400, Phaser.Easing.Quadratic.Out, true)
